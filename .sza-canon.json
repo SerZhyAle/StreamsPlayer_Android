@@ -1,0 +1,53 @@
+{
+  "$comment": "Overlay B (Android), new repo adopted 2026-10-02. Nothing builds or ships yet: no tags (tagRegex null), no channel with a committed manifest (play is added in S0002 together with the first tracked build.gradle.kts), no site (owner decision 4.7 open), ledger shape chosen in S0010. Shapes: flavor - two variants, store and noLegal, of one codebase; wear and watchface are sibling modules of the same build, not editions.",
+
+  "canon": {
+    "version": "2026.10.02.2",
+    "coreDigest": "sha256:410463a9ccdfd75af7a233fc91656c200fe05f047cf7617d7fc53d32e7b81afa",
+    "adoptedOn": "2026-10-02",
+    "reconciledOn": "2026-10-02",
+    "model": "reference",
+    "contribRecord": "contrib/streamsplayer_mob.md"
+  },
+
+  "role": "product",
+
+  "overlay": ["B"],
+  "shapes": ["flavor"],
+  "editions": [],
+
+  "versionShape": {
+    "tagRegex": null,
+    "editionTagPrefixes": []
+  },
+
+  "ledgerShape": "none",
+  "ledgerFile": null,
+
+  "docRegistryShape": null,
+  "docRegistryFile": null,
+
+  "channels": [],
+
+  "site": {
+    "kind": "none",
+    "root": null,
+    "pages": []
+  },
+
+  "privacy": {
+    "page": null,
+    "carveOut": null,
+    "sensitiveAccess": false
+  },
+
+  "byteIdenticalPairs": [],
+  "vendorAllow": [],
+  "exemptions": [
+    {
+      "id": "SZA-CTR02",
+      "path": "docs/BOOTSTRAP_HANDOFF.md",
+      "reason": "Frozen origin record of 2026-10-02, kept verbatim as the account of where the product came from; it names the catalog path because it was written before this repository's rules existed. Every living file cites contracts by id; CLAUDE.md is the one file that names the catalog."
+    }
+  ]
+}
