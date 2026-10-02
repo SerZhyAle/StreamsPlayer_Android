@@ -47,7 +47,7 @@
     {
       "id": "SZA-CTR02",
       "path": "docs/BOOTSTRAP_HANDOFF.md",
-      "reason": "Frozen origin record of 2026-10-02, kept verbatim as the account of where the product came from; it names the catalog path because it was written before this repository's rules existed. Every living file cites contracts by id; CLAUDE.md is the one file that names the catalog."
+      "reason": "Origin record of 2026-10-02: written by the FastMediaSorter session of its ticket S4053 and amended by that session the same day (file written 13:02, broadcast scope and section 6a, on the owner's instruction - recorded in the history of FastMediaSorter S4053), before this repository's first commit fb96544. Not edited from this repository's sessions. It names the catalog path because it predates this repository's rules; every living file cites contracts by id and CLAUDE.md is the one file that names the catalog."
     }
   ]
 }

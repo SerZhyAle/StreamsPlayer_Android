@@ -12,8 +12,10 @@ Shared contracts live outside this repository, in the catalog at `P:\Contracts` 
   despite the name, live broadcast from the phone (microphone, camera) and the watch (microphone).
 - An independent product, extracted from FastMediaSorter Android. The only coupling to any other product is the
   shared contracts catalog: no shared code, no shared Gradle module, no shared release.
-- Origin, owner decisions and the extraction source map: `docs/BOOTSTRAP_HANDOFF.md` (a frozen record - its open
-  items are tickets now). Work is driven from the ticket store, not from the handoff.
+- Origin, owner decisions and the extraction source map: `docs/BOOTSTRAP_HANDOFF.md` - written 2026-10-02 by the
+  FastMediaSorter session of its ticket S4053 and amended by it the same day on the owner's instruction (broadcast
+  scope, section 6a), before this repository's first commit. Not edited from this repository's sessions; its open
+  items are tickets now, and work is driven from the ticket store, not from the handoff.
 - Read-only from sessions in this repository: `P:\ANDROID\FastMediaSorter_mob_v2` (the extraction source) and
   `P:\WINDOWS\Streams_Player` (StreamsPlayer for Windows, the reference for look and behaviour).
 
