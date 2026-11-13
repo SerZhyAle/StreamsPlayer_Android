@@ -42,6 +42,9 @@ document this index does not mention ([tools/docs/README.md](../tools/docs/READM
 - [play/PLAY_LISTING.md](play/PLAY_LISTING.md), [-ru](play/PLAY_LISTING-ru.md), [-uk](play/PLAY_LISTING-uk.md) - S0014 the Play
   listing source: title, short description and full description in EN/RU/UK, written from the positioning source
   [POSITIONING.md](../POSITIONING.md); the Play Console fields are filled from it and checked against it.
+- [play/icon-512.png](play/icon-512.png), [play/feature-graphic-1024x500.png](play/feature-graphic-1024x500.png) and
+  [github/social-preview-1280x640.png](github/social-preview-1280x640.png) - S0047 the listing graphics and the repository
+  social preview, render targets of `tools/store/render-store-assets.ps1`.
 - [MEDIA_EXCHANGE_PORTAL.md](MEDIA_EXCHANGE_PORTAL.md) - shared media exchange and broadcasting portal,
   page links in EN/RU/UK and the phone app entry point.
 - [PORTAL_SECTIONS_STREAMSPLAYER.md](PORTAL_SECTIONS_STREAMSPLAYER.md) - S0030 this product's sections of that portal in EN/RU/UK, handed to

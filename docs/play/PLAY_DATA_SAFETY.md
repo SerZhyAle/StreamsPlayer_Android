@@ -138,8 +138,9 @@ Filed with the store listing (S0014 P7), not decided here; recorded so that they
 
 1. Confirm that the hosted policy answers 200 in English, Russian and Ukrainian and that its text equals the
    repository sources (`tools/site/build-site.ps1 -Check`). Do not submit the form while it does not.
-2. Open `App content -> Data safety` and pick the form factor first: phone and Wear OS are filled separately, and the
-   watch face package has its own form.
+2. Open `App content -> Data safety`. Observed on 2026-11-13: the console asks the Data safety form once per app, with
+   no form-factor choice, so phone and Wear OS share the answers of `com.sza.streamsplayer` (the table above still says
+   what each side sends); the watch face package has its own form.
 3. Phone and Wear OS: declare the three directory rows of the table, collected and not shared, optional, App
    functionality, encrypted in transit; leave Content unchecked. Answer the deletion question with the portal address.
 4. Watch face: no data collected.
@@ -148,3 +149,57 @@ Filed with the store listing (S0014 P7), not decided here; recorded so that they
 6. Write the state and the date into the release record.
 
 **Timing.** Do not touch the console while a submission is under review; an edit restarts the review from the beginning.
+
+## Console record (2026-11-13)
+
+Filled in the owner's personal developer account on the owner's order (S0047 quiz decisions of 2026-11-13). Nothing is
+uploaded, nothing is sent for review.
+
+### `com.sza.streamsplayer` (app 4972961129584993008, "StreamsPlayer: Internet Radio")
+
+| Item | State | Answer |
+| --- | --- | --- |
+| Privacy policy | saved | `https://serzhyale.github.io/StreamsPlayer_Android/privacy.html` |
+| Ads | saved | No |
+| Advertising ID | saved | No (no `AD_ID`, ads, Firebase or analytics in the manifests or `gradle/libs.versions.toml`) |
+| Government apps | saved | No |
+| Financial features | saved | none |
+| Health apps | saved | none (no `BODY_SENSORS` or health permission in any manifest; the wear `heart_rate_*` strings are unused) |
+| Content rating | saved, fresh IARC questionnaire | see below |
+| Sign in details | **owner** - form filled, not saved | "Yes, part of the app is restricted"; name "Exchange server review account"; instructions below; login, password and the server address are the owner's to type |
+| Target audience | **owner**, after Sign in details | 18 and over (owner decision of 2026-11-13, taken with the IARC answers) |
+| Data safety | saved as a draft; submits after Target audience | the answer of this file: User IDs, Files and docs, Device or other IDs - collected, not shared, optional (users can choose), not ephemeral, App functionality; encrypted in transit; account creation "My app does not allow users to create an account", login with accounts created outside the app "Yes - Other: On the user's own exchange server: in Fast Media Sorter apps or by the server's operator"; deletion request "Yes", `https://serzhyale.github.io/FastMediaSorter_mob_v2/docs/media-exchange-portal/account-deletion.html` (answered 200 on 2026-11-13) |
+
+Reviewer instructions typed in Sign in details ("Any other information", 422 of 500 characters; the owner appends the
+address):
+
+> Everything except the Exchange server screen works without sign-in: channel catalog, radio, video and RTSP playback,
+> own channels, local network broadcast. The Exchange server screen (menu > Exchange server) signs in to a server the
+> user runs; the app creates no accounts. To review it: menu > Exchange server, enter the server address and port below
+> and the login and password above, tap Sign in. Server address and port:
+
+IARC questionnaire, category "All Other App Types", contact `sza@ukr.net`, answered by the facts (owner decision): the
+catalog holds third-party live channels that the developer does not curate, and its `Adult` rubric (37 rows, all audio
+radio, read from STREAMS Player for Windows SP-0063) carries explicit material; there is no pornographic video channel.
+
+| Section | Answers |
+| --- | --- |
+| Downloaded app | ratings-relevant content in the package: No |
+| User content sharing | users exchange content (the live broadcast): Yes; UGC the primary content: No; public nudity: No; public graphic violence: No; block users: No; report users: No; chat moderation: No; interactions limited to invited listeners: Yes |
+| Online content | content outside the package: Yes |
+| Violence | can contain: Yes; primary purpose: No; visual: Yes; gory: Yes; referred to in speech: Yes |
+| Sexuality | can contain: Yes; primary purpose: No; visual: Yes; nudity: Yes; pornographic: No; referred to in speech: Yes |
+| Language | offensive language: Yes; the focus: No; minor profanity, moderate swearing, discriminatory language, sexual expletives: Yes |
+| Controlled substance | references: Yes; the focus: No; visual: Yes; referred to in speech: Yes |
+| Age-restricted products | focus on promoting them: No |
+| Miscellaneous | location sharing, digital purchases, cash rewards or NFTs, web browser or search engine, news or educational: No |
+
+Resulting ratings: ESRB Teen (Diverse Content: Discretion Advised, Users Interact), PEGI Parental guidance, USK 16+,
+ClassInd 16+ (violence, sexual content, illegal drugs), IARC generic 12+, Google Play Russia and South Korea 12+.
+
+### `com.sza.streamsplayer.watchface` (app 4976077107533670611, "StreamsPlayer Watch Face")
+
+Every App content item saved ("You're all caught up"): privacy policy as above; Sign in details "No"; ads No;
+advertising ID No; government No; financial none; health none; target audience 13-15, 16-17, 18 and over (owner
+decision); Data safety "no data collected, no data shared" (the package has no code, no permission, no network access);
+IARC "All Other App Types", every answer No: ESRB Everyone, PEGI 3, USK all ages, ClassInd all ages, IARC 3+.

@@ -42,3 +42,13 @@ Privacy
 The developer receives none of your data: no analytics, no advertising, no tracking. The microphone and the camera are used only for a broadcast you start.
 
 Interface languages: English, Russian and Ukrainian.
+
+## Console fields (2026-11-13)
+
+Entered in the Play Console for `com.sza.streamsplayer` from this file and its two translations: App name, short and
+full description in en-US (default), ru-RU and uk. Store settings: category Music & Audio, contact email `sza@ukr.net`,
+website empty until the landing `https://serzhyale.github.io/StreamsPlayer_Android/` answers (S0045), then the landing,
+never the repository. Graphics: `icon-512.png` and `feature-graphic-1024x500.png` beside this file, render targets of
+`tools/store/render-store-assets.ps1`; the other languages fall back to them. Screenshots are not uploaded (S0072).
+The watch face app `com.sza.streamsplayer.watchface` has category Personalization and the same contact; its listing has
+no source yet (S0072 step 4).

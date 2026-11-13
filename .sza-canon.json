@@ -46,6 +46,11 @@
   "vendorAllow": [],
   "exemptions": [
     {
+      "id": "SZA-SEC01",
+      "path": "exchange-core/src/test/resources/device-exchange/tunnel-test.p12",
+      "reason": "2026-11-13 (S0046): a self-signed test identity for BroadcastTunnelTlsTest (password \"changeit\" in the test, PROVENANCE.txt beside it), not a signing key or a credential of any service; a fresh clone needs it to run the exchange-core tests. It was hidden by the *.p12 glob until the first public push and is tracked by a .gitignore negation."
+    },
+    {
       "id": "SZA-CTR02",
       "path": "docs/BOOTSTRAP_HANDOFF.md",
       "reason": "Origin record of 2026-10-02: written by the FastMediaSorter session of its ticket S4053 and amended by that session the same day (file written 13:02, broadcast scope and section 6a, on the owner's instruction - recorded in the history of FastMediaSorter S4053), before this repository's first commit fb96544. Not edited from this repository's sessions. It names the catalog path because it predates this repository's rules; every living file cites contracts by id and CLAUDE.md is the one file that names the catalog."

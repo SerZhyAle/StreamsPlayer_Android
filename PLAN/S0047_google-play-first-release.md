@@ -1,7 +1,8 @@
 # S0047 - First release on Google Play: signed bundles, console, listing, rollout
 
 **Ticket:** S0047
-**Status:** Draft
+**Status:** Partial
+**Status note:** Console part B done 2026-11-13 for both apps except Sign in details, Target audience and Data safety submit of the main app (owner), screenshots and the watch face listing; parts A, C, D open - S0072.
 **Date:** 2026-10-26
 **Phase:** package 1 - the first store release (owner decision В39 of 2026-10-14, recorded in S0010)
 **Verification level:** a PASS pre-flight verdict naming the version; signed `store` bundles of `phone`, `wear` and `watchface`
@@ -192,6 +193,10 @@ Asked by the side session that repeats DeviceInfo's public presence for this pro
   ("no data collected") and an empty listing until its listing source exists.
 - D8 Price -> Free (covered by the one-way yes above).
 - Target audience -> 13 and over (13-15, 16-17, 18 and over); no group under 13, so the Families policy does not apply.
+  Superseded the same day for the main app: once the IARC questionnaire showed the catalog's third-party content (the
+  `Adult` rubric, violence and language in uncurated channels), the owner chose the honest answers with 18 and over only
+  for `com.sza.streamsplayer`; the watch face keeps 13 and over (owner, 2026-11-13). Record: `docs/play/PLAY_DATA_SAFETY.md`
+  "Console record".
 - Content rating -> a fresh IARC questionnaire answered by the facts: users exchange audio and video (the live broadcast) -
   yes; content from the internet that the developer does not make - yes; everything else no. The answers and the resulting
   ratings are recorded in `docs/play/PLAY_DATA_SAFETY.md`.

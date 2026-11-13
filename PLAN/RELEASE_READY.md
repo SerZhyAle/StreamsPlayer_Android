@@ -37,7 +37,7 @@ S0069_watch-broadcast-on-server-by-itself                      26-11-10 21:15  B
 S0035_in-app-help-f1-and-help-button                           26-11-12 01:25  BlockNeedUserTest
 S0064_settings-channel-pictures-control                        26-11-13 06:31  BlockNeedUserTest
 S0070_catalog-search-stale-list                                26-11-13 06:43  Implemented
-S0071_widget-picker-search-stale-list                          26-11-13 06:49  Implemented        [taken 06:45, run-spec-queue pq1, 43d699a8]
+S0071_widget-picker-search-stale-list                          26-11-13 06:49  Implemented
 --
 S0016_exchange-client-base                                     26-10-11 01:39  Implemented
 S0018_exchange-account-entries                                 26-10-11 03:04  Implemented

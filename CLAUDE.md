@@ -48,6 +48,19 @@ shared code allowed, three mechanisms carry that guarantee, and each binds every
 - **License:** MIT (owner, 2026-10-02).
 - **Variants:** two - `store` and `noLegal`. Interface in `src/main`, implementation in the variant source set,
   one DI module per variant. The FastMediaSorter flavor matrix is not inherited.
+- **Public presence** (owner's order of 2026-11-13, "Повтори всё выполненное для новго Streams_mob", the DeviceInfo
+  procedure of canon S0058; decisions in the quiz blocks of S0046 and S0047):
+  - public remote `https://github.com/SerZhyAle/StreamsPlayer_Android`, branch `main`, everything public (`PLAN/`
+    included); issues on, wiki and projects off; the product tree arrived in commit `7b6ce41`;
+  - GitHub Pages from `site/` by `.github/workflows/pages.yml` (check on Windows, deploy on Linux): the three privacy
+    pages, `sitemap.xml` and `robots.txt` answer 200; the site root answers 404 until the landing (S0045) exists, so the
+    repository has no homepage and the listings no website yet;
+  - Play Console, personal account `8446656778368889827`: `com.sza.streamsplayer` ("StreamsPlayer: Internet Radio",
+    app `4972961129584993008`) and `com.sza.streamsplayer.watchface` ("StreamsPlayer Watch Face", app
+    `4976077107533670611`), both App, Free, both package names now bound to the account; App content, store settings,
+    the en-US/ru-RU/uk listing of the main app with icon and feature graphic, and the Wear OS form factor of both are
+    recorded in `docs/play/PLAY_DATA_SAFETY.md` ("Console record") and `docs/play/PLAY_LISTING.md`. Nothing is
+    uploaded or published; what remains is S0072.
 - Open owner decisions are owner-decision items inside the ticket of the phase that needs them (section 3.3 of
   each ticket); each is asked once, in question-with-options form, right before that phase.
 
@@ -74,8 +87,9 @@ shared code allowed, three mechanisms carry that guarantee, and each binds every
   5. Operator commands (all through `tools/harness.ps1 spec_catalog/release-queue`): `-List`, `-List -Ready`,
      `-Validate`, `-Reconcile`, `-SetCurrent N`, `-Ship -Release N [-Version X] -DryRun`. Package headings and
      line order are the owner's; no script reorders them.
-  6. `PLAN/` is **tracked**: there is no remote yet, so an ignored ticket store would exist in exactly one place,
-     and the tickets carry the owner's recorded decisions.
+  6. `PLAN/` is **tracked** and public on the remote (S0046 input D1, owner 2026-11-13): an ignored ticket store
+     would exist in exactly one place, and the tickets carry the owner's recorded decisions. Nothing private goes
+     into a ticket: the public contact is `sza@ukr.net`.
 
 ## 5. Repository layout
 
@@ -131,6 +145,9 @@ the release". Android/Gradle has no measured fast test or compile form; do not r
   `assert-translation-freshness` 0.570 s, `assert-termbase` 0.563 s. Also `pwsh -NoProfile -File tools/help/generate-help-pages.ps1 -Check`
   2.532 s, `pwsh -NoProfile -File tools/site/build-site.ps1 -Check` 0.333 s and `pwsh -NoProfile -File tools/contracts/check-sync.ps1
   -CatalogRoot <catalog>` 0.390 s; check-sync exits 1 with 14 findings on the live catalog today (S0051 audit names them).
+- Store graphics (S0047): `pwsh -NoProfile -File tools/store/render-store-assets.ps1` renders `docs/play/icon-512.png`,
+  `docs/play/feature-graphic-1024x500.png` and `docs/github/social-preview-1280x640.png` from the launcher glyph; 0.36 s,
+  2026-11-13, exit 0. Run it after changing the glyph; the PNGs are render targets.
 - Release command: `pwsh -NoProfile -File tools/release/pre-release-sweep.ps1` runs the release builds, Gradle
   unit suites and tool self-tests, as well as the existing release checks. `-SkipBuild` is release-time only.
 - Release class: Gradle full phone/Wear/core suite 132 s and filtered phone/core suite 73 s, 2026-10-25,

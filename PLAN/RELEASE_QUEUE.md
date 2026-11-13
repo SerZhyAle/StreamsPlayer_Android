@@ -21,8 +21,8 @@ S0042_protected-directory-broadcast-box                        26-10-29 02:23  B
 S0043_broadcast-deliberate-end-state                           26-10-29 02:27  BlockByOtherTask
 S0044_broadcast-open-descriptor-shape-log                      26-10-29 02:31  BlockByOtherTask
 S0045_sza-family-landing-and-documentation                     26-11-08 06:33  BlockByOtherTask
-S0046_github-publication                                       26-10-26 17:05  Draft
-S0047_google-play-first-release                                26-10-26 17:05  Draft
+S0046_github-publication                                       26-11-13 16:14  Partial
+S0047_google-play-first-release                                26-11-13 16:14  Partial
 S0048_family-hub-and-sibling-links                             26-11-08 06:51  BlockByOtherTask
 S0050_stream-bank-artwork-delivery                             26-11-08 15:20  BlockExternal
 S0052_input-parity-gaps                                        26-10-29 03:01  BlockExternal
@@ -30,6 +30,7 @@ S0053_broadcast-end-pending-tunnel-gaps                        26-10-29 03:07  B
 S0059_stream-bank-three-letter-language-codes                  26-10-30 00:08  BlockExternal
 S0066_target-sdk-37-local-network-access                       26-11-10 01:18  BlockByOtherTask
 S0067_play-console-account-actions-2026-11                     26-11-10 20:13  BlockByOtherTask
+S0072_play-publication-remaining-steps                         26-11-13 16:10  Draft
 
 --
 S0028_exchange-account-broadcast-list                          26-10-23 14:19  In Progress        [idle 2, ok]

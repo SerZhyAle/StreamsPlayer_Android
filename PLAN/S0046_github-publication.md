@@ -1,7 +1,8 @@
 # S0046 - Publish the repository, the site and the sideload channel on GitHub
 
 **Ticket:** S0046
-**Status:** Draft
+**Status:** Partial
+**Status note:** Part A done 2026-11-13: public remote, Pages live (run 43438392545 green), metadata; open: fresh-clone proof (release tier), social preview upload (owner), homepage after the landing - S0072. Part B gated.
 **Date:** 2026-10-26
 **Phase:** package 1 for part A (the repository and Pages: S0033's open owner step and S0047's privacy URL need it); part B
 (GitHub Releases, the sideload channel) opens only after the first Google Play release (S0010, В39)
