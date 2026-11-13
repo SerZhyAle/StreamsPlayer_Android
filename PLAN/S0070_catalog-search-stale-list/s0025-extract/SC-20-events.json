@@ -1,0 +1,43 @@
+{
+  "clear_filter_ms": 4078.0,
+  "crashed": false,
+  "empty_message": "No channels found",
+  "empty_message_ms": 1984.0,
+  "import_big": {
+    "kind": "toast",
+    "ms": 37953.0,
+    "text": "Imported 100000 channel(s)"
+  },
+  "import_big_ms": 37953.0,
+  "import_http_404": {
+    "kind": "toast",
+    "ms": 93.0,
+    "text": "Playlist import failed: HTTP 404"
+  },
+  "import_long_names": {
+    "kind": "toast",
+    "ms": 5766.0,
+    "text": "Imported 3 channel(s)"
+  },
+  "import_malformed": {
+    "kind": "toast",
+    "ms": 578.0,
+    "text": "Imported 0 channel(s)"
+  },
+  "import_oversized": {
+    "kind": "toast",
+    "ms": 1781.0,
+    "text": "Playlist import failed: playlist exceeds the 32 MiB cap"
+  },
+  "import_pss_kib_min_max": [
+    148530.0,
+    222934.0
+  ],
+  "import_unreachable": {
+    "kind": "toast",
+    "ms": 15094.0,
+    "text": "Playlist import failed: failed to connect to /192.0.2.1 (port 80) from /10.0.2.15 (port 54724) after 15000ms"
+  },
+  "rows_beside_empty_message": 3,
+  "search_big_ms": 4360.0
+}

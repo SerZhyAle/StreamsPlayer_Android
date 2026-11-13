@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  S0036: the shared ordinary-size tokens of the covered components (UI-SIZING section 2 rule 2).
+  Profile: touch, the only profile of this product (docs/design/UI_SIZE_PROFILE.md). Values are the
+  touch-column baselines of BUTTONS section 3, BOOLEAN-OPTION section 2 rule 4, COLLAPSIBLE-GROUP
+  section 3 rule 6 and SETTINGS-NAVIGATION section 2 rules 4-5. They are baselines, not ceilings:
+  the interface scale is the system display size (dp), text enlargement is the system font scale (sp),
+  and companion glyphs follow UiSizeTokens.glyphPx. Never repeat these numbers as literals in a layout.
+-->
+<resources>
+    <!-- Hit targets: the ordinary touch baseline. No compact mode is exposed (owner, 2026-10-26). -->
+    <dimen name="ui_touch_target">48dp</dimen>
+
+    <!-- BUTTONS section 3, touch column. -->
+    <dimen name="ui_button_padding_horizontal">16dp</dimen>
+    <dimen name="ui_button_glyph">20dp</dimen>
+    <dimen name="ui_button_glyph_gap">8dp</dimen>
+    <dimen name="ui_button_corner_radius">4dp</dimen>
+    <dimen name="ui_button_border">1dp</dimen>
+    <dimen name="ui_button_gap">8dp</dimen>
+    <dimen name="ui_button_group_gap">16dp</dimen>
+
+    <!-- BOOLEAN-OPTION section 2 rule 4, touch column. -->
+    <dimen name="ui_option_checkbox">24dp</dimen>
+    <dimen name="ui_option_checkbox_gap">8dp</dimen>
+    <dimen name="ui_option_heading_gap">4dp</dimen>
+    <dimen name="ui_option_glyph">20dp</dimen>
+    <dimen name="ui_option_inline_gap">8dp</dimen>
+    <dimen name="ui_option_caption_text">16sp</dimen>
+    <dimen name="ui_option_explanation_text">12sp</dimen>
+
+    <!-- COLLAPSIBLE-GROUP section 3 rule 6. -->
+    <dimen name="ui_group_marker">16dp</dimen>
+    <dimen name="ui_group_marker_gap">8dp</dimen>
+    <dimen name="ui_group_body_inset">12dp</dimen>
+    <dimen name="ui_group_sibling_gap">8dp</dimen>
+
+    <!-- SETTINGS-NAVIGATION section 2 rules 4-5, touch column. -->
+    <dimen name="ui_rail_glyph">20dp</dimen>
+    <dimen name="ui_rail_glyph_gap">8dp</dimen>
+    <dimen name="ui_rail_child_indent">12dp</dimen>
+</resources>

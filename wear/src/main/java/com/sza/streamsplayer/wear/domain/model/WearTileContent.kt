@@ -1,0 +1,38 @@
+package com.sza.streamsplayer.wear.domain.model
+
+/**
+ * S1955: the states a Wear OS tile can draw.
+ *
+ * Each is a complete visual state and not an error case (strategic §5.2).
+ */
+sealed interface WearTileContent {
+
+    /**
+     * S2511: a grid of shortcuts, which is the second role in this family.
+     *
+     * The four states below all describe one pinned unit of content and the ways it can be absent. This one
+     * pins nothing: its entries come from a fixed catalog, so it has no unassigned state and cannot be
+     * emptied by anything the owner does.
+     *
+     * S3555: [running] is the long-running program in progress, so the tile can lead back to it; null
+     * while nothing runs, which draws the plain grid.
+     */
+    data class Shortcuts(
+        val entries: List<WearTileShortcut>,
+        val running: WearTileRunningProgram? = null
+    ) : WearTileContent
+
+    /** S2751: carried an always-null `iconResId` until this ticket; these states draw text only. */
+    data class Assigned(
+        val title: String,
+        val subtitle: String?,
+        val launchTarget: WearLaunchTarget,
+        val entries: List<String> = emptyList()
+    ) : WearTileContent
+
+    data class Unassigned(val kind: WearTileKind) : WearTileContent
+
+    data class TargetMissing(val kind: WearTileKind) : WearTileContent
+
+    data object FavouritesEmpty : WearTileContent
+}

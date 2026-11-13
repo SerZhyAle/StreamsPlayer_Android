@@ -1,0 +1,20 @@
+PASS: 31 pointer versions match domain headers
+FAIL: STREAM-BANK has stale or invalid version cell: partial 2.4
+FAIL: LIVE-BROADCAST has stale or invalid version cell: partial 1.3
+FAIL: DEVICE-EXCHANGE has stale or invalid version cell: partial 1.7
+FAIL: PACKAGE-VERSIONING has stale or invalid version cell: 0.5
+FAIL: INPUT-PARITY has stale or invalid version cell: 0.4
+FAIL: ICON-SET has stale or invalid version cell: 0.36
+FAIL: REPO-STAMP has stale or invalid version cell: 0.12
+FAIL: HARNESS-PROFILE has stale or invalid version cell: 0.12
+FAIL: CONTEXT-HELP has stale or invalid version cell: partial 0.1
+FAIL: CHECK-VERDICT has stale or invalid version cell: partial 0.13
+FAIL: CHECK-BASELINE has stale or invalid version cell: partial 0.11
+INFO: 18 own adoption rows read, 11 finding(s) above
+PASS: 3 required USER-PLAYLIST vectors match current catalog bytes
+PASS: 7 DEVICE-EXCHANGE vectors match current catalog bytes
+PASS: 1 DEVICE-EXCHANGE E2E vector matches current catalog bytes and its provenance row
+FAIL: DEVICE-EXCHANGE item CZ table differs from the catalog text (messages-item-cz.md)
+FAIL: PROVENANCE.txt row for messages-item-cz.md does not carry the hash of the vendored file
+FAIL: 13 finding(s) in total
+exit=1

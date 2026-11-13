@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_normal">
+
+        <!-- S0035: the title row; the help action stands in its end corner (CONTEXT-HELP rule 2). -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_small">
+
+            <TextView
+                android:id="@+id/tvControlTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/broadcast_control_title"
+                android:textAppearance="?attr/textAppearanceHeadlineSmall"
+                android:textColor="?attr/colorOnSurface" />
+
+            <ImageButton
+                android:id="@+id/btnHelp"
+                android:layout_width="@dimen/touch_target_min_height"
+                android:layout_height="@dimen/touch_target_min_height"
+                android:layout_gravity="center_vertical|end"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/help"
+                android:src="@drawable/ic_help_outline"
+                app:tint="?attr/colorOnSurfaceVariant" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tvListenerCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/margin_normal"
+            android:textAppearance="?attr/textAppearanceBodyLarge"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            tools:text="0 listeners" />
+
+        <!-- S0021: the exchange server of this broadcast and its state there, or "this network only" (item DU).
+             S0039: content width, so the exchange mark (set in code while the server is talked to) stands beside
+             the centred words. -->
+        <TextView
+            android:id="@+id/tvPublishState"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/margin_normal"
+            android:drawablePadding="@dimen/margin_normal"
+            android:gravity="center_horizontal"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:visibility="gone"
+            tools:text="Published through your server"
+            tools:visibility="visible" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPublishDiagnose"
+            style="@style/Widget.StreamsPlayer.Button.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/margin_normal"
+            android:text="@string/exchange_diagnose_button"
+            android:contentDescription="@string/exchange_diagnose_button"
+            android:visibility="gone" />
+
+        <!-- S0029: what announcing through Google Drive is doing for this broadcast. -->
+        <TextView
+            android:id="@+id/tvDriveState"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/margin_normal"
+            android:gravity="center_horizontal"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:visibility="gone"
+            tools:text="Announced through Google Drive"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/tvFeedbackWarning"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_normal"
+            android:text="@string/broadcast_control_feedback_warning"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textColor="?attr/colorError"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+        <FrameLayout
+            android:id="@+id/previewContainer"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/broadcast_control_preview_height"
+            android:importantForAccessibility="noHideDescendants"
+            android:background="@android:color/black"
+            android:layout_marginBottom="@dimen/margin_normal" />
+
+        <!-- MODE & CAMERA SELECTION -->
+        <TextView
+            android:id="@+id/tvModeHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/broadcast_entry_mode_label"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textColor="?attr/colorOnSurface"
+            android:layout_marginBottom="@dimen/margin_small" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/cgBroadcastMode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_small"
+            app:singleSelection="true">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipModeAudioOnly"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/broadcast_entry_mode_audio_only" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipModeVideoAudio"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/broadcast_entry_mode_video_audio" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipModeVideoOnly"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/broadcast_entry_mode_video_only" />
+        </com.google.android.material.chip.ChipGroup>
+
+        <TextView
+            android:id="@+id/tvLensHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/broadcast_entry_lens_label"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textColor="?attr/colorOnSurface"
+            android:visibility="gone" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/cgLensSelection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:visibility="gone"
+            app:singleSelection="true" />
+
+        <!-- S0049: the broadcast settings live on the Broadcast page of the settings screen, their one editor
+             (SETTINGS-NAVIGATION 2.0 section 3.2); this child-navigation button opens that page. -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnBroadcastSettings"
+            style="@style/Widget.StreamsPlayer.Button.Outlined"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/margin_normal"
+            android:focusable="true"
+            android:clickable="true"
+            android:text="@string/broadcast_control_settings_button"
+            app:icon="@drawable/ic_chevron_right"
+            app:iconGravity="textEnd" />
+
+        <!-- START BROADCAST ACTION (IDLE STATE) -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnStartBroadcast"
+            style="@style/Widget.StreamsPlayer.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/margin_normal"
+            android:focusable="true"
+            android:clickable="true"
+            android:text="@string/broadcast_entry_start"
+            app:icon="@drawable/ic_live_broadcast" />
+
+        <!-- LIVE STREAM CONTROLS CONTAINER -->
+        <LinearLayout
+            android:id="@+id/layoutLiveControls"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="@dimen/margin_normal"
+            android:visibility="gone">
+
+            <com.sza.streamsplayer.ui.common.widget.CommandFlowLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_small">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnToggleCamera"
+                    style="@style/Widget.StreamsPlayer.Button.Tonal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:nextFocusRight="@+id/btnToggleMic"
+                    android:nextFocusDown="@+id/btnSwitchCamera"
+                    android:text="@string/broadcast_control_camera_on"
+                    app:icon="@drawable/ic_camera_capture" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnToggleMic"
+                    style="@style/Widget.StreamsPlayer.Button.Tonal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:nextFocusLeft="@+id/btnToggleCamera"
+                    android:nextFocusDown="@+id/btnScreenOff"
+                    android:text="@string/broadcast_control_mic_on"
+                    app:icon="@drawable/ic_microphone" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSwitchCamera"
+                    style="@style/Widget.StreamsPlayer.Button.Outlined"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:nextFocusUp="@+id/btnToggleCamera"
+                    android:nextFocusRight="@+id/btnScreenOff"
+                    android:nextFocusDown="@+id/btnSendToWatch"
+                    android:text="@string/broadcast_control_switch_camera"
+                    app:icon="@drawable/ic_camera_switch" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnScreenOff"
+                    style="@style/Widget.StreamsPlayer.Button.Outlined"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:contentDescription="@string/broadcast_control_screen_off_cd"
+                    android:nextFocusUp="@+id/btnToggleMic"
+                    android:nextFocusLeft="@+id/btnSwitchCamera"
+                    android:nextFocusDown="@+id/btnSendToWatch"
+                    android:text="@string/broadcast_control_screen_off"
+                    app:icon="@drawable/ic_black_screen" />
+            </com.sza.streamsplayer.ui.common.widget.CommandFlowLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSendToWatch"
+                style="@style/Widget.StreamsPlayer.Button.Tonal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:visibility="gone"
+                android:focusable="true"
+                android:clickable="true"
+                android:nextFocusUp="@+id/btnScreenOff"
+                android:nextFocusDown="@+id/btnStopBroadcast"
+                android:text="@string/stream_action_send_to_watch"
+                app:icon="@drawable/ic_watch" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnStopBroadcast"
+                style="@style/Widget.StreamsPlayer.Button.Destructive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:focusable="true"
+                android:clickable="true"
+                android:nextFocusUp="@+id/btnSendToWatch"
+                android:text="@string/broadcast_control_stop"
+                app:icon="@drawable/ic_stop" />
+        </LinearLayout>
+
+        <!-- SHARE & QR PANEL CONTAINER (LIVE STATE) -->
+        <LinearLayout
+            android:id="@+id/layoutSharePanel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:visibility="gone"
+            android:layout_marginTop="@dimen/margin_small">
+
+            <ImageView
+                android:id="@+id/ivShareQr"
+                android:layout_width="@dimen/broadcast_control_qr_size"
+                android:layout_height="@dimen/broadcast_control_qr_size"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:contentDescription="@string/broadcast_share_qr_cd"
+                android:layout_marginBottom="@dimen/margin_small" />
+
+            <TextView
+                android:id="@+id/tvShareUrl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textColor="?attr/colorOnSurface"
+                android:textIsSelectable="true"
+                android:layout_marginBottom="@dimen/margin_small" />
+
+            <com.sza.streamsplayer.ui.common.widget.CommandFlowLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_small">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnCopyUrl"
+                    style="@style/Widget.StreamsPlayer.Button.Outlined"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:gravity="center"
+                    app:icon="@drawable/ic_copy"
+                    android:nextFocusRight="@id/btnExportFile"
+                    android:text="@string/broadcast_share_copy" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnExportFile"
+                    style="@style/Widget.StreamsPlayer.Button.Outlined"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:gravity="center"
+                    app:icon="@drawable/ic_share"
+                    android:nextFocusLeft="@id/btnCopyUrl"
+                    android:nextFocusRight="@id/btnShareSend"
+                    android:text="@string/broadcast_share_export_file" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnShareSend"
+                    style="@style/Widget.StreamsPlayer.Button.Outlined"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:gravity="center"
+                    app:icon="@drawable/ic_share"
+                    android:nextFocusLeft="@id/btnExportFile"
+                    android:text="@string/broadcast_share_send_link" />
+            </com.sza.streamsplayer.ui.common.widget.CommandFlowLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnBroadcastHelp"
+                style="@style/Widget.StreamsPlayer.Button.Text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:minHeight="@dimen/touch_target_min_height"
+                android:focusable="true"
+                android:clickable="true"
+                android:nextFocusUp="@id/btnCopyUrl"
+                android:text="@string/broadcast_share_help"
+                app:icon="@drawable/ic_info" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
+

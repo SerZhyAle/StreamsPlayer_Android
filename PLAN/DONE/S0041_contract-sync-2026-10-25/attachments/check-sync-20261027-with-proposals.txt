@@ -1,0 +1,7 @@
+PASS: 31 pointer versions match domain headers
+PASS: 25 own adoption rows have unique ids and current version cells
+PASS: 3 required USER-PLAYLIST vectors match current catalog bytes
+PASS: 7 DEVICE-EXCHANGE vectors match current catalog bytes
+FAIL: DEVICE-EXCHANGE item CZ table differs from the catalog text (messages-item-cz.md)
+FAIL: PROVENANCE.txt row for messages-item-cz.md does not carry the hash of the vendored file
+FAIL: 2 finding(s) in total

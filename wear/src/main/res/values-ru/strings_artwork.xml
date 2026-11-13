@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- S0064: the Channel pictures screen of the watch - remove the downloaded pictures or fetch them again. -->
+<resources>
+    <string name="sp_channel_pictures">Картинки каналов</string>
+    <string name="wear_pictures_previews_title">Превью каналов</string>
+    <string name="wear_pictures_logos_title">Логотипы станций</string>
+    <string name="wear_pictures_status_not_installed">Не скачано</string>
+    <string name="wear_pictures_status_installed">Скачано</string>
+    <string name="wear_pictures_status_downloading">Скачиваю..</string>
+    <string name="wear_pictures_status_failed">Не удалось скачать</string>
+    <string name="wear_pictures_size">Размер: %1$d МБ</string>
+    <string name="wear_pictures_action_download">Скачать</string>
+    <string name="wear_pictures_action_retry">Повторить</string>
+    <string name="wear_pictures_action_remove">Удалить</string>
+    <string name="wear_pictures_action_for">%1$s: %2$s</string>
+    <string name="wear_pictures_remove_title">Удалить картинки?</string>
+    <string name="wear_pictures_remove_message_previews">Удалить скачанные превью каналов с этих часов? Часы не будут скачивать их снова, пока вы не скачаете их здесь.</string>
+    <string name="wear_pictures_remove_message_logos">Удалить скачанные логотипы станций с этих часов? Часы не будут скачивать их снова, пока вы не скачаете их здесь.</string>
+    <string name="wear_pictures_remove_size">Освободится около %1$d МБ.</string>
+</resources>

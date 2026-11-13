@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- S0038: Own on the watch - personal channels together with the live broadcasts of the account's other devices. -->
+<resources>
+    <string name="wear_own_section_live">Live from my devices</string>
+    <string name="wear_own_section_saved">Saved streams</string>
+    <string name="wear_own_device_unnamed">Unnamed device</string>
+    <string name="wear_own_live_untitled">Live broadcast</string>
+    <string name="wear_own_kind_audio">Audio</string>
+    <string name="wear_own_kind_video">Video</string>
+    <string name="wear_own_presence_online">Online</string>
+    <string name="wear_own_presence_offline">Offline</string>
+    <string name="wear_own_presence_unknown">Status unknown</string>
+    <string name="wear_own_live_saved_badge">Saved</string>
+    <string name="wear_own_live_row_video">Video plays on the phone</string>
+    <string name="wear_own_live_row_protected">Password broadcast - open it on the phone</string>
+    <string name="wear_own_live_row_format">Cannot be played on the watch</string>
+    <string name="wear_own_live_save">Save</string>
+    <string name="wear_own_live_save_desc">Save %1$s as a channel</string>
+    <string name="wear_own_live_empty">No other device is broadcasting right now.</string>
+    <string name="wear_own_saved_empty">Streams sent from the phone and broadcasts you save appear here.</string>
+    <string name="wear_own_filtered_empty">Nothing matches the search.</string>
+    <string name="wear_own_refresh">Refresh</string>
+    <string name="wear_own_retry">Retry</string>
+    <string name="wear_own_status_loading">Looking for broadcasts..</string>
+    <string name="wear_own_status_updated">Updated %1$s</string>
+    <string name="wear_own_status_stale">Last known list, updated %1$s</string>
+    <string name="wear_own_status_stale_unknown">Last known list</string>
+    <string name="wear_own_status_unreachable">Cannot reach the exchange server.</string>
+    <string name="wear_own_status_no_server">Broadcasts from your other devices appear here once the watch is connected to an exchange server: on the phone, open Exchange server and choose Connect watch.</string>
+    <string name="wear_own_status_sign_in">The watch must be connected to the exchange server again: on the phone, open Exchange server and choose Connect watch.</string>
+    <string name="wear_own_notice_ended">Broadcast ended</string>
+    <string name="wear_own_notice_unconfirmed">Cannot confirm that this broadcast is live. Refresh and try again.</string>
+    <string name="wear_own_notice_video">The watch plays audio broadcasts. Open this one on the phone.</string>
+    <string name="wear_own_notice_protected">This broadcast needs a password. Open it on the phone.</string>
+    <string name="wear_own_notice_format">This broadcast cannot be played on the watch.</string>
+    <string name="wear_own_notice_open_failed">Could not open the broadcast. Try again.</string>
+    <string name="wear_own_notice_saved">Broadcast saved</string>
+    <string name="wear_own_notice_save_failed">Could not save the broadcast. Try again.</string>
+    <string name="wear_own_notice_needs_server">Connect the watch to an exchange server to find broadcasts from your other devices.</string>
+    <string name="wear_own_notice_sign_in">Connect the watch to the exchange server again to refresh.</string>
+</resources>

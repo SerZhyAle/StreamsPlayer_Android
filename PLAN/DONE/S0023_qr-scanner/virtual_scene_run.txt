@@ -1,0 +1,53 @@
+S0023 QR Scanner - Actual virtual-scene camera verification
+Date: 2026-10-23, Europe/Malta
+Device: emulator-5554, Pixel_9, sdk_gphone64_x86_64
+Back camera: virtualscene
+
+The former 2026-10-11 report described JVM PNG decoding, not a camera run.
+It is superseded by the instrumented camera checks below.
+
+Preparation:
+- Build: gradlew.bat :phone:testStoreDebugUnitTest --tests com.sza.streamsplayer.ui.scanner.* :phone:testNoLegalDebugUnitTest --tests com.sza.streamsplayer.ui.scanner.* :phone:assembleStoreDebug :phone:assembleStoreDebugAndroidTest --continue --console=plain
+  Exit 0; BUILD SUCCESSFUL in 1m 16s; 37 scanner tests passed per variant.
+- adb install -r phone/build/outputs/apk/store/debug/phone-store-debug.apk
+- adb install -r phone/build/outputs/apk/androidTest/store/debug/phone-store-debug-androidTest.apk
+  Both installations: exit 0, Success. Existing application data preserved.
+- Run QrScannerVirtualSceneTest#exportFixtures with -e s0023VirtualScene prepare.
+  Fixtures use the application's QrCodeEncoder on Android, 1024x1024 PNG.
+  Connection fixture: 6,334 bytes, 45 text characters.
+  Descriptor fixture: 6,824 bytes, 105 text characters.
+- Pull cache/s0023-connection.png and cache/s0023-descriptor.png with adb exec-out run-as.
+- adb shell pm grant com.sza.streamsplayer android.permission.CAMERA
+- adb emu virtualscene-image wall <absolute fixture PNG>
+- EmulatorController.setPhysicalModel (SDK's emulator_controller.proto):
+  POSITION [-1.807, 0.320, 3.584], ROTATION [0, -150, 0], STEP.
+
+Target 1 - Connection string QR:
+adb shell am instrument -w -r -e class com.sza.streamsplayer.ui.scanner.QrScannerVirtualSceneTest#scanConnectionString -e s0023VirtualScene connection com.sza.streamsplayer.test/androidx.test.runner.AndroidJUnitRunner
+Exit 0; INSTRUMENTATION_STATUS_CODE: 0; OK (1 test); Time: 48.683 s.
+Expected: RESULT_OK and ScanResult.Text exactly equal to the fixture.
+Actual: PASS, text length 45; two consecutive camera decodes, one returned result.
+
+Target 2 - Broadcast descriptor QR:
+adb shell am instrument -w -r -e class com.sza.streamsplayer.ui.scanner.QrScannerVirtualSceneTest#scanDescriptor -e s0023VirtualScene descriptor com.sza.streamsplayer.test/androidx.test.runner.AndroidJUnitRunner
+Exit 0; INSTRUMENTATION_STATUS_CODE: 0; OK (1 test); Time: 48.008 s.
+Expected: RESULT_OK and ScanResult.Text exactly equal to the fixture.
+Actual: PASS, text length 105; two consecutive camera decodes, one returned result.
+CameraX log: ImageAnalysis resolution=640x480, preview=1280x960.
+
+UI route:
+Main menu -> Import live broadcast -> Scan QR code displayed the actual camera
+preview, Paste instead and Close. The descriptor QR returned to the importer and
+created the Scanner test channel without starting playback. The test channel was
+deleted through its Delete action and confirmation after observing the result.
+
+Cleanup:
+Restored the default wall image, POSITION [0, 0, 0], ROTATION [-4.75000048, 0, 0],
+and revoked the camera permission that this run granted.
+
+Raw logs and screenshots: temp/S0023/virtual-connection.log,
+virtual-descriptor.log, virtual-scene-logcat.txt, scanner-final.png,
+import-result.xml. Scratch evidence is gitignored.
+
+Result: PASS for emulator camera decoding and descriptor importer hand-off.
+Not covered by the emulator: physical autofocus, low light and audible TalkBack.

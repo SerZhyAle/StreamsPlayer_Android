@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+        <!-- S0035: demo content for the help screenshots (CONTEXT-HELP rule 14). Debug builds only: this
+             source set is not part of any release package. -->
+        <receiver
+            android:name="com.sza.streamsplayer.debug.HelpDemoSeedReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.sza.streamsplayer.debug.SEED_HELP_DEMO" />
+            </intent-filter>
+        </receiver>
+        <!-- S0025 decision 14.2: the main-Looper ping of the dynamic audit rig. Debug builds only; it registers its
+             receiver on a background thread, guarded by DUMP. -->
+        <provider
+            android:name="com.sza.streamsplayer.debug.AuditPingProvider"
+            android:authorities="${applicationId}.auditping"
+            android:exported="false" />
+    </application>
+
+</manifest>

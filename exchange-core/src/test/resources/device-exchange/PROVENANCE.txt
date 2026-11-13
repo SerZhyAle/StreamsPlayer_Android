@@ -1,0 +1,11 @@
+# Vendored copy of the DEVICE-EXCHANGE end-to-end encryption vectors from the shared contracts catalog.
+# Never edit the vectors here: re-vendor them from the catalog and rewrite the sha256 rows.
+# Source in the catalog: device-exchange/vectors/<the path in the row>
+# Replayed by E2eVectorsTest and SealedRelayProxyTest (e2e-v1.json, item DR).
+# tools/contracts/check-sync.ps1 compares every row's bytes with the catalog's.
+# tunnel-test.p12 is not a catalog file: it is this product's test tunnel identity and has no row.
+# The date is the day the bytes were last confirmed identical to the catalog's, at the contract version named.
+contract: DEVICE-EXCHANGE
+version: 1.11
+vendored: 2026-10-29
+sha256 e2e-v1.json 5391a9ae33450c5de82b622278a5acb38773bdf2819ebe8ff8604114758fde35

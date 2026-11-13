@@ -1,0 +1,118 @@
+{
+  "$comment": "S0051: the term base of the prose (DOC-EXTERNAL-QUALITY rules 1 and 4). `terms` are the glossary entries of the help index: a term with `dictionary` keeps the words of the vendored DEVICE-EXCHANGE item CW table, one with `labelKey` the words of the screen, one with `name` its own. `forbidden` is held by tools/docs/assert-termbase.ps1 over the help sources, the privacy policies and the portal sections; it extends to the prose what phone/src/test/.../ExchangeTermsDictionaryTest holds over the exchange strings. On the Russian and Ukrainian word for air: 'в эфире' for a running broadcast and 'к прямому эфиру' for the live position are the words of the screens and stay; only the bare noun for a broadcast is retired.",
+  "shape": 1,
+  "dictionary": "phone/src/test/resources/device-exchange/terms-item-cw.md",
+  "forbidden": [
+    { "id": "relay-outside-its-term", "locales": ["en"], "pattern": "\\brelay\\b(?!\\s+through\\s+the\\s+server)", "reason": "DEVICE-EXCHANGE item CW: the only term is relay through the server" },
+    { "id": "retired-relay-words", "locales": ["ru", "uk"], "pattern": "релей|ретранслят|ретрансляц|ретранслю|(?<!\\p{L})реле(?!\\p{L})", "reason": "DEVICE-EXCHANGE item CW: the term is the words of its table, not a calque" },
+    { "id": "retired-noun-for-broadcast", "locales": ["ru", "uk"], "pattern": "(?<!\\p{L})(эфир|эфиры|эфиров|эфиром|эфирах|ефір|ефіри|ефірів|ефіром|ефірах)(?!\\p{L})", "reason": "DEVICE-EXCHANGE item CW: a person finds a broadcast and the sender is broadcasting" },
+    { "id": "account-in-latin", "locales": ["ru", "uk"], "pattern": "\\baccount\\b", "reason": "the account is written in the words of the language of the page" },
+    { "id": "account-as-a-record", "locales": ["ru", "uk"], "pattern": "облікови[йхм]+ запис|учетн[а-я]+ запис|учётн[а-я]+ запис", "reason": "the family's word for an account is аккаунт or акаунт, not a record" },
+    { "id": "retired-product-names", "locales": ["en", "ru", "uk"], "pattern": "Fast Media Sorter for Windows|Fast Media Sorter & Sharing for Android|FMS_Win|FMS_A\\b|StreamsPlayer_mob", "reason": "SITE-FAMILY-MAP section 2 names each product; these names are retired or internal" },
+    { "id": "wire-values-in-prose", "locales": ["en", "ru", "uk"], "caseSensitive": true, "pattern": "\\b[A-Z]{2,}(_[A-Z]+)+\\b|\\bsftp-share\\b|\\bpin-v1\\b|\\bDEVICE-EXCHANGE\\b", "reason": "a reader meets words of the interface, never a wire value or a contract id" },
+    { "id": "mobile-as-a-product-word", "locales": ["en", "ru", "uk"], "pattern": "\\bmobile (app|application|version|player)\\b|мобильн\\w+ (приложен|верси)|мобільн\\w+ (застосун|додат|верс)", "reason": "the product is named StreamsPlayer, with for Android only where the sentence needs it" }
+  ],
+  "terms": [
+    {
+      "id": "broadcast", "dictionary": "broadcast",
+      "definition": {
+        "en": "A live stream that a person finds and plays, from another device of the account or from a link.",
+        "ru": "Живой поток, который находят и воспроизводят: с другого устройства аккаунта или по ссылке.",
+        "uk": "Живий потік, який знаходять і відтворюють: з іншого пристрою акаунта або за посиланням."
+      }
+    },
+    {
+      "id": "broadcasting", "dictionary": "broadcasting",
+      "definition": {
+        "en": "What the sender does: the phone's microphone or camera, or the watch's microphone, goes out as a live stream.",
+        "ru": "То, что делает отправитель: микрофон или камера телефона либо микрофон часов передаются живым потоком.",
+        "uk": "Те, що робить відправник: мікрофон чи камера телефона або мікрофон годинника передаються живим потоком."
+      }
+    },
+    {
+      "id": "exchange-server", "dictionary": "exchange server",
+      "definition": {
+        "en": "A program that you run yourself, or that a person you know runs for you. It connects your own devices when they cannot reach each other directly, so a broadcast from one device can be found and played on another.",
+        "ru": "Программа, которую вы запускаете сами или которую для вас запускает знакомый человек. Она соединяет ваши устройства, когда они не могут связаться напрямую, чтобы трансляцию с одного устройства можно было найти и воспроизвести на другом.",
+        "uk": "Програма, яку ви запускаєте самі або яку для вас запускає знайома людина. Вона з'єднує ваші пристрої, коли вони не можуть зв'язатися напряму, щоб трансляцію з одного пристрою можна було знайти й відтворити на іншому."
+      }
+    },
+    {
+      "id": "relay", "dictionary": "relay",
+      "definition": {
+        "en": "The exchange server passes a broadcast on to its listeners; the content is encrypted on your device first.",
+        "ru": "Сервер обмена передаёт трансляцию её слушателям; содержимое сначала шифруется на вашем устройстве.",
+        "uk": "Сервер обміну передає трансляцію її слухачам; вміст спочатку шифрується на вашому пристрої."
+      }
+    },
+    {
+      "id": "drive-channel", "dictionary": "Drive channel",
+      "definition": {
+        "en": "Your devices announce their broadcasts through your own Google account, with no server and no typed address.",
+        "ru": "Ваши устройства сообщают о своих трансляциях через ваш собственный аккаунт Google, без сервера и без ввода адреса.",
+        "uk": "Ваші пристрої повідомляють про свої трансляції через ваш власний акаунт Google, без сервера й без введення адреси."
+      }
+    },
+    {
+      "id": "cast-to-own-device", "dictionary": "cast to your own device",
+      "definition": {
+        "en": "Sending a broadcast to another device of yours. That device asks first, unless you turned on playing without asking.",
+        "ru": "Отправка трансляции на другое ваше устройство. Оно сначала спрашивает, если вы не включили воспроизведение без вопроса.",
+        "uk": "Надсилання трансляції на інший ваш пристрій. Він спочатку запитує, якщо ви не ввімкнули відтворення без запитання."
+      }
+    },
+    {
+      "id": "connection-string",
+      "name": { "en": "connection string", "ru": "строка подключения", "uk": "рядок підключення" },
+      "definition": {
+        "en": "A line of text from the host of an exchange server that holds its address and name and can hold your login. The app fills in the sign-in form from it.",
+        "ru": "Строка текста от хозяина сервера обмена с его адресом и именем, а иногда и с вашим логином. Приложение заполняет по ней форму входа.",
+        "uk": "Рядок тексту від господаря сервера обміну з його адресою та ім'ям, а іноді і з вашим логіном. Застосунок заповнює за ним форму входу."
+      }
+    },
+    {
+      "id": "account",
+      "name": { "en": "account", "ru": "аккаунт", "uk": "акаунт" },
+      "definition": {
+        "en": "Your place on an exchange server: your login, your password and your devices. This app only signs in: accounts are created in Fast Media Sorter.",
+        "ru": "Ваше место на сервере обмена: логин, пароль и ваши устройства. В этом приложении можно только войти: аккаунты создаются в Fast Media Sorter.",
+        "uk": "Ваше місце на сервері обміну: логін, пароль і ваші пристрої. У цьому застосунку можна лише ввійти: акаунти створюються у Fast Media Sorter."
+      }
+    },
+    {
+      "id": "channel",
+      "name": { "en": "channel", "ru": "канал", "uk": "канал" },
+      "definition": {
+        "en": "One radio station, video stream or camera in your list.",
+        "ru": "Одна радиостанция, видеопоток или камера в вашем списке.",
+        "uk": "Одна радіостанція, відеопотік або камера у вашому списку."
+      }
+    },
+    {
+      "id": "catalog",
+      "name": { "en": "catalog", "ru": "каталог", "uk": "каталог" },
+      "definition": {
+        "en": "The main screen: your list of channels.",
+        "ru": "Главный экран: ваш список каналов.",
+        "uk": "Головний екран: ваш список каналів."
+      }
+    },
+    {
+      "id": "playlist",
+      "name": { "en": "playlist", "ru": "плейлист", "uk": "плейлист" },
+      "definition": {
+        "en": "A list of channels in a file or at an address, in M3U format. Importing it adds them to the catalog.",
+        "ru": "Список каналов в файле или по адресу, в формате M3U. Импорт добавляет их в каталог.",
+        "uk": "Список каналів у файлі або за адресою, у форматі M3U. Імпорт додає їх до каталогу."
+      }
+    },
+    {
+      "id": "channel-tile", "labelKey": "widget_stream_launch_label",
+      "definition": {
+        "en": "A tile on your home screen that opens one channel.",
+        "ru": "Плитка на домашнем экране, которая открывает один канал.",
+        "uk": "Плитка на домашньому екрані, яка відкриває один канал."
+      }
+    }
+  ]
+}

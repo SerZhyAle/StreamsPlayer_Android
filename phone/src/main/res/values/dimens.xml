@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="broadcast_control_preview_height">220dp</dimen>
+    <dimen name="broadcast_control_qr_size">160dp</dimen>
+    <dimen name="margin_normal">8dp</dimen>
+    <dimen name="margin_medium">16dp</dimen>
+    <dimen name="margin_small">4dp</dimen>
+    <dimen name="margin_tiny">2dp</dimen>
+    <dimen name="button_height">48dp</dimen>
+    <dimen name="padding_normal">12dp</dimen>
+
+    <dimen name="padding_tiny">2dp</dimen>
+    <dimen name="settings_help_icon_margin">4dp</dimen>
+    <dimen name="settings_help_icon_size">@dimen/icon_tier_24</dimen>
+    <dimen name="settings_input_numeric_max_width">140dp</dimen>
+    <dimen name="settings_row_value_text_size">16sp</dimen>
+    <dimen name="settings_switch_margin_end">10dp</dimen>
+    <dimen name="toggler_desc_text_size">12sp</dimen>
+    <dimen name="toggler_title_text_size">14sp</dimen>
+    <dimen name="icon_tier_16">16dp</dimen>
+    <dimen name="icon_tier_20">20dp</dimen>
+    <dimen name="icon_tier_24">24dp</dimen>
+    <dimen name="icon_tier_32">32dp</dimen>
+    <dimen name="icon_tier_40">40dp</dimen>
+    <dimen name="icon_tier_48">48dp</dimen>
+    <dimen name="touch_target_min_height">48dp</dimen>
+    <dimen name="widget_icon_size_large">@dimen/icon_tier_40</dimen>
+    <dimen name="text_size_11sp">11sp</dimen>
+    <dimen name="collapsible_section_title_text_size">16sp</dimen>
+    <dimen name="settings_padding_vertical">8dp</dimen>
+    <!-- S0049: the settings screen; the rail fits the names without taking a disproportionate share (SETTINGS-NAVIGATION 2.0 section 2.5). -->
+    <dimen name="settings_rail_width">200dp</dimen>
+    <dimen name="settings_page_inset">16dp</dimen>
+    <dimen name="stream_channel_icon_size">40dp</dimen>
+    <dimen name="stream_channel_icon_gap">8dp</dimen>
+    <dimen name="stream_grid_artwork_height">96dp</dimen>
+</resources>

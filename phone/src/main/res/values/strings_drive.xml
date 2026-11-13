@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- S0029: announcements via Google Drive (DEVICE-EXCHANGE item CL): the interface says "via Google Drive". -->
+<resources>
+    <!-- Card on the Exchange screen: sign-in and the list of announced broadcasts -->
+    <string name="drive_title">Via Google Drive</string>
+    <string name="drive_summary">Find the broadcasts your other devices announce, without a server and without typing an address. Only announcements are read and written, in the hidden app folder of your own Google account. The stream itself never goes through Google Drive.</string>
+    <string name="drive_status_signed_in">Signed in to Google Drive</string>
+    <string name="drive_status_signed_out">Not signed in to Google Drive</string>
+    <string name="drive_action_sign_in">Sign in with Google</string>
+    <string name="drive_action_sign_out">Sign out of Google Drive</string>
+    <string name="drive_sign_out_message">This app stops using Google Drive. The exchange account is not touched. You can also withdraw the access in your Google account settings.</string>
+    <string name="drive_directory_title">Announced via Google Drive</string>
+    <string name="drive_empty">No other device of your Google account announces a broadcast via Google Drive now.</string>
+    <string name="drive_source_label">via Google Drive</string>
+    <string name="drive_unnamed_device">Device</string>
+    <string name="drive_unnamed_broadcast">Live broadcast</string>
+    <string name="drive_sign_in_failed">Google sign-in did not complete.</string>
+    <string name="drive_sign_in_lost">Sign-in to Google Drive was lost. Sign in again.</string>
+    <string name="drive_unreachable">Google Drive is not reachable now. The list is tried again shortly.</string>
+    <string name="drive_refused">Google Drive refused the request.</string>
+
+    <!-- Broadcast settings: the per-broadcast announcement choice (off by default) -->
+    <string name="settings_broadcast_drive_title">Announce via Google Drive: audio</string>
+    <string name="settings_broadcast_drive_video_title">Announce via Google Drive: camera</string>
+    <string name="settings_broadcast_drive_summary">Other devices signed in to your own Google account find this broadcast without a server. Only the announcement is written to the hidden app folder of your Drive, never the sound or the picture. The choice is remembered separately for audio and for the camera. Off writes nothing.</string>
+    <string name="broadcast_drive_notice_title">What is written to Google Drive</string>
+    <string name="broadcast_drive_notice_text">While the broadcast runs, this app writes a small announcement file to the hidden app folder of your own Google account: the broadcast\'s title, this phone\'s name and the addresses a listener can try. The stream itself never goes through Google Drive. The file is removed when the broadcast stops. This switch stays off unless you turn it on.</string>
+    <string name="broadcast_drive_notice_sign_in_hint">You are not signed in to Google Drive yet. Without signing in nothing is announced.</string>
+    <string name="broadcast_drive_notice_open">Sign in</string>
+
+    <!-- Broadcast screen: the state of the announcement, shown as one line -->
+    <string name="broadcast_drive_state_announcing">Announcing via Google Drive..</string>
+    <string name="broadcast_drive_state_announced">Announced via Google Drive</string>
+    <string name="broadcast_drive_failed_not_signed_in">Not announced via Google Drive: sign in first</string>
+    <string name="broadcast_drive_failed_sign_in_lost">Not announced via Google Drive: sign in again</string>
+    <string name="broadcast_drive_failed_drive_full">Not announced via Google Drive: your Drive is full</string>
+    <string name="broadcast_drive_failed_daily_limit">Not announced via Google Drive: Google\'s daily limit is reached</string>
+    <string name="broadcast_drive_failed_refused">Not announced via Google Drive: Google refused the write</string>
+    <string name="broadcast_drive_failed_unreachable">Google Drive is not reachable now. The announcement is tried again with the next update</string>
+</resources>

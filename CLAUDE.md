@@ -59,7 +59,8 @@ shared code allowed, three mechanisms carry that guarantee, and each binds every
   edit or copy a harness script.
 - **Ticket ids:** `S0001`.. (`^S\d{4}$`, the harness grammar). These ids overlap FastMediaSorter's S space, so a
   ticket of another repository is always cited with the repository name next to its id.
-- Specs: `PLAN/Sxxxx_<slug>.md`. Journal: `PLAN/spec-catalog.jsonl`, written only through
+- Specs: `PLAN/Sxxxx_<slug>.md`; the spec of a closed ticket (`Verified`, `Archived`) lives in `PLAN/DONE/`, the
+  archive spelling declared in `.sza-profile.json` (`REPO-LAYOUT` rule 6). Journal: `PLAN/spec-catalog.jsonl`, written only through
   `spec_catalog/insert`, `update`, `close`, `archive` - never by hand.
 - **Release package plan** - six decisions, recorded once:
   1. Files: `PLAN/RELEASE_QUEUE.md` (work remaining), `PLAN/RELEASE_READY.md` (ready),
@@ -78,11 +79,64 @@ shared code allowed, three mechanisms carry that guarantee, and each binds every
 
 ## 5. Repository layout
 
-- `PLAN/` - tickets and the release plan. `docs/` - the handoff record and `docs/contracts/` pointers.
-  `tools/` - the harness forwarder. Gradle modules (phone, wear, watch face) arrive with S0002.
+- `PLAN/` - tickets and the release plan. `docs/` - the handoff record, `docs/contracts/` pointers, the port
+  ledger `docs/port-ledger.jsonl` and the S0025 findings ledger `docs/audit/findings.jsonl`. `tools/` - the harness
+  forwarder and `tools/port-ledger/` (record a port, check drift against FastMediaSorter; its README says when to run
+  what). `tools/audit/` - the S0025
+  dynamic-audit rig and its coverage gate; its self-tests run at release (its README).
+- In-app help (S0035, `CONTEXT-HELP`): the help map is `phone/src/main/assets/help/help-map.json` - one row per
+  surface, a page or `inherit` / `none` with a reason; the page sources are in `docs/help/content/`; `tools/help/`
+  holds the generator, the screenshot capture, the control diff and the gate `assert-help-map.ps1` (its README says
+  when to run what), which the pre-release sweep runs. Accepted debt is `tools/help/help-map-baseline.txt` and only
+  falls. A phone screen added or changed in the same edit changes its help source and its map row.
+- Documentation quality (S0051, `DOC-INTERNAL-QUALITY`, `DOC-EXTERNAL-QUALITY`): every maintained document has a record in
+  `docs/DOCUMENT_REGISTRY.jsonl`, written before anything links to it; `tools/docs/` holds the registry, link, style, translation
+  freshness and term gates and their aggregator `assert-docs.ps1` (its README says when to run what); permanent variants are
+  `docs/design/DOC_QUALITY_VARIANTS.md`. An English block edited makes its translation stale until it is rebuilt and recorded.
+- Promotion (S0014, `PROMOTION`): `POSITIONING.md` is the one source every external surface (README, the Play listing in
+  `docs/play/PLAY_LISTING*.md`, the landing, the repository metadata) is written from; `tools/promotion/` holds the forbidden-terms
+  list, the gate `assert-promotion.ps1` (its README says when to run what) and the checkpoint script. No other product's name and no
+  piracy word in a published source, ever; the internal research and the go ledger are in `PLAN/S0014_free-promotion-campaign/`.
+- Gradle (S0002): application modules `phone`, `wear`, `watchface`; S0022 adds the Android-free JVM library
+  `exchange-core`, consumed by phone and wear (owner decision, 2026-10-23). `build-logic/` is the included build of convention
+  plugins (platform levels, the mechanically derived version, release signing, the `store` / `noLegal`
+  variants) with its own unit tests. Pins live in `gradle/libs.versions.toml`. Release builds use `./gradlew`; the
+  SDK path goes in the gitignored `local.properties`, the JDK in the user-level `gradle.properties`.
+- Version stamp: never typed. An invocation that packages stamps itself from one clock reading; a release
+  pins the pair per family with `-Psp.versionName` / `-Psp.versionCode` (one module per invocation); a build
+  that neither packages nor pins carries the non-releasable sentinel. Release signing reads
+  `keystore.properties` (gitignored) or the file named by `STREAMSPLAYER_KEYSTORE_PROPERTIES`; without a key
+  release packages are built unsigned, never signed with the debug key.
 - Scratch and evidence that is not committed: `temp/<ticket>/` (gitignored).
 - Signing material never enters the tree; `.gitignore` carries the leak globs.
 - Android SDK on this machine: `C:\Users\serzh\AppData\Local\Android\Sdk`.
+
+## 5a. Verification between releases
+
+Between releases run only checks measured at 5 s or less, plus static inspection and a direct call of the changed
+area; full builds, unmeasured checks and slower tests run at release (TESTING_AND_QA section 2). Record each
+skipped rung in the ticket audit as a RELEASE item naming the release command; report "not built, not tested until
+the release". Android/Gradle has no measured fast test or compile form; do not run one between releases.
+
+- Help-map fast command: `pwsh -NoProfile -File tools/help/assert-help-map.ps1`; 0.739 s, 2026-10-29, direct
+  command wall time, exit 0 and `assert-help-map: PASS` (30 surfaces, 27 rows, 3 accepted baseline entries).
+- Release script syntax fast command: `pwsh -NoProfile -File tools/release/check-syntax.ps1`; 0.288 s,
+  2026-10-29, direct command wall time, exit 0 and `release-syntax: PASS` for the pre-release sweep.
+- Promotion gate fast command: `pwsh -NoProfile -File tools/promotion/assert-promotion.ps1`; 0.63 s, 2026-11-13, direct
+  command wall time, exit 0 and `assert-promotion: PASS` (12 rules, 61 published files). Its self-test
+  `tools/promotion/test-promotion-gate.ps1` is 6.05 s, 2026-11-13: release class. `tools/promotion/write-checkpoint.ps1` reads the
+  network (1.84 s, 2026-11-13): run at the first outward step, never between releases for its own sake.
+- Documentation gates, fast one by one (S0051), `pwsh -NoProfile -File tools/docs/<gate>.ps1`, 2026-11-08, direct command wall
+  time, exit 0 and the gate's `PASS`: `assert-doc-registry` 1.223 s, `assert-doc-links` 0.879 s, `assert-doc-style` 0.635 s,
+  `assert-translation-freshness` 0.570 s, `assert-termbase` 0.563 s. Also `pwsh -NoProfile -File tools/help/generate-help-pages.ps1 -Check`
+  2.532 s, `pwsh -NoProfile -File tools/site/build-site.ps1 -Check` 0.333 s and `pwsh -NoProfile -File tools/contracts/check-sync.ps1
+  -CatalogRoot <catalog>` 0.390 s; check-sync exits 1 with 14 findings on the live catalog today (S0051 audit names them).
+- Release command: `pwsh -NoProfile -File tools/release/pre-release-sweep.ps1` runs the release builds, Gradle
+  unit suites and tool self-tests, as well as the existing release checks. `-SkipBuild` is release-time only.
+- Release class: Gradle full phone/Wear/core suite 132 s and filtered phone/core suite 73 s, 2026-10-25,
+  command timings recorded in `PLAN/DONE/S0026_contract-sync-2026-10-12.md`; `tools/docs/assert-docs.ps1` 6.711 s and
+  `tools/docs/test-docs-gates.ps1` 7.889 s, 2026-11-08; all other unmeasured Gradle suites,
+  audit, port-ledger, help-gate and CI-launcher self-tests remain release until measured there.
 
 ## 6. Chain of command
 

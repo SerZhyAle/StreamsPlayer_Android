@@ -1,0 +1,87 @@
+{
+  "help": "player",
+  "surface": "FullscreenPlayerActivity",
+  "elements": [
+    { "id": "close", "viewId": "btnBack", "descKeys": ["action_close"], "labelKey": "action_close" },
+    { "id": "title", "viewId": "tvPlayerTitle" },
+    { "id": "help", "viewId": "btnHelp", "labelKey": "help" },
+    { "id": "tracks", "viewId": "btnTracks", "labelKey": "tracks_title" },
+    { "id": "pip", "viewId": "btnPictureInPicture", "labelKey": "picture_in_picture" },
+    { "id": "previous", "viewId": "btnPrevChannel", "labelKey": "action_previous_channel" },
+    { "id": "play", "viewId": "exo_play_pause", "labelKey": "action_play" },
+    { "id": "next", "viewId": "btnNextChannel", "labelKey": "action_next_channel" },
+    { "id": "waiting", "viewId": "bufferingContainer" }
+  ],
+  "related": [
+    { "help": "catalog" },
+    { "help": "edit-channel" }
+  ],
+  "locales": {
+    "en": {
+      "title": "Video player",
+      "purpose": "Watch a video stream or a camera in full screen. The controls show when you tap the picture and hide by themselves after a few seconds.",
+      "steps": [
+        "Tap the picture to show the controls.",
+        "Press play or pause (7) to stop and start the stream.",
+        "Move to the neighbouring video channel with Previous (6) and Next (8).",
+        "Open Audio & Subtitles (4) to choose a language or switch subtitles.",
+        "Use picture-in-picture (5) to keep watching in a small window while you use another app. Close (1) returns to the channel list."
+      ],
+      "elements": {
+        "close": { "summary": "Leaves the player.", "details": "Stops the stream and returns to the screen you came from. The Back button of the phone does the same.", "undo": "Open the channel again from the list." },
+        "title": { "name": "Channel title", "summary": "The name of the channel.", "details": "The title you see in the channel list." },
+        "help": { "summary": "Opens this page.", "details": "The stream pauses while the page is open. Back returns to the picture; press play to go on.", "shortcut": "F1" },
+        "tracks": { "summary": "Chooses the audio language and the subtitles.", "details": "Lists the audio tracks and subtitle tracks the stream offers, with Off for subtitles. A stream that offers only one track has nothing to choose. The choice is remembered for this channel.", "undo": "Choose the previous track, or Off." },
+        "pip": { "summary": "Moves the picture to a small window.", "details": "The window stays above other apps while you do something else. Where the phone cannot do it, the app says so.", "undo": "Open the small window to return to full screen." },
+        "previous": { "summary": "The channel before this one.", "details": "Moves along your video channels. The button is dimmed on the first channel." },
+        "play": { "summary": "Pauses and resumes the stream.", "details": "Pauses the picture and the sound; the same button resumes them." },
+        "next": { "summary": "The channel after this one.", "details": "Moves along your video channels. The button is dimmed on the last channel." },
+        "waiting": { "name": "Buffering and reconnecting", "summary": "Shows that the stream is being reached.", "details": "A spinner with the words Buffering or Reconnecting appears while the app waits for data or tries the stream again. The app retries by itself; if the stream stays silent, go back and try another channel." }
+      }
+    },
+    "ru": {
+      "title": "Видеоплеер",
+      "purpose": "Смотрите видеопоток или камеру на весь экран. Кнопки появляются, когда вы касаетесь картинки, и через несколько секунд прячутся сами.",
+      "steps": [
+        "Коснитесь картинки, чтобы показать кнопки.",
+        "Нажмите «Воспроизвести» или «Пауза» (7), чтобы остановить и снова запустить поток.",
+        "Переходите к соседнему видеоканалу кнопками «Предыдущий» (6) и «Следующий» (8).",
+        "Откройте «Аудио и субтитры» (4), чтобы выбрать язык или включить субтитры.",
+        "«Картинка в картинке» (5) продолжает показ в маленьком окне, пока вы пользуетесь другим приложением. «Закрыть» (1) возвращает к списку каналов."
+      ],
+      "elements": {
+        "close": { "summary": "Выходит из плеера.", "details": "Останавливает поток и возвращает на экран, откуда вы пришли. Кнопка «Назад» телефона делает то же.", "undo": "Откройте канал снова из списка." },
+        "title": { "name": "Название канала", "summary": "Название канала.", "details": "То же название, что и в списке каналов." },
+        "help": { "summary": "Открывает эту страницу.", "details": "Пока страница открыта, поток стоит на паузе. «Назад» возвращает к картинке; нажмите «Воспроизвести», чтобы продолжить.", "shortcut": "F1" },
+        "tracks": { "summary": "Выбирает язык звука и субтитры.", "details": "Перечисляет звуковые дорожки и дорожки субтитров, которые есть в потоке, и пункт «Откл» для субтитров. Если дорожка одна, выбирать нечего. Выбор запоминается для этого канала.", "undo": "Выберите прежнюю дорожку или «Откл»." },
+        "pip": { "summary": "Переносит картинку в маленькое окно.", "details": "Окно остаётся поверх других приложений, пока вы занимаетесь другим. Если телефон этого не умеет, приложение сообщает об этом.", "undo": "Откройте маленькое окно, чтобы вернуться на весь экран." },
+        "previous": { "summary": "Канал перед этим.", "details": "Идёт по вашим видеоканалам. На первом канале кнопка неактивна." },
+        "play": { "summary": "Ставит поток на паузу и возобновляет.", "details": "Останавливает картинку и звук; та же кнопка возобновляет их." },
+        "next": { "summary": "Канал после этого.", "details": "Идёт по вашим видеоканалам. На последнем канале кнопка неактивна." },
+        "waiting": { "name": "Буферизация и восстановление соединения", "summary": "Показывает, что идёт соединение с потоком.", "details": "Индикатор со словами «Буферизация» или «Восстановление соединения» появляется, пока приложение ждёт данные или пробует поток снова. Приложение повторяет попытки само; если поток молчит, вернитесь и попробуйте другой канал." }
+      }
+    },
+    "uk": {
+      "title": "Відеопрогравач",
+      "purpose": "Дивіться відеопотік або камеру на весь екран. Кнопки з'являються, коли ви торкаєтеся картинки, і за кілька секунд ховаються самі.",
+      "steps": [
+        "Торкніться картинки, щоб показати кнопки.",
+        "Натисніть «Відтворити» або «Пауза» (7), щоб зупинити й знову запустити потік.",
+        "Переходьте до сусіднього відеоканалу кнопками «Попередній» (6) і «Наступний» (8).",
+        "Відкрийте «Аудіо та субтитри» (4), щоб вибрати мову або ввімкнути субтитри.",
+        "«Картинка в картинці» (5) продовжує показ у маленькому вікні, поки ви користуєтеся іншим застосунком. «Закрити» (1) повертає до списку каналів."
+      ],
+      "elements": {
+        "close": { "summary": "Виходить із програвача.", "details": "Зупиняє потік і повертає на екран, звідки ви прийшли. Кнопка «Назад» телефона робить те саме.", "undo": "Відкрийте канал знову зі списку." },
+        "title": { "name": "Назва каналу", "summary": "Назва каналу.", "details": "Та сама назва, що й у списку каналів." },
+        "help": { "summary": "Відкриває цю сторінку.", "details": "Поки сторінка відкрита, потік стоїть на паузі. «Назад» повертає до картинки; натисніть «Відтворити», щоб продовжити.", "shortcut": "F1" },
+        "tracks": { "summary": "Вибирає мову звуку й субтитри.", "details": "Перелічує звукові доріжки й доріжки субтитрів, що є в потоці, та пункт «Вимк» для субтитрів. Якщо доріжка одна, вибирати нічого. Вибір запам'ятовується для цього каналу.", "undo": "Виберіть попередню доріжку або «Вимк»." },
+        "pip": { "summary": "Переносить картинку в маленьке вікно.", "details": "Вікно лишається поверх інших застосунків, поки ви займаєтеся іншим. Якщо телефон цього не вміє, застосунок повідомляє про це.", "undo": "Відкрийте маленьке вікно, щоб повернутися на весь екран." },
+        "previous": { "summary": "Канал перед цим.", "details": "Іде вашими відеоканалами. На першому каналі кнопка неактивна." },
+        "play": { "summary": "Ставить потік на паузу й відновлює.", "details": "Зупиняє картинку й звук; та сама кнопка відновлює їх." },
+        "next": { "summary": "Канал після цього.", "details": "Іде вашими відеоканалами. На останньому каналі кнопка неактивна." },
+        "waiting": { "name": "Буферизація і відновлення з'єднання", "summary": "Показує, що триває з'єднання з потоком.", "details": "Індикатор зі словами «Буферизація» або «Відновлення з'єднання» з'являється, поки застосунок чекає на дані або пробує потік знову. Застосунок повторює спроби сам; якщо потік мовчить, поверніться й спробуйте інший канал." }
+      }
+    }
+  }
+}

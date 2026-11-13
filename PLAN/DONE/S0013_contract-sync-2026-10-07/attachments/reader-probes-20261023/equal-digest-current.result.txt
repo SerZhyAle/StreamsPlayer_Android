@@ -1,0 +1,10 @@
+FAIL SZA-LAY01 LICENSE: missing
+     fix: Add it.
+FAIL SZA-LAY01 README.md: missing
+     fix: Add it.
+FAIL SZA-LAY02 CHANGELOG.md: ledgerShape 1 declared but no root CHANGELOG.md
+     fix: Add it, or declare another shape.
+FAIL SZA-RULES01 .: no agent-instructions file at the repo root
+     fix: Add CLAUDE.md and/or AGENTS.md - see NEW_PROJECT_CHECKLIST.md.
+check-compliance: equal-digest-current - 4 error(s), 0 warning(s) (overlay B, canon 2026.10.21.2)
+[31;1mWrite-Error: [31;1mcheck-compliance: 4 error(s)[0m

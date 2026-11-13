@@ -2,15 +2,9 @@
 
 | Field | Value |
 | --- | --- |
-| **Id** | `USER-PLAYLIST` |
-| **Version** | 0.12, draft (registry, 2026-10-02) |
+| **Contracts reviewed** | `USER-PLAYLIST` 0.12 |
+| **Reviewed** | 2026-10-19, S0013/S0026 |
 | **Home** | shared contracts catalog, `user-playlist/` |
-| **Owner** | StreamsPlayer (Windows) |
-| **Role here** | consumer - m3u playlist import |
+| **Role here** | Extended M3U8 consumer |
 
-What this repository owes:
-
-- Import playlists as the contract defines them and run this product's tests against the catalog's vectors at
-  the registry version.
-- Imported rows are user-authored data: a later catalog refresh never touches them.
-- Lands with the core (S0003) if the import code moves with it, otherwise in S0009.
+Sections 2-4, 6, 8 and 9 apply: optional JSON is refused, HLS manifests are refused, input is bounded at 32 MiB and normalized case-sensitive merging preserves user rows. The three required generated M3U vectors are vendored byte for byte. S0013 records fresh parser/import evidence; no JSON reader/exporter is claimed.

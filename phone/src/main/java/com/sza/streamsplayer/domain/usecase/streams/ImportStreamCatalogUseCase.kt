@@ -1,0 +1,360 @@
+package com.sza.streamsplayer.domain.usecase.streams
+
+import com.sza.streamsplayer.core.network.NetworkContextAnalyzer
+import com.sza.streamsplayer.core.util.rethrowIfCancellation
+import com.sza.streamsplayer.data.local.db.StreamSourceEntity
+import com.sza.streamsplayer.data.repository.StreamCatalogCsvParser
+import com.sza.streamsplayer.data.repository.StreamCollectionRepository
+import com.sza.streamsplayer.data.repository.StreamCollectionsJsonParser
+import com.sza.streamsplayer.data.repository.StreamSourceRepository
+import com.sza.streamsplayer.data.repository.settings.StreamsSessionStore
+import com.sza.streamsplayer.data.repository.streams.FaviconAtlasStore
+import com.sza.streamsplayer.data.streams.StreamCatalogFacetNormalizer
+import com.sza.streamsplayer.domain.delivery.DeliveryAssets
+import com.sza.streamsplayer.domain.delivery.PublishedStreamCatalog
+import com.sza.streamsplayer.domain.streams.facets.StreamBankFetchRetry
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import timber.log.Timber
+import java.util.UUID
+import java.util.concurrent.TimeUnit
+import java.util.zip.ZipInputStream
+import javax.inject.Inject
+
+/**
+ * S0570: download the curated FastMediaSorter stream catalog (a zip GitHub Release asset containing
+ * `streams.csv`), unzip + parse it, and merge-with-prune into the catalog-origin stream sources.
+ * Reuses the shared [OkHttpClient]; the catalog is always fetched fresh (not SHA-pinned).
+ */
+// One archive carries five payloads (rows, facets, atlas, collections, stamp) and each has its own
+// collaborator; splitting the constructor would only move the same wiring into a holder class.
+@Suppress("LongParameterList")
+class ImportStreamCatalogUseCase @Inject constructor(
+    private val okHttpClient: OkHttpClient,
+    private val parser: StreamCatalogCsvParser,
+    private val facetNormalizer: StreamCatalogFacetNormalizer,
+    private val classifier: StreamMediaKindClassifier,
+    private val repository: StreamSourceRepository,
+    // S0668: persists the favicon sprite-atlas + url->index sidecar extracted from the same zip.
+    private val faviconAtlasStore: FaviconAtlasStore,
+    // S2669: the second payload of the same archive - curated collections, replaced whole per import.
+    private val collectionsParser: StreamCollectionsJsonParser,
+    private val collectionRepository: StreamCollectionRepository,
+    // S1469: connectivity gate. Sits in the use case rather than in its callers so all four entry
+    // points are covered at once; without it a dead network is only reported once OkHttp has timed out.
+    private val networkContextAnalyzer: NetworkContextAnalyzer,
+    // S4459: every entry point imports through this use case, so recording here is the one place that
+    // keeps the Streams banner from offering a list some other entry point has just installed.
+    private val sessionStore: StreamsSessionStore
+) {
+    suspend operator fun invoke(): CatalogImportResult = withContext(Dispatchers.IO) {
+        Timber.i("Stream catalog import: starting")
+        if (!networkContextAnalyzer.hasAnyNetwork()) {
+            Timber.w("Stream catalog import failed: %s", "no network")
+            return@withContext CatalogImportResult.Failure("no network")
+        }
+        val payload = try {
+            downloadCatalog()
+        } catch (e: Exception) {
+            e.rethrowIfCancellation()
+            Timber.w(e, "Stream catalog import failed: %s", "download/unzip")
+            return@withContext CatalogImportResult.Failure(e.message ?: "download error")
+        }
+
+        if (payload == null) {
+            Timber.w("Stream catalog import: no streams.csv entry found in archive")
+            return@withContext CatalogImportResult.Empty
+        }
+
+        val entries = try {
+            parser.parse(payload.csv)
+        } catch (e: Exception) {
+            Timber.w(e, "Stream catalog import failed: %s", "parse")
+            return@withContext CatalogImportResult.Failure(e.message ?: "parse error")
+        }
+
+        if (entries.isEmpty()) return@withContext CatalogImportResult.Empty
+
+        // S0668: persist the favicon atlas + url->index sidecar before merging the rows. Keyed by url
+        // (stable unique index) not the per-import random id. A sidecar write failure must NOT fail the
+        // import - the rows still merge; favicons just stay absent until the next import.
+        try {
+            val coords = entries
+                .filter { it.faviconIndex != null }
+                .associate { it.url to it.faviconIndex!! }
+            faviconAtlasStore.write(payload.atlasPng, coords)
+            // Favicons vanishing after an import used to be undiagnosable from a device log: the whole
+            // path was silent, so a favicon-less archive and a failed write looked identical. Log the
+            // two numbers that separate them.
+            Timber.i(
+                "Stream catalog favicons: atlas=%d bytes, indexed rows=%d/%d",
+                payload.atlasPng?.size ?: 0,
+                coords.size,
+                entries.size
+            )
+        } catch (e: Exception) {
+            e.rethrowIfCancellation()
+            Timber.w(e, "Stream catalog import: favicon sidecar write failed (rows still merge)")
+        }
+
+        val now = System.currentTimeMillis()
+        val sources = entries.map { entry ->
+            val facets = facetNormalizer.normalize(
+                category = entry.category,
+                topic = entry.topic,
+                language = entry.language,
+                country = entry.country,
+            )
+            StreamSourceEntity(
+                id = UUID.randomUUID().toString(),
+                url = entry.url,
+                title = entry.name,
+                // Prefer the catalog-declared kind; a blank or unrecognised one falls back to the URL.
+                mediaKind = classifier.resolve(entry.mediaKind, entry.url),
+                sourceOrigin = "CATALOG",
+                sortIndex = 0,
+                addedAt = now,
+                category = facets.category.ifBlank { null },
+                topic = facets.topic.ifBlank { null },
+                language = facets.language.ifBlank { null },
+                country = facets.country.ifBlank { null },
+                // S1117: carry the region-restriction flag ("geo") so the list can badge it; blank -> null.
+                access = entry.access.ifBlank { null }
+            )
+        }
+
+        val merge = try {
+            repository.mergeCatalog(sources)
+        } catch (e: Exception) {
+            e.rethrowIfCancellation()
+            Timber.w(e, "Stream catalog import failed: %s", "merge")
+            return@withContext CatalogImportResult.Failure(e.message ?: "merge error")
+        }
+
+        // S2669: after the merge, because a membership row names a url that is only meaningful once the
+        // bank carrying it is in place. Non-fatal by design, like the atlas above it: a collections
+        // payload that fails to parse or to store must not cost the user the bank that imported fine.
+        applyCollections(payload.collectionsJson)
+
+        recordInstalledStamp(payload.stamp)
+
+        Timber.i("Stream catalog import done: +%d ~%d -%d", merge.added, merge.updated, merge.removed)
+        CatalogImportResult.Success(
+            added = merge.added,
+            updated = merge.updated,
+            removed = merge.removed
+        )
+    }
+
+    /**
+     * S2669: replaces the stored curated collections from the archive's `collections.json`.
+     *
+     * A null argument means the archive carried no such entry, which leaves the stored set ALONE rather
+     * than clearing it - an already-released archive has no entry, and clearing on its absence would
+     * empty the strip on every import from an older publication. To clear, the publisher ships the
+     * entry with an empty `collections` array. A refused entry (STREAM-BANK 2.4 SB-A7: unknown
+     * `schemaVersion`, malformed JSON) keeps the stored set for the same reason.
+     */
+    private suspend fun applyCollections(json: String?) {
+        if (json == null) return
+        try {
+            val parsed = collectionsParser.parse(json)
+            if (parsed.refused) {
+                Timber.w("Stream catalog import: collections entry refused; the stored set is kept")
+                return
+            }
+            collectionRepository.replaceAll(parsed)
+        } catch (e: Exception) {
+            e.rethrowIfCancellation()
+            Timber.w(e, "Stream catalog import: collections could not be stored; the bank is unaffected")
+        }
+    }
+
+    /**
+     * S4459: remembers which published archive this import installed, so the Streams banner offers an
+     * update only for a different one. Non-fatal by design: the rows are already merged, and a failed
+     * write costs one repeated offer at worst. A null stamp (the response carried no usable header)
+     * clears the stored one rather than leaving it vouching for content that has just been replaced.
+     */
+    private suspend fun recordInstalledStamp(stamp: String?) {
+        try {
+            sessionStore.writeCatalogInstalledStamp(stamp)
+        } catch (e: Exception) {
+            e.rethrowIfCancellation()
+            Timber.w(e, "Stream catalog import: installed stamp could not be stored; the bank is unaffected")
+        }
+    }
+
+    /**
+     * Downloads the catalog zip and returns its [CatalogPayload] (CSV text + optional atlas PNG), or
+     * null when the archive has no usable CSV. The zip is consumed in a SINGLE pass capturing both
+     * entries; per-entry reads are capped to guard against a malformed/oversized zip. A 404 during the
+     * publish window is retried through [StreamBankFetchRetry] before it becomes a failure.
+     */
+    private suspend fun downloadCatalog(): CatalogPayload? {
+        val request = Request.Builder().url(CATALOG_URL).build()
+        // Derive a client that keeps the shared pool/dispatcher and 10s connect/read/write timeouts
+        // but adds the overall call deadline the shared client lacks, so a slow-trickle host (one that
+        // resets the read timeout on each tiny chunk) cannot hold the import coroutine indefinitely.
+        val client = okHttpClient.newBuilder()
+            .callTimeout(CATALOG_CALL_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+            .build()
+        val outcome = StreamBankFetchRetry.fetch(
+            onRetry = { attempt -> Timber.i("Stream catalog import: HTTP 404 on attempt %d, retrying", attempt) }
+        ) {
+            client.newCall(request).execute().use { response ->
+                if (response.isSuccessful) {
+                    val stream = response.body?.byteStream() ?: error("empty response body")
+                    // S4459: taken from this very response, so the stored stamp describes the bytes that
+                    // were merged and not whatever the mirror serves a moment later.
+                    val stamp = PublishedStreamCatalog.stampOf(
+                        etag = response.header("ETag"),
+                        lastModified = response.header("Last-Modified"),
+                    )
+                    StreamBankFetchRetry.Attempt.Done(extractCatalog(stream)?.copy(stamp = stamp))
+                } else {
+                    StreamBankFetchRetry.Attempt.HttpStatus(response.code)
+                }
+            }
+        }
+        return when (outcome) {
+            is StreamBankFetchRetry.Attempt.Done -> outcome.value
+            is StreamBankFetchRetry.Attempt.HttpStatus -> error("HTTP ${outcome.code}")
+        }
+    }
+
+    /**
+     * S0668: walks the catalog zip ONCE, capturing the CSV text AND the atlas PNG bytes. The
+     * PNG-extraction branch is ADDITIVE (compat invariant): every non-matched entry is still skipped via
+     * `closeEntry()`, the CSV is still read via [readCappedUtf8], and an OLD catalog with no atlas entry
+     * yields `atlasPng == null` with the CSV intact. Because the publish step packs the CSV FIRST, the
+     * walk does NOT early-return on the CSV match (that would skip a later PNG entry) - both locals are
+     * captured and the payload is built after the walk. `internal` so the extraction is unit-testable
+     * from an in-memory zip without the network.
+     */
+    internal suspend fun extractCatalog(stream: java.io.InputStream): CatalogPayload? {
+        ZipInputStream(stream).use { zip ->
+            var streamsCsv: String? = null
+            var fallbackCsv: String? = null
+            var atlasPng: ByteArray? = null
+            var collectionsJson: String? = null
+            var entry = zip.nextEntry
+            while (entry != null) {
+                val name = entry.name.lowercase()
+                when {
+                    entry.isDirectory -> Unit
+                    // S2669: matched before the .csv branch so the walk's behaviour for every other
+                    // entry is untouched. Its own cap, because a collections payload is neither a bank
+                    // nor an atlas and borrowing either number would misreport what was refused.
+                    name.endsWith(COLLECTIONS_ENTRY) -> {
+                        collectionsJson = readCappedBytes(zip, MAX_COLLECTIONS_BYTES)
+                            ?.toString(Charsets.UTF_8)
+                    }
+                    name.endsWith(".csv") -> {
+                        val text = readCappedUtf8(zip)
+                        if (name.endsWith("streams.csv")) {
+                            streamsCsv = text
+                        } else if (fallbackCsv == null) fallbackCsv = text
+                    }
+                    name.endsWith("favicon-atlas.png") -> {
+                        // Over-cap atlas -> drop the atlas, KEEP the CSV (favicons just stay absent).
+                        atlasPng = readCappedBytes(zip, MAX_ATLAS_BYTES)
+                    }
+                    // Any other entry is skipped, exactly as today (skip-unknown preserved).
+                }
+                zip.closeEntry()
+                entry = zip.nextEntry
+            }
+            val csv = streamsCsv ?: fallbackCsv ?: return null
+            return CatalogPayload(csv = csv, atlasPng = atlasPng, collectionsJson = collectionsJson)
+        }
+    }
+
+    /**
+     * Reads the current zip entry as UTF-8. S1820: an over-cap CSV THROWS rather than returning null.
+     * Returning null here collapsed into the same `Empty` result as an archive holding no CSV at all,
+     * so the day the bank outgrew the cap every user would have seen "catalog is empty" with nothing in
+     * the log to tell the two apart. The throw is caught by the `downloadCatalog()` caller and reported
+     * as a Failure naming the cap. The atlas path deliberately keeps the null tolerance - there
+     * over-cap means "drop the atlas, keep the CSV" (S0668).
+     */
+    private suspend fun readCappedUtf8(zip: ZipInputStream): String {
+        val bytes = readCappedBytes(zip, MAX_CSV_BYTES)
+            ?: error("catalog CSV exceeds the ${MAX_CSV_BYTES / BYTES_PER_MIB} MiB cap")
+        return String(bytes, Charsets.UTF_8)
+    }
+
+    /** Reads the current zip entry's bytes, returning null if they exceed [cap]. */
+    private suspend fun readCappedBytes(zip: ZipInputStream, cap: Int): ByteArray? {
+        val buffer = ByteArray(8 * 1024)
+        val out = java.io.ByteArrayOutputStream()
+        var total = 0
+        while (true) {
+            // The read blocks, so a cancelled import would otherwise keep pulling up to the whole cap
+            // (or until the call deadline) before anything noticed.
+            currentCoroutineContext().ensureActive()
+            val read = zip.read(buffer)
+            if (read == -1) break
+            total += read
+            if (total > cap) return null
+            out.write(buffer, 0, read)
+        }
+        return out.toByteArray()
+    }
+
+    /** S0668: the two things extracted from the catalog zip - the CSV text and an optional atlas PNG. */
+    internal data class CatalogPayload(
+        val csv: String,
+        val atlasPng: ByteArray?,
+        /** S2669: text of the `collections.json` entry, null when the archive did not carry one. */
+        val collectionsJson: String? = null,
+        /** S4459: publication stamp of the archive this payload came from; null when the response had none. */
+        val stamp: String? = null
+    )
+
+    sealed interface CatalogImportResult {
+        data class Success(val added: Int, val updated: Int, val removed: Int) : CatalogImportResult
+        data object Empty : CatalogImportResult
+        data class Failure(val reason: String) : CatalogImportResult
+    }
+
+    private companion object {
+        // S2652: shared with the size probe that renders the Extensions row, so the number shown
+        // before the download always describes the asset this import fetches.
+        const val CATALOG_URL = DeliveryAssets.STREAM_CATALOG_URL
+
+        const val BYTES_PER_MIB = 1024 * 1024
+
+        // S1820: raised from 8 MiB. Measured 2026-08-19, the published streams.csv is 5.83 MB across
+        // 19534 rows, up from 2691 rows a month earlier - the old cap left 1.4x headroom against
+        // sevenfold monthly growth, so the bank would have outgrown it silently. Re-derive this from a
+        // fresh measurement of the published asset, not from memory, when it next needs review.
+        const val MAX_CSV_BYTES = 32 * BYTES_PER_MIB
+
+        // S0668: atlas cap, separate from the CSV cap. A 16-col grid of 32 px tiles for a partial-coverage
+        // catalog compresses well under this; over-cap drops the atlas but keeps the CSV.
+        const val MAX_ATLAS_BYTES = 30 * 1024 * 1024
+
+        // S2669: the collections payload names urls the bank already carries, so it is bounded by the
+        // bank's own size rather than by an atlas's. 8 MiB holds every url of the current 19k-row bank
+        // several times over; over-cap drops the collections and keeps the bank, like the atlas does.
+        const val MAX_COLLECTIONS_BYTES = 8 * BYTES_PER_MIB
+
+        /** The archive entry name fixed by the delivery contract; deliberately not a `.csv`. */
+        const val COLLECTIONS_ENTRY = "collections.json"
+
+        // Hard ceiling on the whole catalog fetch (DNS + connect + write + zip body read). S1820 raised
+        // it from 30 s: the published zip is 7.31 MB, which 30 s demanded be pulled at ~250 KB/s with no
+        // dip, so an ordinary mobile link failed the whole import with no resume and no partial apply.
+        // 180 s drops the required floor to ~42 KB/s. The ceiling stays finite on purpose - see the
+        // downloadCatalog KDoc: a host that trickles bytes resets the read timeout on every chunk and
+        // would otherwise hold the import coroutine forever. (The comment here used to claim it mirrored
+        // di/LinkDownloadModule.kt; that client has had callTimeout(0) since S1139, so the claim had been
+        // false and pointed the wrong way.)
+        const val CATALOG_CALL_TIMEOUT_SECONDS = 180L
+    }
+}

@@ -1,0 +1,134 @@
+> Task :build-logic:convention:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :build-logic:convention:compileKotlin UP-TO-DATE
+> Task :build-logic:convention:compileJava NO-SOURCE
+> Task :build-logic:convention:pluginDescriptors UP-TO-DATE
+> Task :build-logic:convention:processResources UP-TO-DATE
+> Task :build-logic:convention:classes UP-TO-DATE
+> Task :build-logic:convention:jar UP-TO-DATE
+
+> Configure project :phone
+WARNING: The option setting 'android.disallowKotlinSourceSets=false' is experimental.
+The current default is 'true'.
+[streamsplayer] :phone 2.61.0020.000 (261002000) from the sentinel
+
+> Configure project :watchface
+[streamsplayer] :watchface 2.61.0020.000 (261002000) from the sentinel
+WARNING: BuildType 'debug' is both debuggable and has 'isMinifyEnabled' set to true.
+All code optimizations and obfuscation are disabled for debuggable builds.
+
+> Configure project :wear
+[streamsplayer] :wear 2.61.0020.000 (261002006) from the sentinel
+
+> Task :phone:preBuild UP-TO-DATE
+> Task :phone:preStoreDebugBuild UP-TO-DATE
+> Task :build-logic:convention:compileTestKotlin UP-TO-DATE
+> Task :build-logic:convention:compileTestJava NO-SOURCE
+> Task :build-logic:convention:pluginUnderTestMetadata UP-TO-DATE
+> Task :build-logic:convention:processTestResources NO-SOURCE
+> Task :build-logic:convention:testClasses UP-TO-DATE
+> Task :build-logic:convention:test UP-TO-DATE
+> Task :phone:dataBindingMergeDependencyArtifactsStoreDebug UP-TO-DATE
+> Task :phone:generateStoreDebugResources UP-TO-DATE
+> Task :phone:mergeStoreDebugResources UP-TO-DATE
+> Task :phone:packageStoreDebugResources UP-TO-DATE
+> Task :phone:processStoreDebugNavigationResources UP-TO-DATE
+> Task :phone:parseStoreDebugLocalResources UP-TO-DATE
+> Task :phone:dataBindingGenBaseClassesStoreDebug UP-TO-DATE
+> Task :phone:generateStoreDebugBuildConfig UP-TO-DATE
+> Task :phone:generateStoreDebugRFile UP-TO-DATE
+> Task :phone:javaPreCompileStoreDebug UP-TO-DATE
+> Task :phone:checkStoreDebugAarMetadata UP-TO-DATE
+> Task :phone:mapStoreDebugSourceSetPaths UP-TO-DATE
+> Task :phone:compileStoreDebugNavigationResources UP-TO-DATE
+> Task :phone:createStoreDebugCompatibleScreenManifests UP-TO-DATE
+> Task :phone:extractDeepLinksStoreDebug UP-TO-DATE
+> Task :phone:processStoreDebugMainManifest UP-TO-DATE
+> Task :phone:processStoreDebugManifest UP-TO-DATE
+> Task :phone:processStoreDebugManifestForPackage UP-TO-DATE
+> Task :phone:processStoreDebugResources UP-TO-DATE
+> Task :phone:generateStoreDebugAssets UP-TO-DATE
+> Task :phone:mergeStoreDebugAssets UP-TO-DATE
+> Task :phone:preStoreDebugUnitTestBuild UP-TO-DATE
+> Task :phone:packageStoreDebugUnitTestForUnitTest UP-TO-DATE
+> Task :phone:processStoreDebugUnitTestManifest UP-TO-DATE
+> Task :phone:generateStoreDebugUnitTestConfig UP-TO-DATE
+> Task :phone:javaPreCompileStoreDebugUnitTest UP-TO-DATE
+> Task :phone:preNoLegalDebugBuild UP-TO-DATE
+> Task :phone:dataBindingMergeDependencyArtifactsNoLegalDebug UP-TO-DATE
+> Task :phone:generateNoLegalDebugResources UP-TO-DATE
+> Task :phone:mergeNoLegalDebugResources UP-TO-DATE
+> Task :phone:packageNoLegalDebugResources UP-TO-DATE
+> Task :phone:processNoLegalDebugNavigationResources UP-TO-DATE
+> Task :phone:parseNoLegalDebugLocalResources UP-TO-DATE
+> Task :phone:dataBindingGenBaseClassesNoLegalDebug UP-TO-DATE
+> Task :phone:generateNoLegalDebugBuildConfig UP-TO-DATE
+> Task :phone:generateNoLegalDebugRFile UP-TO-DATE
+> Task :phone:javaPreCompileNoLegalDebug UP-TO-DATE
+> Task :phone:checkNoLegalDebugAarMetadata UP-TO-DATE
+> Task :phone:mapNoLegalDebugSourceSetPaths UP-TO-DATE
+> Task :phone:compileNoLegalDebugNavigationResources UP-TO-DATE
+> Task :phone:createNoLegalDebugCompatibleScreenManifests UP-TO-DATE
+> Task :phone:extractDeepLinksNoLegalDebug UP-TO-DATE
+> Task :phone:processNoLegalDebugMainManifest UP-TO-DATE
+> Task :phone:processNoLegalDebugManifest UP-TO-DATE
+> Task :phone:processNoLegalDebugManifestForPackage UP-TO-DATE
+> Task :phone:processNoLegalDebugResources UP-TO-DATE
+> Task :phone:generateNoLegalDebugAssets UP-TO-DATE
+> Task :phone:mergeNoLegalDebugAssets UP-TO-DATE
+> Task :phone:preNoLegalDebugUnitTestBuild UP-TO-DATE
+> Task :phone:packageNoLegalDebugUnitTestForUnitTest UP-TO-DATE
+> Task :phone:processNoLegalDebugUnitTestManifest UP-TO-DATE
+> Task :phone:generateNoLegalDebugUnitTestConfig UP-TO-DATE
+> Task :phone:javaPreCompileNoLegalDebugUnitTest UP-TO-DATE
+> Task :phone:kspStoreDebugKotlin
+> Task :phone:kspNoLegalDebugKotlin
+> Task :phone:compileStoreDebugKotlin
+> Task :phone:compileNoLegalDebugKotlin
+> Task :phone:compileStoreDebugJavaWithJavac
+> Task :phone:hiltSyncStoreDebug
+> Task :phone:hiltAggregateDepsStoreDebug UP-TO-DATE
+> Task :phone:hiltJavaCompileStoreDebug
+> Task :phone:processStoreDebugJavaRes UP-TO-DATE
+> Task :phone:transformStoreDebugClassesWithAsm
+> Task :phone:bundleStoreDebugClassesToCompileJar
+> Task :phone:compileNoLegalDebugJavaWithJavac
+> Task :phone:bundleStoreDebugClassesToRuntimeJar
+> Task :phone:hiltSyncNoLegalDebug
+> Task :phone:kspStoreDebugUnitTestKotlin
+> Task :phone:hiltAggregateDepsNoLegalDebug UP-TO-DATE
+> Task :phone:compileStoreDebugUnitTestKotlin
+> Task :phone:hiltJavaCompileNoLegalDebug
+> Task :phone:processStoreDebugUnitTestJavaRes UP-TO-DATE
+> Task :phone:compileStoreDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :phone:hiltSyncStoreDebugUnitTest
+> Task :phone:hiltAggregateDepsStoreDebugUnitTest UP-TO-DATE
+> Task :phone:hiltJavaCompileStoreDebugUnitTest NO-SOURCE
+> Task :phone:processNoLegalDebugJavaRes UP-TO-DATE
+> Task :phone:bundleNoLegalDebugClassesToCompileJar
+> Task :phone:transformStoreDebugUnitTestClassesWithAsm
+> Task :phone:transformNoLegalDebugClassesWithAsm
+> Task :phone:kspNoLegalDebugUnitTestKotlin
+Java HotSpot(TM) 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+Java HotSpot(TM) 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+> Task :phone:testStoreDebugUnitTest
+
+Java HotSpot(TM) 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+Java HotSpot(TM) 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+
+> Task :phone:bundleNoLegalDebugClassesToRuntimeJar
+> Task :phone:compileNoLegalDebugUnitTestKotlin
+> Task :phone:processNoLegalDebugUnitTestJavaRes
+> Task :phone:compileNoLegalDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :phone:hiltSyncNoLegalDebugUnitTest
+> Task :phone:hiltAggregateDepsNoLegalDebugUnitTest UP-TO-DATE
+> Task :phone:hiltJavaCompileNoLegalDebugUnitTest NO-SOURCE
+> Task :phone:transformNoLegalDebugUnitTestClassesWithAsm
+Java HotSpot(TM) 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+Java HotSpot(TM) 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+> Task :phone:testNoLegalDebugUnitTest
+
+Java HotSpot(TM) 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+Java HotSpot(TM) 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+
+BUILD SUCCESSFUL in 3m 25s
+89 actionable tasks: 27 executed, 62 up-to-date

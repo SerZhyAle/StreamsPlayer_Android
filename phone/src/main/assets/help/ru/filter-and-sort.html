@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="ru" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="light dark">
+<title>Справка - Фильтр и сортировка</title>
+<link rel="stylesheet" href="../help.css">
+</head>
+<body class="help">
+<main class="container">
+<nav class="help-crumbs" aria-label="Оглавление справки">
+<a href="index.html">Оглавление справки</a><span class="sep" aria-hidden="true">/</span><span>Фильтр и сортировка</span>
+</nav>
+<header class="hero">
+<h1>Фильтр и сортировка</h1>
+</header>
+<h2>Для чего этот экран</h2>
+<p class="lead">Сузьте длинный список до нужных станций и выберите порядок. Лист открывается поверх главного экрана, а список меняется, когда вы нажимаете «Применить».</p>
+<figure class="shot">
+<img class="on-light" src="../img/filter-and-sort-ru-light.jpg" alt="Снимок экрана: Фильтр и сортировка">
+<img class="on-dark" src="../img/filter-and-sort-ru-dark.jpg" alt="Снимок экрана: Фильтр и сортировка">
+<figcaption>Демонстрационные данные. Номера совпадают с элементами в списке ниже.</figcaption>
+</figure>
+<h2>Порядок действий</h2>
+<ol class="order">
+<li>Выберите коллекцию <a class="ref" href="#collection">1</a>, если нужна готовая группа каналов.</li>
+<li>Сузьте список по категории <a class="ref" href="#category">2</a>, языку <a class="ref" href="#language">3</a> и стране <a class="ref" href="#country">4</a>. В каждом списке только значения, которые есть в ваших каналах.</li>
+<li>Выберите порядок в поле «Сортировка» <a class="ref" href="#sort">5</a>.</li>
+<li>Отметьте «Только закреплённые» <a class="ref" href="#pinned-only">6</a>, чтобы видеть лишь закреплённые каналы.</li>
+<li>Нажмите «Применить» <a class="ref" href="#apply">8</a>. Чтобы начать заново, нажмите «Сбросить фильтры» <a class="ref" href="#clear">7</a>.</li>
+</ol>
+<h2>Элементы</h2>
+<div class="elements">
+<details class="el" id="collection">
+<summary><span class="mk">1</span><span><span class="name">Коллекции</span><span class="one">Готовая группа каналов.</span></span></summary>
+<div class="full">
+<p>Выберите одну коллекцию, чтобы видеть только её каналы, или «Все коллекции», чтобы видеть все.</p>
+<dl class="facts">
+<dt>Отмена</dt><dd>Выберите «Все коллекции».</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="category">
+<summary><span class="mk">2</span><span><span class="name">Категория</span><span class="one">Вид передач.</span></span></summary>
+<div class="full">
+<p>Музыка, новости, разговорные и так далее, как их называет каталог каналов. «Все» оставляет все категории.</p>
+<dl class="facts">
+<dt>Отмена</dt><dd>Выберите «Все».</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="language">
+<summary><span class="mk">3</span><span><span class="name">Язык</span><span class="one">Язык канала.</span></span></summary>
+<div class="full">
+<p>Показывает только каналы на выбранном языке. «Все» оставляет все языки.</p>
+<dl class="facts">
+<dt>Отмена</dt><dd>Выберите «Все».</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="country">
+<summary><span class="mk">4</span><span><span class="name">Страна</span><span class="one">Откуда канал.</span></span></summary>
+<div class="full">
+<p>Показывает только каналы выбранной страны. «Все» оставляет все страны.</p>
+<dl class="facts">
+<dt>Отмена</dt><dd>Выберите «Все».</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="sort">
+<summary><span class="mk">5</span><span><span class="name">Сортировка</span><span class="one">Порядок списка.</span></span></summary>
+<div class="full">
+<p>По названию, теме, языку или стране либо с недавно воспроизведённых или добавленных каналов. Порядок действует ниже закреплённых каналов: они всегда остаются вверху.</p>
+<dl class="facts">
+<dt>Отмена</dt><dd>Выберите другой порядок и нажмите «Применить».</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="pinned-only">
+<summary><span class="mk">6</span><span><span class="name">Только закреплённые</span><span class="one">Только закреплённые вами каналы.</span></span></summary>
+<div class="full">
+<p>Быстрый путь к любимым. Закреплённые каналы и так стоят вверху списка; эта отметка скрывает остальные.</p>
+<dl class="facts">
+<dt>Отмена</dt><dd>Снимите отметку и нажмите «Применить».</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="clear">
+<summary><span class="mk">7</span><span><span class="name">Сбросить фильтры</span><span class="one">Убирает все фильтры и закрывает лист.</span></span></summary>
+<div class="full">
+<p>Список возвращается ко всем каналам в последнем выбранном порядке. Текст поиска тоже очищается.</p>
+<dl class="facts">
+<dt>Отмена</dt><dd>Откройте лист и задайте фильтры снова.</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="apply">
+<summary><span class="mk">8</span><span><span class="name">Применить</span><span class="one">Показывает настроенный список.</span></span></summary>
+<div class="full">
+<p>Применяет коллекцию, категорию, язык, страну, порядок и отметку закреплённых вместе и закрывает лист. Строка над списком называет то, что включено.</p>
+</div>
+</details>
+<details class="el" id="help">
+<summary><span class="mk">9</span><span><span class="name">Справка</span><span class="one">Открывает эту страницу.</span></span></summary>
+<div class="full">
+<p>Лист остаётся открытым под страницей; «Назад» возвращает к нему.</p>
+<dl class="facts">
+<dt>Сочетание клавиш</dt><dd><kbd>F1</kbd></dd>
+</dl>
+</div>
+</details>
+</div>
+<h2>Связанное</h2>
+<ul class="related">
+<li><a href="catalog.html"><b>StreamsPlayer</b><span class="pill">Экран</span></a></li>
+<li><a href="edit-channel.html"><b>Добавить канал</b><span class="pill">Экран</span></a></li>
+<li><a href="index.html"><b>Оглавление справки</b></a></li>
+</ul>
+<footer class="help-foot">
+<span>StreamsPlayer 2.61.0282.350, 2026-10-29</span>
+<a href="index.html">Оглавление справки</a>
+<a href="https://github.com/SerZhyAle/StreamsPlayer_Android/issues">Задать вопрос или сообщить о проблеме</a>
+</footer>
+</main>
+</body>
+</html>

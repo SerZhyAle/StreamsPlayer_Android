@@ -1,6 +1,54 @@
-# Release ready - finished content of each package
-
-Implemented, Verified and BlockNeedUserTest tickets, moved here from RELEASE_QUEUE.md by the harness.
-
 1
 S0001_canon-adoption-and-ticket-store                          26-10-02 13:11  Verified
+S0002_gradle-skeleton                                          26-10-10 11:55  Verified
+S0005_fullscreen-player                                        26-10-10 01:53  Implemented
+S0006_phone-live-broadcast                                     26-10-10 02:54  Implemented
+S0007_wear-app-and-pairing                                     26-10-10 04:37  BlockNeedUserTest
+S0008_watch-face                                               26-10-10 12:02  Implemented
+S0009_optional-widgets-and-m3u                                 26-10-10 12:59  Implemented
+S0010_release-pipeline-dry-run                                 26-10-10 13:11  Implemented
+S0011_android-product-model                                    26-10-10 14:52  Verified
+S0012_windows-only-stream-features                             26-10-10 15:55  Implemented
+S0003_stream-core-port                                         26-10-10 16:35  Verified
+S0004_phone-shell                                              26-10-10 21:00  BlockNeedUserTest
+S0015_ticket-path-hygiene                                      26-10-10 21:30  Verified
+S0013_contract-sync-2026-10-07                                 26-10-23 11:49  Verified
+S0026_contract-sync-2026-10-12                                 26-10-25 12:10  Implemented
+S0036_unified-ui-contracts                                     26-10-26 17:15  Verified
+S0037_contract-sync-20261017                                   26-10-27 14:40  Implemented
+S0041_contract-sync-2026-10-25                                 26-10-27 16:04  Implemented
+S0038_own-streams-unified-device-broadcasts                    26-10-28 23:40  BlockNeedUserTest
+S0056_fast-checks-only-between-releases                        26-10-29 01:52  Verified
+S0054_dark-theme-secondary-text                                26-10-29 20:45  Implemented
+S0055_help-css-old-webview                                     26-10-29 20:53  BlockNeedUserTest
+S0057_contract-sync-2026-10-29                                 26-10-29 23:57  Implemented
+S0058_change-password-dialog-server-address                    26-10-30 00:03  Implemented
+S0060_help-gate-check-verdict-014-baseline-012                 26-10-30 00:15  Implemented
+S0061_privacy-page-footer-links                                26-10-30 00:22  Implemented
+S0033_store-privacy-and-data-safety                            26-11-08 05:34  BlockNeedUserTest
+S0039_exchange-server-mark                                     26-11-08 06:22  Implemented
+S0063_release-sweep-site-check                                 26-11-08 07:38  Implemented
+S0051_documentation-quality-gates                              26-11-08 16:15  Implemented
+S0062_google-play-policy-oct-2026                              26-11-08 16:26  Implemented
+S0065_wear-catalog-publish-window-retry                        26-11-08 16:45  Implemented
+S0049_unified-ui-wiring-and-evidence                           26-11-08 17:50  BlockNeedUserTest
+S0068_stream-catalog-update-offer-stamp                        26-11-10 20:58  BlockNeedUserTest
+S0069_watch-broadcast-on-server-by-itself                      26-11-10 21:15  BlockNeedUserTest
+S0035_in-app-help-f1-and-help-button                           26-11-12 01:25  BlockNeedUserTest
+S0064_settings-channel-pictures-control                        26-11-13 06:31  BlockNeedUserTest
+S0070_catalog-search-stale-list                                26-11-13 06:43  Implemented
+S0071_widget-picker-search-stale-list                          26-11-13 06:49  Implemented        [taken 06:45, run-spec-queue pq1, 43d699a8]
+--
+S0016_exchange-client-base                                     26-10-11 01:39  Implemented
+S0018_exchange-account-entries                                 26-10-11 03:04  Implemented
+S0019_exchange-quick-join                                      26-10-11 03:10  Implemented
+S0017_exchange-connection-string-codec                         26-10-23 14:47  Implemented
+S0023_qr-scanner                                               26-10-23 20:22  BlockNeedUserTest
+S0020_exchange-receiver-playback-and-cast                      26-10-27 11:39  BlockNeedUserTest
+S0022_exchange-watch-device                                    26-10-27 11:42  BlockNeedUserTest
+S0030_exchange-terms-names-portal-links                        26-10-27 11:43  BlockNeedUserTest
+S0034_contract-sync-release-46                                 26-10-27 11:43  BlockNeedUserTest
+S0029_drive-broadcast-announcements                            26-10-27 11:43  BlockNeedUserTest
+S0027_exchange-sign-in-only-account                            26-10-29 20:07  BlockNeedUserTest
+S0021_exchange-broadcaster-publish                             26-11-10 19:29  BlockNeedUserTest
+S0031_exchange-connection-diagnosis                            26-11-11 17:55  Implemented

@@ -1,0 +1,801 @@
+package com.sza.streamsplayer.broadcast
+
+import android.Manifest
+import android.app.Service
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.content.pm.ServiceInfo
+import android.os.Build
+import android.os.IBinder
+import android.os.SystemClock
+import androidx.annotation.RequiresApi
+import androidx.core.app.ServiceCompat
+import androidx.core.content.ContextCompat
+import com.pedro.common.ConnectChecker
+import com.pedro.encoder.input.audio.CustomAudioEffect
+import com.pedro.encoder.input.video.CameraOpenException
+import com.pedro.rtspserver.RtspServerCamera2
+import com.pedro.rtspserver.server.ClientListener
+import com.pedro.rtspserver.server.IpType
+import com.pedro.rtspserver.server.ServerClient
+import com.pedro.rtspserver.util.RtspServerStreamClient
+import com.sza.streamsplayer.R
+import com.sza.streamsplayer.core.network.LanAddressResolver
+import com.sza.streamsplayer.core.notification.NotificationIds
+import com.sza.streamsplayer.data.broadcast.BroadcastDescriptorDto
+import com.sza.streamsplayer.data.broadcast.BroadcastEndpointDto
+import com.sza.streamsplayer.data.broadcast.auth.BroadcastCredentialRegistry
+import com.sza.streamsplayer.data.broadcast.auth.BroadcastLinkChoice
+import com.sza.streamsplayer.data.exchange.OutgoingExchangeEntry
+import com.sza.streamsplayer.data.exchange.drive.DriveBroadcastAnnouncer
+import com.sza.streamsplayer.data.exchange.publish.BroadcastExchangePublisher
+import com.sza.streamsplayer.data.repository.settings.BroadcastSettingsStore
+import com.sza.streamsplayer.domain.repository.SettingsRepository
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import timber.log.Timber
+import java.util.UUID
+import java.util.concurrent.atomic.AtomicBoolean
+import javax.inject.Inject
+
+@Suppress("MagicNumber", "TooManyFunctions")
+@AndroidEntryPoint
+class VideoBroadcastService : Service(), ConnectChecker, ClientListener {
+
+    @Inject
+    lateinit var settingsRepository: SettingsRepository
+
+    @Inject
+    lateinit var exchangePublisher: BroadcastExchangePublisher
+
+    @Inject
+    lateinit var driveAnnouncer: DriveBroadcastAnnouncer
+
+    @Inject
+    lateinit var credentialRegistry: BroadcastCredentialRegistry
+
+    @Inject
+    lateinit var outgoingEntry: OutgoingExchangeEntry
+
+    @Volatile
+    private var rtspGate: RtspGatedPort? = null
+
+    @Inject
+    lateinit var previewProvider: BroadcastPreviewProvider
+
+    private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+
+    private val publication by lazy { OutgoingEntryPublication(serviceScope, outgoingEntry.server, exchangePublisher) }
+
+    @Volatile
+    private var cameraServer: RtspServerCamera2? = null
+
+    private val isStreaming = AtomicBoolean(false)
+
+    // Written by onStartCommand on the main thread, read and written by openSession() on the IO scope.
+    @Volatile
+    private var currentMode: BroadcastMode = BroadcastMode.VIDEO_AUDIO
+
+    @Volatile
+    private var currentMicEnabled = true
+
+    @Volatile
+    private var pendingLensId: String? = null
+
+    @Volatile
+    private var activePhysicalId: String? = null
+
+    // The transport-stream feed of the relay upload (S0021 scope 5); null while no camera session is open.
+    @Volatile
+    private var relayTap: VideoRelayTap? = null
+
+    override fun onBind(intent: Intent?): IBinder? = null
+
+    @Suppress("ReturnCount")
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        when (intent?.action) {
+            ACTION_STOP -> {
+                stopBroadcast()
+                stopSelf()
+                return START_NOT_STICKY
+            }
+            ACTION_TOGGLE_MIC -> {
+                toggleMicInternal()
+                return START_STICKY
+            }
+            ACTION_SELECT_LENS -> {
+                intent.getStringExtra(EXTRA_LENS_ID)?.let(::selectLensInternal)
+                return START_STICKY
+            }
+            ACTION_TOGGLE_CAMERA -> {
+                toggleCameraInternal()
+                return START_STICKY
+            }
+            ACTION_SWITCH_MODE -> {
+                switchModeInternal(intent)
+                return START_STICKY
+            }
+        }
+
+        val modeName = intent?.getStringExtra(EXTRA_MODE)
+        currentMode = modeName?.let { runCatching { BroadcastMode.valueOf(it) }.getOrNull() }
+            ?: BroadcastMode.VIDEO_AUDIO
+        pendingLensId = intent?.getStringExtra(EXTRA_LENS_ID)
+
+        val missingCamera = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) !=
+            PackageManager.PERMISSION_GRANTED
+        // VIDEO_ONLY never opens the microphone, and the entry screen does not ask for it in that mode.
+        val missingAudio = currentMode != BroadcastMode.VIDEO_ONLY &&
+            ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) !=
+            PackageManager.PERMISSION_GRANTED
+
+        // Reachable only if a grant was revoked between the companion's check and this callback: a typed
+        // foreground start without its permission is refused by Android 14, so this branch cannot keep
+        // the startForegroundService() promise and the promise is refused before it is made (S3267).
+        if (missingCamera || missingAudio) {
+            Timber.w(
+                "VideoBroadcastService: permissions missing (camera: %b, audio: %b)",
+                missingCamera,
+                missingAudio,
+            )
+            _state.value = BroadcastState.Failed(
+                BroadcastFailure.MICROPHONE_PERMISSION,
+                "Camera or Microphone permission missing"
+            )
+            stopSelf()
+            return START_NOT_STICKY
+        }
+
+        // Before the reentrancy guard and before the asynchronous session work (S3267).
+        if (!enterForeground()) {
+            _state.value = BroadcastState.Failed(
+                BroadcastFailure.MICROPHONE_PERMISSION,
+                "Microphone permission missing for a video-only session"
+            )
+            stopSelf()
+            return START_NOT_STICKY
+        }
+
+        startBroadcast()
+        return START_STICKY
+    }
+
+    /**
+     * False only when the platform offers this session no legal foreground type at all - the caller
+     * then has nothing to keep and stops, which is the one shape that can still cost the process.
+     * Step 01.2's guard keeps that case out of reach by refusing the start before it is made.
+     */
+    private fun enterForeground(): Boolean {
+        // The stop action must reach this service: the shared factory defaults to the audio service,
+        // which left a video session with no way to stop outside the control screen (S3058 run 1).
+        val notification = BroadcastNotificationFactory.createNotification(
+            context = this,
+            stopIntent = stopIntent(this),
+            titleRes = R.string.broadcast_notification_video_title,
+            textRes = R.string.broadcast_notification_video_text,
+        )
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            startForeground(NotificationIds.PHONE_BROADCAST, notification)
+            return true
+        }
+        val declared = declaredForegroundServiceTypes(this)
+        val type = resolveForegroundType(declared)
+            ?: (declared and ServiceInfo.FOREGROUND_SERVICE_TYPE_CAMERA)
+        val entered = type != 0
+        if (entered) {
+            startForeground(NotificationIds.PHONE_BROADCAST, notification, type)
+        } else {
+            Timber.w("VideoBroadcastService: no foreground type available for this session")
+        }
+        return entered
+    }
+
+    private fun leaveForegroundAndStop() {
+        ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_REMOVE)
+        stopSelf()
+    }
+
+    private fun startBroadcast() {
+        if (!isStreaming.compareAndSet(false, true)) return
+
+        serviceScope.launch { openSession() }
+    }
+
+    @Suppress("ReturnCount", "TooGenericExceptionCaught")
+    private suspend fun openSession() {
+        val config = readSessionConfig()
+        // The settings read suspends, and a stop landing during it must not be followed by a camera open.
+        if (!isStreaming.get()) return
+        val port = config.rtspPort
+        val lanHost = resolveLanHostOrFail() ?: return
+
+        try {
+            // Always headless: the control screen attaches its preview later through BroadcastPreviewProvider,
+            // once its surface exists.
+            val gated = RtspGatedPort(port, credentialRegistry)
+            rtspGate?.close()
+            rtspGate = gated
+            val camera = RtspServerCamera2(this, this, gated.innerPort)
+            if (!prepareEncoders(camera, config)) return
+
+            // Installed before the stream starts: the encoder announces its SPS and PPS once, at its start.
+            // It stays quiet until the broadcast is announced on the outgoing entry.
+            val tap = installRelayTap(camera, config)
+            val streamClient = configureStreamClient(camera)
+            gated.closeLibrary(streamClient)
+            gated.open()
+            val lensId = startStreamOnLens(camera)
+            // Published before the recheck: a stop landing after startStreamOnLens() finds the camera in
+            // the field, and one landing before it is caught here, so the camera cannot outlive the session.
+            if (!isStreaming.get()) {
+                discardStoppedCamera(camera)
+                return
+            }
+            val endpoint = publishableEndpoint(streamClient.getEndPointConnection(), lanHost)
+            val endpointDto = BroadcastEndpointDto(
+                url = endpoint,
+                transport = "RTSP",
+                mode = currentMode.name,
+                videoCodec = "h264",
+                audioCodec = if (currentMode != BroadcastMode.VIDEO_ONLY) "aac" else null,
+                sampleRate = if (currentMode != BroadcastMode.VIDEO_ONLY) config.sampleRateHz else null,
+                bitrate = config.videoBitrateBps,
+                isLive = true,
+                targetLatencyMs = 200L
+            )
+            val dto = BroadcastDescriptorDto(
+                schemaVersion = 1,
+                url = endpoint,
+                title = config.streamTitle,
+                mode = currentMode.name,
+                sourceId = config.sourceDeviceId,
+                endpoints = listOf(endpointDto),
+                isLive = true,
+                targetLatencyMs = 200L
+            )
+
+            currentMicEnabled = currentMode != BroadcastMode.VIDEO_ONLY
+            _state.value = BroadcastState.Live(
+                descriptor = dto,
+                startedAtElapsedRealtimeMs = SystemClock.elapsedRealtime(),
+                cameraEnabled = true,
+                microphoneEnabled = currentMicEnabled,
+                activeLensId = lensId ?: camera.currentCameraId,
+            )
+            Timber.d("VideoBroadcastService: RTSP streaming started at %s", endpoint)
+            // An announced video broadcast lists its LAN, RELAY and TUNNEL endpoints: the relay carries the
+            // MPEG-TS the tap muxes from the same encoder output as the RTSP server, the tunnel bridges to the
+            // RTSP server, which speaks interleaved TCP and takes its base URL from the request.
+            val sessionMode = currentMode
+            publication.bind(
+                session = {
+                    BroadcastExchangePublisher.Session(
+                        mode = sessionMode,
+                        title = config.streamTitle,
+                        sourceId = config.sourceDeviceId,
+                        maxListeners = 0,
+                        localPort = config.rtspPort,
+                        localPath = rtspPathOf(endpoint),
+                        lanEndpoint = { endpointDto },
+                        tunnelPort = { scheme -> if (scheme == "rtsp") config.rtspPort else null },
+                        relayHeader = tap.headerPackets,
+                        onRelayAccepted = { tap.onUploadAccepted() },
+                        // Item BF: the RTSP gate checks the registry's pairs, so the announced broadcast is protected.
+                        linkChoice = BroadcastLinkChoice.Generated,
+                    )
+                },
+                onAnnounce = tap::start,
+                onWithdraw = tap::stop,
+            )
+            if (config.publishToDrive) {
+                // S0029: the announcement in the person's own app folder; the stream never goes through Drive.
+                driveAnnouncer.start(
+                    DriveBroadcastAnnouncer.Session(
+                        mode = currentMode,
+                        title = config.streamTitle,
+                        sourceId = config.sourceDeviceId,
+                        deviceName = BroadcastSettingsStore.defaultDeviceTitle(this),
+                        lanEndpoint = { endpointDto },
+                    )
+                )
+            }
+        } catch (e: Exception) {
+            Timber.e(e, "VideoBroadcastService: failed to start RTSP server")
+            _state.value = BroadcastState.Failed(
+                BroadcastFailure.NETWORK_UNAVAILABLE,
+                e.message ?: "Failed to start RTSP server"
+            )
+            isStreaming.set(false)
+            leaveForegroundAndStop()
+        }
+    }
+
+    /**
+     * Plugs the transport-stream feed of the relay upload into the camera's encoder output. The audio
+     * channel count is the one the encoder is really prepared with (a mono or a stereo track).
+     */
+    private fun installRelayTap(camera: RtspServerCamera2, config: BroadcastSessionConfig): VideoRelayTap {
+        val tap = VideoRelayTap(
+            hasAudio = currentMode != BroadcastMode.VIDEO_ONLY,
+            sampleRateHz = config.sampleRateHz,
+            channelCount = if (config.channelCount >= 2) 2 else 1,
+            sink = { flag, payload -> exchangePublisher.writeChunk(flag, payload) },
+            requestSyncFrame = { camera.requestKeyFrame() },
+        )
+        camera.setRecordController(tap)
+        relayTap = tap
+        return tap
+    }
+
+    /** False after it has already failed the session: the caller only has to return. */
+    private fun prepareEncoders(camera: RtspServerCamera2, config: BroadcastSessionConfig): Boolean {
+        val defaultRotation = 0
+        val videoPrepared = camera.prepareVideo(
+            config.videoWidth,
+            config.videoHeight,
+            config.videoFps,
+            config.videoBitrateBps,
+            defaultRotation
+        )
+        val audioPrepared: Boolean = if (currentMode != BroadcastMode.VIDEO_ONLY) {
+            camera.prepareAudio(config.bitRateBps, config.sampleRateHz, config.channelCount >= 2)
+        } else {
+            true
+        }
+
+        attachAudioEffect(camera, config)
+
+        if (!videoPrepared || !audioPrepared) {
+            Timber.w(
+                "VideoBroadcastService: RtspServerCamera2 prepare failed (video: %b, audio: %b)",
+                videoPrepared,
+                audioPrepared
+            )
+            _state.value = BroadcastState.Failed(
+                BroadcastFailure.ENCODER_UNAVAILABLE,
+                "RtspServerCamera2 prepare failed"
+            )
+            isStreaming.set(false)
+            leaveForegroundAndStop()
+            return false
+        }
+        return true
+    }
+
+    /**
+     * LIVE-BROADCAST producer rule 1: with no LAN address the session never starts, so neither the camera
+     * nor the microphone opens for a descriptor nobody could reach.
+     */
+    private fun resolveLanHostOrFail(): String? {
+        val lanHost = LanAddressResolver(this).resolve()
+        if (lanHost == null) {
+            Timber.w("VideoBroadcastService: no LAN address, session not started")
+            _state.value = BroadcastState.Failed(BroadcastFailure.NETWORK_UNAVAILABLE, "No LAN address")
+            isStreaming.set(false)
+            leaveForegroundAndStop()
+        }
+        return lanHost
+    }
+
+    private fun publishableEndpoint(libraryEndpoint: String, lanHost: String): String =
+        checkNotNull(RtspEndpointAddress.onLanHost(libraryEndpoint, lanHost, rtspGate?.publicPort)) {
+            "RTSP endpoint $libraryEndpoint cannot be published on $lanHost"
+        }
+
+    /** The path of the RTSP endpoint, what a `TUNNEL.inner` keeps when the LAN address is gone. */
+    private fun rtspPathOf(endpoint: String): String = try {
+        java.net.URI(endpoint).let { uri ->
+            uri.rawPath?.takeIf(String::isNotEmpty) ?: "/"
+        }
+    } catch (_: java.net.URISyntaxException) {
+        "/"
+    }
+
+    private fun configureStreamClient(camera: RtspServerCamera2): RtspServerStreamClient {
+        val streamClient = camera.streamClient
+        // The server announces an audio track in the SDP unless told otherwise, and Camera only prepares none.
+        streamClient.setOnlyVideo(currentMode == BroadcastMode.VIDEO_ONLY)
+        // Left on All, the library publishes the first address it meets - an IPv6 one on the test device -
+        // while the audio link of the same phone is IPv4, so one phone handed out two address families.
+        streamClient.forceIpType(IpType.IPv4)
+        // ConnectChecker's success and disconnect callbacks do not fire per RTSP client; the counter stayed at
+        // zero with a listener receiving bytes (device run 2026-09-13).
+        streamClient.setClientListener(this)
+        return streamClient
+    }
+
+    /** Starts the stream on the lens the user picked and returns that lens id, or null for the default camera. */
+    private fun startStreamOnLens(camera: RtspServerCamera2): String? {
+        val lensId = pendingLensId
+        if (lensId != null) {
+            // Headless and not yet streaming, startPreview only records which camera startStream opens.
+            camera.startPreview(BroadcastLensOption.logicalIdOf(lensId))
+        }
+        camera.startStream()
+        cameraServer = camera
+        previewProvider.attachCamera(camera)
+        lensId?.let { BroadcastLensOption.physicalIdOf(it) }?.let { openPhysicalLens(camera, it) }
+        return lensId
+    }
+
+    private suspend fun readSessionConfig(): BroadcastSessionConfig {
+        val settings = settingsRepository.getSettings().first()
+        val broadcast = settings.broadcast
+        val sourceDeviceId = broadcast.sourceDeviceId ?: run {
+            // Re-checked under the transform lock: a concurrent session may have minted the id first.
+            var id = UUID.randomUUID().toString()
+            settingsRepository.updateSettings { current ->
+                val existing = current.broadcast.sourceDeviceId
+                if (existing != null) {
+                    id = existing
+                    current
+                } else {
+                    current.copy(broadcast = current.broadcast.copy(sourceDeviceId = id))
+                }
+            }
+            id
+        }
+        return BroadcastSessionConfig(
+            streamTitle = broadcast.streamTitle.ifBlank { BroadcastSessionConfig.DEFAULT.streamTitle },
+            bitRateBps = broadcast.bitRateBps,
+            port = broadcast.port,
+            sampleRateHz = broadcast.sampleRateHz,
+            channelCount = broadcast.channelCount,
+            sourceDeviceId = sourceDeviceId,
+            micGainPercent = broadcast.micGainPercent,
+            videoWidth = broadcast.videoWidth,
+            videoHeight = broadcast.videoHeight,
+            videoFps = broadcast.videoFps,
+            videoBitrateBps = broadcast.videoBitrateBps,
+            publishToDrive = broadcast.publishVideoToDrive,
+        )
+    }
+
+    private fun toggleMicInternal() {
+        val camera = cameraServer ?: return
+        if (camera.isAudioMuted) {
+            camera.enableAudio()
+            currentMicEnabled = true
+        } else {
+            camera.disableAudio()
+            currentMicEnabled = false
+        }
+        val currentLive = _state.value as? BroadcastState.Live
+        if (currentLive != null) {
+            _state.value = currentLive.copy(microphoneEnabled = currentMicEnabled)
+        }
+    }
+
+    /**
+     * Camera2 opens a logical camera and narrows it to a physical sub-lens afterwards, and the library
+     * keeps the physical id across re-opens, so a sub-lens is cleared before another logical camera opens -
+     * the old physical id is not a lens of the new camera.
+     */
+    private fun selectLensInternal(lensId: String) {
+        val camera = cameraServer ?: return
+        val liveState = _state.value as? BroadcastState.Live ?: return
+        val logicalId = BroadcastLensOption.logicalIdOf(lensId)
+        try {
+            // activePhysicalId is only ever set on API 28+ (openPhysicalLens), so the check is the same invariant.
+            if (activePhysicalId != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                camera.openPhysicalCamera(null)
+                activePhysicalId = null
+            }
+            if (logicalId != camera.currentCameraId) {
+                camera.switchCamera(logicalId)
+            }
+            BroadcastLensOption.physicalIdOf(lensId)?.let { openPhysicalLens(camera, it) }
+            _state.value = liveState.copy(activeLensId = lensId)
+        } catch (e: CameraOpenException) {
+            Timber.w(
+                e,
+                "VideoBroadcastService: lens %s did not open, the previous lens stays on air",
+                lensId,
+            )
+        }
+    }
+
+    /** A sub-lens that refuses to open leaves its logical camera on air rather than ending the session. */
+    private fun openPhysicalLens(camera: RtspServerCamera2, physicalId: String) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) return
+        try {
+            camera.openPhysicalCamera(physicalId)
+            activePhysicalId = physicalId
+        } catch (e: CameraOpenException) {
+            Timber.w(e, "VideoBroadcastService: physical lens %s did not open", physicalId)
+        } catch (e: IllegalArgumentException) {
+            Timber.w(e, "VideoBroadcastService: physical lens %s is unknown to Camera2", physicalId)
+        }
+    }
+
+    /**
+     * Camera off is a video mute: the RTSP session, its URL and its listeners stay, and the stream
+     * carries black frames. Stopping the stream dropped every listener and invalidated the link that
+     * had been handed out (S3058 run 1, S3050).
+     */
+    private fun toggleCameraInternal() {
+        val liveState = _state.value as? BroadcastState.Live ?: return
+        val cameraOn = !liveState.cameraEnabled
+        previewProvider.setVideoMuted(!cameraOn)
+        _state.value = liveState.copy(cameraEnabled = cameraOn)
+    }
+
+    /**
+     * Re-opens the session in the other video mode while the service stays foreground. The previous
+     * `Live` stays published until the new one replaces it, so the control screen never falls back to
+     * its idle layout and its pre-start preview never grabs the camera the session is re-opening.
+     * A null [cameraServer] means a session is still opening, and a second re-open would race it.
+     */
+    private fun switchModeInternal(intent: Intent) {
+        val mode = BroadcastMode.entries.firstOrNull { it.name == intent.getStringExtra(EXTRA_MODE) }
+        val switchable = mode != null && mode != BroadcastMode.AUDIO_ONLY && mode != currentMode &&
+            _state.value is BroadcastState.Live && cameraServer != null
+        if (!switchable) return
+        releaseCamera()
+        // The record of the old mode ends with its session; the new one publishes its own.
+        publication.unbind()
+        exchangePublisher.end()
+        driveAnnouncer.end()
+        _listenerCount.value = 0
+        currentMode = checkNotNull(mode)
+        pendingLensId = intent.getStringExtra(EXTRA_LENS_ID)
+        // The foreground types follow the mode: VIDEO_AUDIO needs the microphone type VIDEO_ONLY may lack.
+        if (!enterForeground()) {
+            _state.value = BroadcastState.Failed(
+                BroadcastFailure.MICROPHONE_PERMISSION,
+                "Microphone permission missing for the new broadcast mode"
+            )
+            leaveForegroundAndStop()
+            return
+        }
+        startBroadcast()
+    }
+
+    private fun releaseCamera() {
+        isStreaming.set(false)
+        // The open chunk goes to the relay before the encoders stop; the publisher ends the upload after it.
+        relayTap?.stop()
+        relayTap = null
+        previewProvider.detachCamera()
+        val camera = cameraServer
+        if (camera != null) {
+            if (camera.isStreaming) {
+                camera.stopStream()
+            }
+            if (camera.isOnPreview) {
+                camera.stopPreview()
+            }
+        }
+        cameraServer = null
+        activePhysicalId = null
+    }
+
+    /** A camera the stop path already took is left alone: the field may by now hold a newer session's camera. */
+    private fun discardStoppedCamera(camera: RtspServerCamera2) {
+        if (cameraServer === camera) releaseCamera()
+    }
+
+    private fun stopBroadcast() {
+        releaseCamera()
+        rtspGate?.close()
+        rtspGate = null
+        publication.unbind()
+        exchangePublisher.end()
+        driveAnnouncer.end()
+        _state.value = BroadcastState.Idle
+        _listenerCount.value = 0
+    }
+
+    override fun onDestroy() {
+        stopBroadcast()
+        serviceScope.cancel()
+        super.onDestroy()
+    }
+
+    // ConnectChecker implementations
+    override fun onConnectionStarted(url: String) {
+        Timber.d("VideoBroadcastService: client connecting: %s", url)
+    }
+
+    override fun onConnectionSuccess() {
+        Timber.d("VideoBroadcastService: connection success")
+    }
+
+    override fun onConnectionFailed(reason: String) {
+        Timber.w("VideoBroadcastService: connection failed: %s", reason)
+    }
+
+    override fun onDisconnect() {
+        Timber.d("VideoBroadcastService: disconnect")
+    }
+
+    // The server removes a client from its list before it reports the disconnect, so its own count is the
+    // truth on both edges and a missed or doubled callback cannot drift the number.
+    // The library calls this inside its PLAY handling, before the client may send. Without a fresh IDR the
+    // listener sees nothing until the encoder's next scheduled keyframe (LIVE-BROADCAST consumer rule 1).
+    override fun onClientConnected(client: ServerClient) {
+        cameraServer?.requestKeyFrame()
+        Timber.d("S4124: keyframe requested on PLAY from %s", client.getAddress())
+        publishListenerCount()
+    }
+
+    override fun onClientDisconnected(client: ServerClient) {
+        publishListenerCount()
+    }
+
+    override fun onClientNewBitrate(bitrate: Long, client: ServerClient) = Unit
+
+    private fun publishListenerCount() {
+        _listenerCount.value = cameraServer?.streamClient?.getNumClients() ?: 0
+    }
+
+    override fun onAuthError() {
+        Timber.w("VideoBroadcastService: auth error")
+    }
+
+    override fun onAuthSuccess() {
+        Timber.d("VideoBroadcastService: auth success")
+    }
+
+    /**
+     * Picks the foreground types this session may claim from what the flavor manifest declares. A build
+     * without the camera type still needs a declared type for a video-only session, and the microphone is
+     * the only one it has - Android 14 refuses that type until the permission is granted, hence null.
+     */
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private fun resolveForegroundType(declared: Int): Int? {
+        var type = declared and ServiceInfo.FOREGROUND_SERVICE_TYPE_CAMERA
+        val needsMicrophoneType = currentMode != BroadcastMode.VIDEO_ONLY || type == 0
+        if (needsMicrophoneType && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val micGranted = ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) ==
+                PackageManager.PERMISSION_GRANTED
+            if (!micGranted && Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) return null
+            type = type or ServiceInfo.FOREGROUND_SERVICE_TYPE_MICROPHONE
+        }
+        return type
+    }
+
+    private fun attachAudioEffect(camera: RtspServerCamera2, config: BroadcastSessionConfig) {
+        val gainPercent = config.micGainPercent
+        val gainMultiplier = gainPercent / 100.0f
+        val applyGain = gainPercent != 100
+
+        if (currentMode != BroadcastMode.VIDEO_ONLY && applyGain) {
+            camera.setCustomAudioEffect(object : CustomAudioEffect() {
+                override fun process(pcmBuffer: ByteArray): ByteArray {
+                    applyPcmGain(pcmBuffer, pcmBuffer.size, gainMultiplier)
+                    return pcmBuffer
+                }
+            })
+        }
+    }
+
+    private fun applyPcmGain(buffer: ByteArray, length: Int, gainMultiplier: Float) {
+        var i = 0
+        while (i + 1 < length) {
+            val sample = (buffer[i].toInt() and 0xFF) or (buffer[i + 1].toInt() shl 8)
+            val shortSample = sample.toShort()
+            val scaled = (shortSample * gainMultiplier).toInt().coerceIn(-32768, 32767)
+            buffer[i] = (scaled and 0xFF).toByte()
+            buffer[i + 1] = ((scaled shr 8) and 0xFF).toByte()
+            i += 2
+        }
+    }
+
+    companion object {
+        const val ACTION_STOP = "com.sza.streamsplayer.broadcast.action.VIDEO_STOP"
+        const val ACTION_TOGGLE_MIC = "com.sza.streamsplayer.broadcast.action.TOGGLE_MIC"
+        const val ACTION_SELECT_LENS = "com.sza.streamsplayer.broadcast.action.SELECT_LENS"
+        const val ACTION_TOGGLE_CAMERA = "com.sza.streamsplayer.broadcast.action.TOGGLE_CAMERA"
+        const val ACTION_SWITCH_MODE = "com.sza.streamsplayer.broadcast.action.SWITCH_MODE"
+
+        private const val EXTRA_MODE = "mode"
+        private const val EXTRA_LENS_ID = "lens_id"
+
+        private val _state = MutableStateFlow<BroadcastState>(BroadcastState.Idle)
+        val state: StateFlow<BroadcastState> = _state.asStateFlow()
+
+        private val _listenerCount = MutableStateFlow(0)
+        val listenerCount: StateFlow<Int> = _listenerCount.asStateFlow()
+
+        /**
+         * A start the service cannot honour is refused here rather than inside it: a promise made by
+         * startForegroundService() and not kept costs the whole process, while a refusal made before
+         * it is only a message (S3267).
+         */
+        fun start(context: Context, mode: BroadcastMode, lensId: String?) {
+            val missingCamera = ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) !=
+                PackageManager.PERMISSION_GRANTED
+            val missingAudio = mode != BroadcastMode.VIDEO_ONLY &&
+                ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) !=
+                PackageManager.PERMISSION_GRANTED
+            if (missingCamera || missingAudio) {
+                Timber.w(
+                    "VideoBroadcastService: start refused (camera: %b, audio: %b)",
+                    missingCamera,
+                    missingAudio,
+                )
+                _state.value = BroadcastState.Failed(
+                    BroadcastFailure.MICROPHONE_PERMISSION,
+                    "Camera or Microphone permission missing"
+                )
+                return
+            }
+            val intent = Intent(context, VideoBroadcastService::class.java).apply {
+                putExtra(EXTRA_MODE, mode.name)
+                putExtra(EXTRA_LENS_ID, lensId)
+            }
+            ContextCompat.startForegroundService(context, intent)
+        }
+
+        fun stopIntent(context: Context): Intent =
+            Intent(context, VideoBroadcastService::class.java).apply {
+                action = ACTION_STOP
+            }
+
+        fun stop(context: Context) {
+            context.startService(stopIntent(context))
+        }
+
+        fun toggleMicrophone(context: Context) {
+            val intent = Intent(context, VideoBroadcastService::class.java).apply {
+                action = ACTION_TOGGLE_MIC
+            }
+            context.startService(intent)
+        }
+
+        fun selectLens(context: Context, lensId: String) {
+            val intent = Intent(context, VideoBroadcastService::class.java).apply {
+                action = ACTION_SELECT_LENS
+                putExtra(EXTRA_LENS_ID, lensId)
+            }
+            context.startService(intent)
+        }
+
+        /** Only between the two video modes of a live session; the service ignores anything else. */
+        fun switchMode(context: Context, mode: BroadcastMode, lensId: String?) {
+            val intent = Intent(context, VideoBroadcastService::class.java).apply {
+                action = ACTION_SWITCH_MODE
+                putExtra(EXTRA_MODE, mode.name)
+                putExtra(EXTRA_LENS_ID, lensId)
+            }
+            context.startService(intent)
+        }
+
+        fun toggleCamera(context: Context) {
+            val intent = Intent(context, VideoBroadcastService::class.java).apply {
+                action = ACTION_TOGGLE_CAMERA
+            }
+            context.startService(intent)
+        }
+
+        fun clearFailure() {
+            if (_state.value is BroadcastState.Failed) {
+                _state.value = BroadcastState.Idle
+            }
+        }
+
+        /** The service's `foregroundServiceType` as the merged manifest of this flavor declares it (S3154). */
+        @RequiresApi(Build.VERSION_CODES.Q)
+        fun declaredForegroundServiceTypes(context: Context): Int {
+            val component = ComponentName(context, VideoBroadcastService::class.java)
+            val info = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                context.packageManager.getServiceInfo(component, PackageManager.ComponentInfoFlags.of(0L))
+            } else {
+                @Suppress("DEPRECATION")
+                context.packageManager.getServiceInfo(component, 0)
+            }
+            return info.foregroundServiceType
+        }
+    }
+}

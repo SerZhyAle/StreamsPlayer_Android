@@ -1,0 +1,6 @@
+canon named by the stamp: 2026.10.17.1
+stamp digest:   sha256:b467aefe4ce6917cc75c2cca56a0dcc4b3a74e793ef056112f37dee6d12456fa
+recomputed (plugin 2026.1017.1, canon 2026.10.17.1):
+canon version: 2026.10.17.1
+coreDigest:    sha256:b467aefe4ce6917cc75c2cca56a0dcc4b3a74e793ef056112f37dee6d12456fa
+equal: True

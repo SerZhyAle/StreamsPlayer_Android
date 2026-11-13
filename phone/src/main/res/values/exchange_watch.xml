@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="exchange_watch_connect">Connect watch</string>
+    <string name="exchange_watch_pairing">Connecting the watch. Waiting up to 45 seconds.</string>
+    <string name="exchange_watch_paired">Watch connected to this account.</string>
+    <string name="exchange_watch_not_connected">Connect the watch to this phone and try again.</string>
+    <string name="exchange_watch_no_answer">The watch did not answer. Open StreamsPlayer on the watch and try again.</string>
+    <string name="exchange_watch_server_unreachable">The server did not answer. Check the connection and try again.</string>
+    <string name="exchange_watch_pairing_refused">The watch could not join. Check the server connection and try again.</string>
+    <string name="exchange_watch_code_expired">The pairing code expired or was refused. Tap Connect watch again for a new code.</string>
+    <string name="exchange_watch_certificate_refused">The watch refused the server certificate. Check the server certificate on this phone, then connect the watch again.</string>
+    <string name="exchange_watch_update_required">Update StreamsPlayer on the watch, then try again.</string>
+    <string name="exchange_watch_revoked_from_phone">Signed out. The watch was unavailable, so this phone revoked its access on the server.</string>
+    <string name="exchange_watch_remove_unreachable">Signed out on this phone. The watch and server were unavailable; remove the watch from the account on another device.</string>
+</resources>

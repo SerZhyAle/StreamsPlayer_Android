@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- S0029: оголошення через Google Drive (DEVICE-EXCHANGE, пункт CL): інтерфейс каже «через Google Drive». -->
+<resources>
+    <!-- Картка на екрані обміну: вхід і список оголошених трансляцій -->
+    <string name="drive_title">Через Google Drive</string>
+    <string name="drive_summary">Знаходьте трансляції, які оголошують ваші інші пристрої, без сервера і без введення адреси. Читаються й записуються лише оголошення - у прихованій теці застосунку у вашому власному акаунті Google. Сам потік через Google Drive не йде ніколи.</string>
+    <string name="drive_status_signed_in">Вхід у Google Drive виконано</string>
+    <string name="drive_status_signed_out">Вхід у Google Drive не виконано</string>
+    <string name="drive_action_sign_in">Увійти через Google</string>
+    <string name="drive_action_sign_out">Вийти з Google Drive</string>
+    <string name="drive_sign_out_message">Застосунок перестане використовувати Google Drive. Акаунт сервера обміну не зачіпається. Доступ також можна відкликати в налаштуваннях акаунта Google.</string>
+    <string name="drive_directory_title">Оголошено через Google Drive</string>
+    <string name="drive_empty">Зараз жоден інший пристрій вашого акаунта Google не оголошує трансляцію через Google Drive.</string>
+    <string name="drive_source_label">через Google Drive</string>
+    <string name="drive_unnamed_device">Пристрій</string>
+    <string name="drive_unnamed_broadcast">Пряма трансляція</string>
+    <string name="drive_sign_in_failed">Вхід через Google не завершено.</string>
+    <string name="drive_sign_in_lost">Вхід у Google Drive втрачено. Увійдіть знову.</string>
+    <string name="drive_unreachable">Google Drive зараз недоступний. Список оновиться трохи згодом.</string>
+    <string name="drive_refused">Google Drive відхилив запит.</string>
+
+    <!-- Налаштування трансляції: вибір оголошення для кожної трансляції (за замовчуванням вимкнено) -->
+    <string name="settings_broadcast_drive_title">Оголосити через Google Drive: звук</string>
+    <string name="settings_broadcast_drive_video_title">Оголосити через Google Drive: камера</string>
+    <string name="settings_broadcast_drive_summary">Інші пристрої, що увійшли у ваш власний акаунт Google, знаходять цю трансляцію без сервера. У приховану теку застосунку на вашому Drive записується лише оголошення, ніколи не звук і не картинка. Вибір запам\'ятовується окремо для звуку і для камери. Вимкнено - нічого не записується.</string>
+    <string name="broadcast_drive_notice_title">Що записується в Google Drive</string>
+    <string name="broadcast_drive_notice_text">Поки триває трансляція, застосунок записує невеликий файл оголошення в приховану теку застосунку у вашому власному акаунті Google: назву трансляції, ім\'я цього телефона й адреси, за якими слухач може підключитися. Сам потік через Google Drive не йде. Файл видаляється, коли трансляція зупиняється. Цей перемикач залишається вимкненим, доки ви його не ввімкнете.</string>
+    <string name="broadcast_drive_notice_sign_in_hint">Ви ще не увійшли в Google Drive. Без входу нічого не оголошується.</string>
+    <string name="broadcast_drive_notice_open">Увійти</string>
+
+    <!-- Екран трансляції: стан оголошення одним рядком -->
+    <string name="broadcast_drive_state_announcing">Оголошуємо через Google Drive..</string>
+    <string name="broadcast_drive_state_announced">Оголошено через Google Drive</string>
+    <string name="broadcast_drive_failed_not_signed_in">Не оголошено через Google Drive: спочатку увійдіть</string>
+    <string name="broadcast_drive_failed_sign_in_lost">Не оголошено через Google Drive: увійдіть знову</string>
+    <string name="broadcast_drive_failed_drive_full">Не оголошено через Google Drive: ваш Drive заповнений</string>
+    <string name="broadcast_drive_failed_daily_limit">Не оголошено через Google Drive: досягнуто добового ліміту Google</string>
+    <string name="broadcast_drive_failed_refused">Не оголошено через Google Drive: Google відхилив запис</string>
+    <string name="broadcast_drive_failed_unreachable">Google Drive зараз недоступний. Оголошення повторюється з наступним оновленням</string>
+</resources>

@@ -1,0 +1,4 @@
+Wake Locks: size=2
+  SCREEN_BRIGHT_WAKE_LOCK           'WindowManager/displayId:0' ON_AFTER_RELEASE ACQ=-43m33s640ms (uid=1000 pid=600 ws=WorkSource{10210 com.example.other})
+  PARTIAL_WAKE_LOCK              'StreamsPlayer:playback' ACQ=-12s345ms (uid=10211 pid=2222 ws=WorkSource{10211})
+

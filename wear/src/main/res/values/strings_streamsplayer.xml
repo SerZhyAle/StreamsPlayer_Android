@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sp_open_on_phone">Open on phone</string>
+    <string name="sp_background_playback">Toggle background playback</string>
+    <string name="sp_dim_screen">Dim screen</string>
+    <string name="sp_channels">Channels</string>
+    <string name="sp_broadcast">Broadcast</string>
+    <string name="sp_assign_tile">Choose tile channel</string>
+    <string name="sp_help">Help</string>
+    <string name="sp_help_shown">Help opened on phone</string>
+    <string name="sp_help_not_found">Help could not be opened</string>
+    <string name="sp_phone_shown">Channel opened on phone</string>
+    <string name="sp_phone_notified">Tap the notification on your phone</string>
+    <string name="sp_phone_notifications_off">Enable notifications for StreamsPlayer on your phone</string>
+    <string name="sp_phone_not_found">Channel could not be opened</string>
+    <string name="sp_phone_unreachable">StreamsPlayer on your paired phone did not answer</string>
+    <string name="sp_volume_down">Volume down</string>
+    <string name="sp_volume_up">Volume up</string>
+</resources>

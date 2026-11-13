@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ru" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="light dark">
+<title>Справка - Управление вещанием</title>
+<link rel="stylesheet" href="../help.css">
+</head>
+<body class="help">
+<main class="container">
+<nav class="help-crumbs" aria-label="Оглавление справки">
+<a href="index.html">Оглавление справки</a><span class="sep" aria-hidden="true">/</span><span>Управление вещанием</span>
+</nav>
+<header class="hero hero-inline">
+<img class="mark-inline" src="../img/exchange-mark-small.svg" width="28" height="28" alt="Media Exchange Server">
+<h1>Управление вещанием</h1>
+</header>
+<h2>Для чего этот экран</h2>
+<p class="lead">Превратите телефон в живую станцию: он передаёт звук или звук и картинку с камеры на другие устройства. Вы выбираете, что передавать, запускаете и раздаёте ссылку или QR-код.</p>
+<figure class="shot">
+<img class="on-light" src="../img/broadcast-ru-light.jpg" alt="Снимок экрана: Управление вещанием">
+<img class="on-dark" src="../img/broadcast-ru-dark.jpg" alt="Снимок экрана: Управление вещанием">
+<figcaption>Демонстрационные данные. Номера совпадают с элементами в списке ниже.</figcaption>
+</figure>
+<h2>Порядок действий</h2>
+<ol class="order">
+<li>Выберите, что передавать, в разделе «Режим вещания» <a class="ref" href="#mode">3</a>, и камеру <a class="ref" href="#camera">4</a>, если в передаче есть картинка.</li>
+<li>Один раз проверьте настройки <a class="ref" href="#settings">5</a>: название, качество звука и то, пойдёт ли вещание ещё и через ваш сервер обмена.</li>
+<li>Нажмите «Начать вещание» <a class="ref" href="#start">6</a>. В первый раз Android спросит про микрофон, камеру и уведомления.</li>
+<li>Дайте слушателям QR-код или ссылку <a class="ref" href="#link">14</a>: «Копировать ссылку» <a class="ref" href="#copy">15</a>, «Экспорт в файл» <a class="ref" href="#export">16</a> или «Отправить» <a class="ref" href="#send">17</a>.</li>
+<li>Следите за числом слушателей <a class="ref" href="#listeners">2</a>. «Остановить вещание» <a class="ref" href="#stop">12</a> завершает его для всех.</li>
+</ol>
+<h2>Элементы</h2>
+<div class="elements">
+<h3>Верх экрана</h3>
+<details class="el" id="help">
+<summary><span class="mk">1</span><span><span class="name">Справка</span><span class="one">Открывает эту страницу.</span></span></summary>
+<div class="full">
+<p>Пока вы в эфире, вещание продолжается и при открытой странице.</p>
+<dl class="facts">
+<dt>Сочетание клавиш</dt><dd><kbd>F1</kbd></dd>
+</dl>
+</div>
+</details>
+<details class="el" id="listeners">
+<summary><span class="mk">2</span><span><span class="name">Число слушателей</span><span class="one">Сколько устройств слушает.</span></span></summary>
+<div class="full">
+<p>Считает устройства, подключённые к этому вещанию сейчас. Показывается, пока вы в эфире.</p>
+<dl class="facts">
+<dt>Отмена</dt><dd>Отменять нечего: число следует за слушателями.</dd>
+</dl>
+</div>
+</details>
+<h3>Перед запуском</h3>
+<details class="el" id="mode">
+<summary><span class="mk">3</span><span><span class="name">Режим вещания</span><span class="one">Только звук, Камера + звук или Только камера.</span></span></summary>
+<div class="full">
+<p>«Только звук» передаёт звук. «Камера + звук» передаёт звук и картинку. «Только камера» передаёт картинку без звука. Режим можно менять и в эфире; слушатели тогда открывают поток заново по обновлённой ссылке или QR-коду.</p>
+<dl class="facts">
+<dt>Отмена</dt><dd>Выберите прежний режим.</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="camera">
+<summary><span class="mk">4</span><span><span class="name">Камера</span><span class="one">Какую камеру использовать.</span></span></summary>
+<div class="full">
+<p>Основная, фронтальная или внешняя, смотря что есть в телефоне. Показывается, когда в передаче есть картинка. Если камеры нет, экран сообщает об этом.</p>
+<dl class="facts">
+<dt>Отмена</dt><dd>Выберите другую камеру; переключать можно и в эфире.</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="settings">
+<summary><span class="mk">5</span><span><span class="name">Настройки вещания</span><span class="one">Открывает настройки вещания.</span></span></summary>
+<div class="full">
+<p>Открывает страницу «Трансляция» в настройках: название, качество звука, порт, усиление микрофона и варианты публикации в других местах. «Назад» возвращает сюда.</p>
+<dl class="facts">
+<dt>Отмена</dt><dd>Любую настройку можно вернуть как было.</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="start">
+<summary><span class="mk">6</span><span><span class="name">Начать вещание</span><span class="one">Начинает вещание.</span></span></summary>
+<div class="full">
+<p>Запрашивает у Android нужный доступ и запускает вещание. Пока оно идёт, показывается уведомление, поэтому вещание продолжается, когда вы уходите с экрана. Если недоступны микрофон, камера, уведомления или сеть, экран сообщает, что помешало.</p>
+<dl class="facts">
+<dt>Отмена</dt><dd>«Остановить вещание» завершает его.</dd>
+</dl>
+</div>
+</details>
+<h3>Пока вы в эфире</h3>
+<details class="el" id="camera-toggle">
+<summary><span class="mk">7</span><span><span class="name">Камера ВКЛ / ВЫКЛ</span><span class="one">Камера включена или выключена.</span></span></summary>
+<div class="full">
+<p>Скрывает или показывает картинку, не прекращая вещания.</p>
+</div>
+</details>
+<details class="el" id="mic-toggle">
+<summary><span class="mk">8</span><span><span class="name">Микрофон ВКЛ / ВЫКЛ</span><span class="one">Микрофон включён или выключен.</span></span></summary>
+<div class="full">
+<p>Показывается, когда звук и картинка идут вместе. Отключает звук, не прекращая вещания.</p>
+</div>
+</details>
+<details class="el" id="switch-camera">
+<summary><span class="mk">9</span><span><span class="name">Сменить камеру</span><span class="one">Основная или фронтальная камера.</span></span></summary>
+<div class="full">
+<p>Меняет камеру прямо в эфире.</p>
+</div>
+</details>
+<details class="el" id="screen-off">
+<summary><span class="mk">10</span><span><span class="name">Погасить экран</span><span class="one">Позволяет экрану погаснуть.</span></span></summary>
+<div class="full">
+<p>В вещании только со звуком экран может погаснуть, а вещание продолжается. Если в передаче есть камера и телефон не может держать её включённой при погасшем экране, кнопка называется «Затемнить экран» и закрывает приложение чёрной шторкой.</p>
+<dl class="facts">
+<dt>Отмена</dt><dd>Разбудите телефон кнопкой питания или нажмите «Назад», чтобы убрать чёрную шторку.</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="to-watch">
+<summary><span class="mk">11</span><span><span class="name">Передать на часы</span><span class="one">Передаёт вещание на часы.</span></span></summary>
+<div class="full">
+<p>Показывается, пока вы в эфире и парные часы доступны. Приложение сообщает, воспроизводят ли часы вещание сразу или сохранили его, чтобы вы открыли.</p>
+</div>
+</details>
+<details class="el" id="stop">
+<summary><span class="mk">12</span><span><span class="name">Остановить вещание</span><span class="one">Завершает вещание.</span></span></summary>
+<div class="full">
+<p>Слушатели сразу теряют поток. Уведомление исчезает.</p>
+<dl class="facts">
+<dt>Отмена</dt><dd>«Начать вещание» запускает новое.</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="publish-state">
+<summary><span class="mk">13</span><span><span class="name">Состояние на сервере обмена</span><span class="one">На каком сервере обмена вещание и как у него там дела.</span></span></summary>
+<div class="full">
+<p>Когда сервер обмена добавлен, каждое вещание объявляется на нём с самого начала. Эта строка называет сервер и сообщает, объявляется ли вещание, находится ли оно на сервере, идёт ли раздача потока через сервер или вещание остаётся в вашей сети, потому что сервер не смог его принять; тогда кнопка «Почему не подключается?» подсказывает, что проверить. Без сервера строка говорит, что вещание доступно только в этой сети, а нажатие открывает экран «Сервер обмена», чтобы добавить сервер.</p>
+</div>
+</details>
+<h3>Как раздать вещание</h3>
+<details class="el" id="link">
+<summary><span class="mk">14</span><span><span class="name">QR-код и ссылка</span><span class="one">QR-код и ссылка этого вещания.</span></span></summary>
+<div class="full">
+<p>Другое устройство считывает QR-код или открывает ссылку, чтобы слушать. Коснитесь кода, чтобы увидеть его на весь экран. Ссылка работает, пока вы в эфире.</p>
+</div>
+</details>
+<details class="el" id="copy">
+<summary><span class="mk">15</span><span><span class="name">Копировать ссылку</span><span class="one">Копирует ссылку.</span></span></summary>
+<div class="full">
+<p>Кладёт ссылку в буфер обмена, чтобы вставить её в сообщение.</p>
+</div>
+</details>
+<details class="el" id="export">
+<summary><span class="mk">16</span><span><span class="name">Экспорт в файл</span><span class="one">Сохраняет вещание в файл.</span></span></summary>
+<div class="full">
+<p>Записывает небольшой файл, который другое устройство открывает, чтобы слушать. Вы выбираете, куда сохранить.</p>
+<dl class="facts">
+<dt>Отмена</dt><dd>Удалите файл.</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="send">
+<summary><span class="mk">17</span><span><span class="name">Отправить</span><span class="one">Отправляет ссылку через другое приложение.</span></span></summary>
+<div class="full">
+<p>Открывает системное окно «Поделиться»: вы выбираете чат, почту или приложение, куда уйдёт ссылка.</p>
+</div>
+</details>
+<details class="el" id="guide">
+<summary><span class="mk">18</span><span><span class="name">Как это смотреть</span><span class="one">Руководство для слушателей.</span></span></summary>
+<div class="full">
+<p>Открывает в браузере веб-страницу о том, как смотреть вещание; её можно переслать приглашённым. Нужна сеть.</p>
+</div>
+</details>
+</div>
+<h2>Связанное</h2>
+<ul class="related">
+<li><a href="broadcast-settings.html"><b>Настройки вещания</b><span class="pill">Экран</span></a></li>
+<li><a href="settings.html"><b>Настройки</b><span class="pill">Экран</span></a></li>
+<li><a href="catalog.html"><b>StreamsPlayer</b><span class="pill">Экран</span></a></li>
+<li><a href="qr-scanner.html"><b>Сканировать QR-код</b><span class="pill">Экран</span></a></li>
+<li><a href="https://github.com/SerZhyAle/StreamsPlayer"><b>StreamsPlayer для Windows</b><span class="pill gold">Ссылка</span></a></li>
+<li><a href="index.html"><b>Оглавление справки</b></a></li>
+</ul>
+<footer class="help-foot">
+<span>StreamsPlayer 2.61.0282.350, 2026-10-29</span>
+<a href="index.html">Оглавление справки</a>
+<a href="https://github.com/SerZhyAle/StreamsPlayer_Android/issues">Задать вопрос или сообщить о проблеме</a>
+</footer>
+</main>
+</body>
+</html>

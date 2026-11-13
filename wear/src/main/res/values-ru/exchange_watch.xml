@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="exchange_watch_on_server">Трансляция на сервере</string>
+    <string name="exchange_watch_connecting">Подключение к серверу..</string>
+    <string name="exchange_watch_publish_failed">Раздача потока через сервер остановлена. Трансляция в вашей сети продолжается.</string>
+    <string name="exchange_watch_publish_notice">Каждая трансляция этих часов с самого начала объявляется на вашем сервере обмена, и раздача потока через сервер начинается сама. Звук шифруется на часах, и оператор сервера не может его слышать.</string>
+    <string name="exchange_watch_network_only">Доступно только в этой сети.</string>
+    <string name="exchange_watch_pair_through_phone">Чтобы использовать свой аккаунт, откройте Сервер обмена на телефоне и выберите Подключить часы.</string>
+    <string name="exchange_watch_playback_unavailable">Эта трансляция недоступна. Откройте её снова с телефона.</string>
+    <string name="wear_help_on_phone">Помощь на телефоне</string>
+    <string name="exchange_diagnose_button">Почему не подключается?</string>
+    <string name="wear_exchange_details_on_phone">Подробности - на телефоне.</string>
+    <string name="wear_exchange_reason_not_permitted">Гостевой аккаунт не может это делать. Если это нужно, попросите приглашение «своё устройство или семья».</string>
+    <string name="wear_exchange_reason_limit_clipboard">Этот сервер не принимает буфер такого размера или отключил буфер. Отправьте что-нибудь поменьше или обратитесь к тому, кто управляет сервером.</string>
+    <string name="wear_exchange_reason_capacity">Сервер не может это принять: он достиг своего предела или объект слишком большой, чтобы показать его в списке.</string>
+    <string name="wear_exchange_reason_unavailable">Сейчас устройство или сервер недоступны.</string>
+    <string name="wear_exchange_reason_device_revoked">Это устройство удалено из аккаунта.</string>
+    <string name="wear_exchange_reason_signed_out">Пароль этого аккаунта изменили, поэтому это устройство вышло из аккаунта.</string>
+    <string name="wear_exchange_reason_bad_credentials">Логин или пароль неверны.</string>
+    <string name="wear_exchange_reason_version_unsupported">Эта программа и сервер работают по разным версиям обмена.</string>
+    <string name="wear_exchange_reason_unreachable">Не удаётся связаться с сервером.</string>
+    <string name="wear_exchange_reason_unanswered">Сервер не ответил.</string>
+    <string name="wear_exchange_reason_tls_failed">Не удалось установить защищённое соединение.</string>
+    <string name="wear_exchange_reason_certificate_changed">Этот сервер не похож на тот, к которому вы подключались раньше.</string>
+    <string name="wear_exchange_reason_refused">Сервер отказал в этом.</string>
+    <string name="wear_exchange_reason_rate_limited">Слишком много попыток подряд.</string>
+    <string name="wear_exchange_reason_limit_reached">На сервере достигнут установленный предел.</string>
+    <string name="wear_exchange_reason_tls_required">Сервер принимает это только по защищённому соединению, а это соединение не защищено.</string>
+    <string name="wear_exchange_reason_id_collision">Сервер уже знает другое устройство под номером этого. Удалите этот сервер из списка и добавьте его снова.</string>
+    <string name="wear_exchange_reason_port_unavailable">У сервера нет свободного порта для этой папки.</string>
+    <string name="wear_exchange_reason_protection_unsupported">Эта папка закрыта PIN-кодом, и эта программа не умеет его запрашивать. Откройте её в программе, которая умеет.</string>
+    <string name="wear_exchange_reason_unreachable_device">Не удаётся связаться с устройством.</string>
+    <string name="wear_exchange_reason_server_offline">Сервер не в сети. Всё, что вы добавили, остаётся в списке.</string>
+    <string name="wear_exchange_reason_resource_locked">Папка закрыта PIN-кодом. Введите PIN-код, чтобы открыть её.</string>
+    <string name="wear_exchange_reason_e2e_missing">Это устройство пока не умеет принимать защищённое содержимое, поэтому через сервер ему ничего не отправляется.</string>
+    <string name="wear_exchange_reason_key_changed">Ключ защиты этого устройства изменился, поэтому ему ничего не отправляется. Удалите устройство из аккаунта и добавьте его снова.</string>
+    <string name="wear_exchange_reason_server_no_e2e">Этот сервер не умеет передавать защищённое содержимое, поэтому папки, трансляции и буфер через него не идут.</string>
+    <string name="wear_exchange_reason_sealed_failed">Это не удалось открыть на этом устройстве. Повторите с другого устройства.</string>
+    <string name="wear_exchange_reason_format_unsupported">Этот формат новее, чем поддерживает эта программа. Ничего не импортировано. Откройте в подходящей программе.</string>
+</resources>

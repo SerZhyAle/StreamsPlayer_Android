@@ -1,0 +1,198 @@
+package com.sza.streamsplayer.domain.usecase
+
+import com.google.gson.Gson
+import com.sza.streamsplayer.data.exchange.session.DeviceExchangeRefusedException
+import com.sza.streamsplayer.data.exchange.DeviceExchangePairingClient
+import com.sza.streamsplayer.data.exchange.WatchExchangeDeviceStore
+import com.sza.streamsplayer.data.exchange.DeviceExchangeAccountEntry
+import com.sza.streamsplayer.data.exchange.DeviceExchangePairingCode
+import com.sza.streamsplayer.data.repository.settings.ExchangeE2eTrustStore
+import com.sza.streamsplayer.data.security.e2e.E2eDeviceKey
+import com.sza.streamsplayer.domain.model.WatchExchangeHandoverOutcome
+import com.sza.streamsplayer.domain.model.WearExchangeHandoverAck
+import com.sza.streamsplayer.domain.model.WearExchangeHandoverCodec
+import com.sza.streamsplayer.domain.model.WearExchangeHandoverParseResult
+import com.sza.streamsplayer.domain.model.WearNode
+import com.sza.streamsplayer.domain.repository.WearableDataLayerRepository
+import com.sza.streamsplayer.service.WearDataLayerPaths
+import com.sza.streamsplayer.service.WearSyncEvents
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.mockk
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Test
+import java.io.IOException
+
+/** S4158: the phone side of the watch hand-over - when the server is asked, who gets the code, what it says. */
+@OptIn(ExperimentalCoroutinesApi::class)
+class ConnectWatchToExchangeEntryUseCaseTest {
+
+    private val accounts = mockk<DeviceExchangePairingClient>()
+    private val dataLayer = mockk<WearableDataLayerRepository>()
+    private val gson = Gson()
+    private val watches = mockk<WatchExchangeDeviceStore>(relaxed = true)
+    private val trust = mockk<ExchangeE2eTrustStore>(relaxed = true)
+    private val useCase = ConnectWatchToExchangeEntryUseCase(accounts, dataLayer, gson, watches, trust)
+
+    @Test
+    fun `companion off asks the server nothing`() = runTest {
+        coEvery { dataLayer.isCompanionEnabled() } returns false
+
+        assertEquals(WatchExchangeHandoverOutcome.CompanionOff, useCase(ENTRY))
+        coVerify(exactly = 0) { accounts.issuePairingCode(any()) }
+    }
+
+    @Test
+    fun `no watch asks the server nothing`() = runTest {
+        companion(nodes = emptyList())
+
+        assertEquals(WatchExchangeHandoverOutcome.NoConnectedWatch, useCase(ENTRY))
+        coVerify(exactly = 0) { accounts.issuePairingCode(any()) }
+    }
+
+    @Test
+    fun `a refused code carries the server reason`() = runTest {
+        companion()
+        coEvery { accounts.issuePairingCode(ENTRY) } throws DeviceExchangeRefusedException("rate-limited")
+
+        assertEquals(WatchExchangeHandoverOutcome.CodeRefused("rate-limited"), useCase(ENTRY))
+    }
+
+    @Test
+    fun `an unreachable server is told apart from a refusal`() = runTest {
+        companion()
+        coEvery { accounts.issuePairingCode(ENTRY) } throws IOException("timeout")
+
+        assertEquals(WatchExchangeHandoverOutcome.ServerUnreachable, useCase(ENTRY))
+    }
+
+    @Test
+    fun `the code goes to the first watch that takes it and its answer ends the wait`() = runTest {
+        companion()
+        coEvery { accounts.issuePairingCode(ENTRY) } returns DeviceExchangePairingCode(CODE, EXPIRES_AT)
+        val sentTo = mutableListOf<String>()
+        coEvery { dataLayer.sendMessage(any(), WearDataLayerPaths.EXCHANGE_HANDOVER, any()) } coAnswers {
+            sentTo += firstArg<String>()
+            val parsed = WearExchangeHandoverCodec.parse(thirdArg(), gson) as WearExchangeHandoverParseResult.Parsed
+            assertEquals(CODE, parsed.payload.pairingCode)
+            assertEquals(PIN, parsed.payload.pinnedCertificate)
+            assertEquals(KEY, parsed.payload.pinnedKey)
+            assertEquals(LOGIN, parsed.payload.login)
+            WearSyncEvents.emitExchangeHandoverAck(WearExchangeHandoverAck(parsed.payload.requestId, enrolled = true, deviceId = WATCH_ID))
+        }
+
+        assertEquals(WatchExchangeHandoverOutcome.Enrolled, useCase(ENTRY))
+        assertEquals(listOf("a"), sentTo)
+    }
+
+    @Test
+    fun `the acknowledged watch identity is retained for later revocation`() = runTest {
+        companion()
+        coEvery { accounts.issuePairingCode(ENTRY) } returns DeviceExchangePairingCode(CODE, EXPIRES_AT)
+        coEvery { dataLayer.sendMessage(any(), any(), any()) } coAnswers {
+            val parsed = WearExchangeHandoverCodec.parse(thirdArg(), gson) as WearExchangeHandoverParseResult.Parsed
+            val ack = WearExchangeHandoverAck(parsed.payload.requestId, true, deviceId = WATCH_ID, e2eKem = WATCH_KEM)
+            WearSyncEvents.emitExchangeHandoverAck(ack)
+        }
+
+        assertEquals(WatchExchangeHandoverOutcome.Enrolled, useCase(ENTRY))
+        coVerify(exactly = 1) { watches.remember(ENTRY, "a", WATCH_ID) }
+    }
+
+    @Test
+    fun `the key the watch answered with is pinned over the directory (item DG)`() = runTest {
+        val watchKem = E2eDeviceKey.generate().kem
+        answerEnrolled(watchKem)
+
+        assertEquals(WatchExchangeHandoverOutcome.Enrolled, useCase(ENTRY))
+        coVerify(exactly = 1) { trust.pin(ENTRY.deviceId, WATCH_ID, watchKem) }
+    }
+
+    @Test
+    fun `an answer key that is not a P-256 point pins nothing`() = runTest {
+        answerEnrolled("not-a-key")
+
+        assertEquals(WatchExchangeHandoverOutcome.Enrolled, useCase(ENTRY))
+        coVerify(exactly = 0) { trust.pin(any(), any(), any()) }
+    }
+
+    private fun answerEnrolled(kem: String) {
+        companion()
+        coEvery { accounts.issuePairingCode(ENTRY) } returns DeviceExchangePairingCode(CODE, EXPIRES_AT)
+        coEvery { dataLayer.sendMessage(any(), any(), any()) } coAnswers {
+            val parsed = WearExchangeHandoverCodec.parse(thirdArg(), gson) as WearExchangeHandoverParseResult.Parsed
+            WearSyncEvents.emitExchangeHandoverAck(
+                WearExchangeHandoverAck(parsed.payload.requestId, true, deviceId = WATCH_ID, e2eKem = kem)
+            )
+        }
+    }
+
+    @Test
+    fun `a watch refusal carries its reason`() = runTest {
+        companion()
+        coEvery { accounts.issuePairingCode(ENTRY) } returns DeviceExchangePairingCode(CODE, EXPIRES_AT)
+        coEvery { dataLayer.sendMessage(any(), any(), any()) } coAnswers {
+            val parsed = WearExchangeHandoverCodec.parse(thirdArg(), gson) as WearExchangeHandoverParseResult.Parsed
+            WearSyncEvents.emitExchangeHandoverAck(
+                WearExchangeHandoverAck(parsed.payload.requestId, enrolled = false, reason = "bad-credentials")
+            )
+        }
+
+        assertEquals(WatchExchangeHandoverOutcome.WatchRefused("bad-credentials"), useCase(ENTRY))
+    }
+
+    @Test
+    fun `no node taking the message ends at once`() = runTest {
+        companion()
+        coEvery { accounts.issuePairingCode(ENTRY) } returns DeviceExchangePairingCode(CODE, EXPIRES_AT)
+        coEvery { dataLayer.sendMessage(any(), any(), any()) } throws IOException("node gone")
+
+        assertEquals(WatchExchangeHandoverOutcome.NoConnectedWatch, useCase(ENTRY))
+        assertEquals(0L, testScheduler.currentTime)
+    }
+
+    @Test
+    fun `a silent watch is waited for and then reported`() = runTest {
+        companion()
+        coEvery { accounts.issuePairingCode(ENTRY) } returns DeviceExchangePairingCode(CODE, EXPIRES_AT)
+        coEvery { dataLayer.sendMessage(any(), any(), any()) } returns Unit
+
+        assertEquals(WatchExchangeHandoverOutcome.WatchDidNotAnswer, useCase(ENTRY))
+        assertEquals(ACK_TIMEOUT_MS, testScheduler.currentTime)
+    }
+
+    @Test
+    fun `the payload text never prints the code or the login`() {
+        val text = DeviceExchangePairingCode(CODE, EXPIRES_AT).toString()
+
+        assertFalse(text.contains(CODE))
+    }
+
+    private fun companion(nodes: List<WearNode> = NODES) {
+        coEvery { dataLayer.isCompanionEnabled() } returns true
+        coEvery { dataLayer.getConnectedNodes() } returns nodes
+    }
+
+    private companion object {
+        const val CODE = "7KQ2M9XA"
+        const val WATCH_ID = "watch-device-id"
+        const val WATCH_KEM = "BMHBNOi24fTvs6FVK82lwF9b1Kmd1yjW_czRpmXYba0FIgE5tdQz6-ECIg4o1ZsDxuymoQC3aCvBDvmY6UO4iZw"
+        const val EXPIRES_AT = "2026-10-11T12:10:00Z"
+        const val LOGIN = "owner.home"
+        const val PIN = "SHA256:pinned"
+        const val KEY = "SHA256:key"
+        const val ACK_TIMEOUT_MS = 45_000L
+        val NODES = listOf(WearNode("a", "Watch A"), WearNode("b", "Watch B"))
+        val ENTRY = DeviceExchangeAccountEntry(
+            host = "exchange.example.net",
+            port = 44_022,
+            login = LOGIN,
+            deviceId = "AAAAAAAAAAAAAAAAAAAAAA",
+            pinnedCertificate = PIN,
+            pinnedPublicKey = KEY,
+        )
+    }
+}

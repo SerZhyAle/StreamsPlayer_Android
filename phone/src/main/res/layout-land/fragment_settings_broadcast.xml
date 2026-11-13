@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- S2817: Media-tab Broadcast section body - landscape parity. Same control ids as the portrait layout. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <com.sza.streamsplayer.ui.common.widget.SettingsInputRow
+        android:id="@+id/rowStreamTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:clickable="true"
+        app:sir_title="@string/settings_broadcast_stream_title"
+        app:sir_hint="@string/broadcast_default_stream_title" />
+
+    <com.sza.streamsplayer.ui.common.widget.SettingsValueRowGroup
+        android:id="@+id/broadcastConfigGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.sza.streamsplayer.ui.common.widget.SettingsDropdownRow
+            android:id="@+id/rowBitRate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_tiny"
+            android:layout_marginBottom="@dimen/margin_tiny"
+            android:focusable="true"
+            android:clickable="true"
+            app:sdr_valueAsText="true"
+            app:sdr_title="@string/settings_broadcast_bit_rate" />
+
+        <com.sza.streamsplayer.ui.common.widget.SettingsInputRow
+            android:id="@+id/rowPort"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_tiny"
+            android:layout_marginBottom="@dimen/margin_tiny"
+            android:focusable="true"
+            android:clickable="true"
+            app:sir_title="@string/settings_broadcast_port"
+            app:sir_inputType="2"
+            app:sir_inline="true"
+            app:sir_maxLength="5"
+            app:sir_fieldMaxWidth="@dimen/settings_input_numeric_max_width" />
+
+        <com.sza.streamsplayer.ui.common.widget.SettingsDropdownRow
+            android:id="@+id/rowAudioFormat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_tiny"
+            android:layout_marginBottom="@dimen/margin_tiny"
+            android:focusable="true"
+            android:clickable="true"
+            app:sdr_valueAsText="true"
+            app:sdr_title="@string/settings_broadcast_audio_format" />
+
+        <com.sza.streamsplayer.ui.common.widget.SettingsDropdownRow
+            android:id="@+id/rowMicGain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_tiny"
+            android:layout_marginBottom="@dimen/margin_tiny"
+            android:focusable="true"
+            android:clickable="true"
+            app:sdr_valueAsText="true"
+            app:sdr_title="@string/settings_broadcast_mic_gain" />
+
+    </com.sza.streamsplayer.ui.common.widget.SettingsValueRowGroup>
+
+    <com.sza.streamsplayer.ui.common.widget.SettingsToggleRow
+        android:id="@+id/rowFeedbackGuard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:clickable="true"
+        app:str_title="@string/settings_broadcast_feedback_guard"
+        app:str_subtitle="@string/settings_broadcast_feedback_guard_summary" />
+
+    <com.sza.streamsplayer.ui.common.widget.SettingsToggleRow
+        android:id="@+id/rowAutoOpenShare"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:clickable="true"
+        app:str_title="@string/settings_broadcast_auto_share"
+        app:str_subtitle="@string/settings_broadcast_auto_share_summary" />
+
+    <!-- S0029: the per-broadcast Google Drive announcement choice, remembered per family: the audio broadcast keeps
+         its own, the two camera modes share theirs. S0049: one row per family, so no row depends on a mode chosen
+         elsewhere. -->
+    <com.sza.streamsplayer.ui.common.widget.SettingsToggleRow
+        android:id="@+id/rowPublishToDrive"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:clickable="true"
+        app:str_title="@string/settings_broadcast_drive_title"
+        app:str_subtitle="@string/settings_broadcast_drive_summary" />
+
+    <com.sza.streamsplayer.ui.common.widget.SettingsToggleRow
+        android:id="@+id/rowPublishVideoToDrive"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:clickable="true"
+        app:str_title="@string/settings_broadcast_drive_video_title"
+        app:str_subtitle="@string/settings_broadcast_drive_summary" />
+
+    <TextView
+        android:id="@+id/guestPublishNotice"
+        android:drawableStart="@drawable/ic_guest"
+        android:drawablePadding="8dp"
+        android:drawableTint="?attr/colorOnSurfaceVariant"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="@string/exchange_guest_notice"
+        android:visibility="gone" />
+</LinearLayout>

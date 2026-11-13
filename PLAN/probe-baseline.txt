@@ -1,0 +1,4 @@
+# Tickets that wait in BlockNeedUserTest with no executable path to instrument.
+# Format: "Sxxxx  <why a probe cannot exist, and what the human reads instead>".
+S0034  Contract pointers, the registry patch, replay tests and the pre-release sweep only; the human runs the two-network joint run on the S4213 stand and fills the cells of PLAN/DONE/S0034_contract-sync-release-46/joint-run-checklist.md.
+S0055  The help stylesheet only (an asset, no executable path); the human compares the help pages on the API 27 (WebView 61) and API 35 emulators per the MANUAL lines of PLAN/DONE/S0055_help-css-old-webview.md.

@@ -1,0 +1,8 @@
+Vendored family assets of the hosted pages (S0033).
+
+sza-kit.css sha256 4aba1dee10cb902ee21ca4d86e4fbeed3bf7931c64b69fe15619727fd038c141
+  The reference kit of PAGE-STYLE (product-web-pages family of the shared contracts catalog, kit revision of
+  2026-10-21 that implements the unified controls), copied byte for byte on 2026-10-25. It is never edited in this
+  repository: a page extends it through site/assets/policy.css, which is linked after it (PAGE-STYLE section 5,
+  "Extending the kit"). The line above is checked by tools/site/build-site.ps1 -Check, and .gitattributes marks the
+  file -text so no line-ending normalization changes the bytes the site serves.

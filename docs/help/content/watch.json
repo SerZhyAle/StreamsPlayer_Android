@@ -1,0 +1,86 @@
+{
+  "help": "watch",
+  "elements": [
+    { "id": "now-playing" },
+    { "id": "channels" },
+    { "id": "player" },
+    { "id": "broadcast" },
+    { "id": "qr" },
+    { "id": "tile" },
+    { "id": "pictures" },
+    { "id": "help" }
+  ],
+  "related": [
+    { "help": "catalog" },
+    { "help": "player" },
+    { "help": "broadcast" }
+  ],
+  "locales": {
+    "en": {
+      "title": "StreamsPlayer on the watch",
+      "purpose": "Play your channels on the watch and broadcast its microphone. The watch takes its channels from your phone. This page opens on the phone, because the watch screen is too small to read it.",
+      "steps": [
+        "Open Channels (2) and tap a channel. Audio opens the audio player and video opens the video player (3).",
+        "To keep audio playing after you leave the app, switch on Keep playing in background in the audio player (3). The row Playing in background (1) then appears at the top of the start screen and brings you back to the player.",
+        "To broadcast the watch microphone to listeners on the same Wi-Fi, open Broadcast (4) and press Start broadcast. Show QR code (5) displays the code that the listening device scans.",
+        "Choose tile channel (6) sets the channel that the StreamsPlayer tile opens.",
+        "Open Channel pictures (7) to remove the downloaded pictures or to download them again.",
+        "Press Help (8) at any time to open this page on your phone."
+      ],
+      "elements": {
+        "now-playing": { "name": "Playing in background", "summary": "Returns to the player of the channel that keeps playing.", "details": "The row is on the start screen only while a channel is playing in the background. Tapping it opens the audio player of that channel." },
+        "channels": { "name": "Channels", "summary": "The channels on your watch.", "details": "The list comes from the published catalog, plus the channels your phone sends. Search streams, Filter streams and Sort streams narrow it, and Refresh catalog downloads the catalog again. Tapping a channel starts it. Its picture is the preview for a video channel, otherwise the station's logo, otherwise its small icon. The watch downloads these channel pictures itself when the list first loads and after Refresh catalog, except the sets you removed under Channel pictures.\n\nThe Own filter shows the live broadcasts of your other devices first, grouped by device, and then your saved streams. Under Own, Refresh loads the broadcasts again without downloading the catalog. The watch plays audio broadcasts; Save keeps one as a channel. Broadcasts appear here when the watch is connected to your exchange server.\n\nIf the watch is offline or the connection is too slow for the stream, the player says so." },
+        "player": { "name": "Player", "summary": "Plays the channel you chose.", "details": "Both players have Play or Pause, Jump to live, Pin stream or Unpin stream, Open on phone and Go back. The audio player also has Previous, Next, Keep playing in background, Volume down, Volume up and Dim screen.\n\nOpen on phone shows the channel on your phone.", "undo": "Unpin stream takes a pinned channel back off the list of pinned channels." },
+        "broadcast": { "name": "Broadcast", "summary": "Broadcasts the watch microphone.", "details": "Start broadcast opens the microphone and sends it to listeners on the same Wi-Fi. While it runs the screen says On air; Screen off darkens the screen without stopping it. Without the microphone permission the screen offers Allow microphone.\n\nWhen the watch is connected to your account, every broadcast is also announced on your exchange server from its start, and the screen says whether it is on the server; without an account the screen says the broadcast is reachable on this network only. To connect the watch, open Exchange server on the phone and choose Connect watch. Help on the phone opens the page about the watch on your account.", "undo": "Stop ends the broadcast." },
+        "qr": { "name": "QR code", "summary": "Shows a code for the listening device.", "details": "While the watch is broadcasting, Show QR code displays a QR code. Scan it on the listening device to listen. When no broadcast is running, the screen says there is nothing to scan." },
+        "tile": { "name": "Choose tile channel", "summary": "Chooses the channel that the tile opens.", "details": "Tap a channel in the list. The StreamsPlayer tile on the watch then opens that channel.", "undo": "Choose another channel to change it." },
+        "pictures": { "name": "Channel pictures", "summary": "Removes the downloaded channel pictures or downloads them again.", "details": "The screen lists the two sets of pictures, Channel previews and Station logos. Each shows whether the watch holds it and, once the published size is known, how large it is. Download fetches a set. Remove asks first and then deletes the set from the watch; the watch does not fetch it again, not even after Refresh catalog, until you press Download here.\n\nWhat you remove on the watch does not change the phone, and the pictures on the phone do not change the watch.", "undo": "Download fetches a removed set again." },
+        "help": { "name": "Help", "summary": "Opens this page on your phone.", "details": "The page opens in the language of the phone. When the phone is not in front, it shows a notification: tap it. The watch tells you if the phone did not answer or if notifications are off for StreamsPlayer on the phone." }
+      }
+    },
+    "ru": {
+      "title": "StreamsPlayer на часах",
+      "purpose": "Воспроизводите каналы на часах и транслируйте звук их микрофона. Каналы часы получают с телефона. Эта страница открывается на телефоне, потому что на экране часов её не прочитать.",
+      "steps": [
+        "Откройте «Каналы» (2) и коснитесь канала. Звук открывается в аудиоплеере, видео - в видеоплеере (3).",
+        "Чтобы звук продолжал играть после выхода из приложения, включите в аудиоплеере «Продолжать в фоне» (3). Вверху стартового экрана появится строка «Играет в фоне» (1), которая возвращает в плеер.",
+        "Чтобы транслировать микрофон часов слушателям в той же сети Wi-Fi, откройте «Трансляция» (4) и нажмите «Начать вещание». «Показать QR-код» (5) выводит код, который сканирует устройство слушателя.",
+        "«Выбрать канал плитки» (6) задаёт канал, который открывает плитка StreamsPlayer.",
+        "Откройте «Картинки каналов» (7), чтобы удалить скачанные картинки или скачать их снова.",
+        "Нажмите «Справка» (8) в любой момент, чтобы открыть эту страницу на телефоне."
+      ],
+      "elements": {
+        "now-playing": { "name": "Играет в фоне", "summary": "Возвращает в плеер канала, который продолжает играть.", "details": "Строка есть на стартовом экране, только пока канал играет в фоне. Касание открывает аудиоплеер этого канала." },
+        "channels": { "name": "Каналы", "summary": "Каналы на ваших часах.", "details": "Список приходит из опубликованного каталога, к нему добавляются каналы, присланные с телефона. «Поиск трансляций», «Фильтр трансляций» и «Сортировка трансляций» сужают его, а «Обновить каталог» загружает каталог заново. Касание канала запускает его. Картинка канала - превью для видеоканала, иначе логотип станции, иначе её маленький значок. Эти обложки каналов часы скачивают сами, когда список загружается впервые и после «Обновить каталог», кроме наборов, которые вы удалили на экране «Картинки каналов».\n\nФильтр «Свои» показывает сначала прямые трансляции ваших других устройств по устройствам, а затем ваши сохранённые потоки. В «Своих» кнопка «Обновить» заново загружает трансляции, не загружая каталог. Часы воспроизводят звуковые трансляции; «Сохранить» оставляет трансляцию каналом. Трансляции появляются здесь, когда часы подключены к вашему серверу обмена.\n\nЕсли часы не в сети или связь слишком медленная для трансляции, плеер сообщает об этом." },
+        "player": { "name": "Плеер", "summary": "Воспроизводит выбранный канал.", "details": "В обоих плеерах есть «Воспроизвести» или «Пауза», «К прямому эфиру», «Закрепить трансляцию» или «Открепить трансляцию», «Открыть на телефоне» и «Назад». В аудиоплеере также есть «Предыдущий», «Следующий», «Продолжать в фоне», «Тише», «Громче» и «Затемнить экран».\n\n«Открыть на телефоне» показывает канал на телефоне.", "undo": "«Открепить трансляцию» убирает канал из закреплённых." },
+        "broadcast": { "name": "Трансляция", "summary": "Транслирует звук микрофона часов.", "details": "«Начать вещание» включает микрофон и передаёт звук слушателям в той же сети Wi-Fi. Пока вещание идёт, на экране написано «Вещание идёт»; «Погасить экран» затемняет экран, не останавливая вещание. Без разрешения на микрофон экран предлагает «Разрешить микрофон».\n\nКогда часы подключены к вашему аккаунту, каждое вещание с самого начала объявляется ещё и на вашем сервере обмена, а экран показывает, есть ли оно на сервере; без аккаунта экран сообщает, что вещание доступно только в этой сети. Чтобы подключить часы, откройте на телефоне «Сервер обмена» и выберите «Подключить часы». «Помощь на телефоне» открывает страницу о часах в вашем аккаунте.", "undo": "«Остановить» завершает вещание." },
+        "qr": { "name": "QR-код", "summary": "Показывает код для устройства слушателя.", "details": "Пока часы вещают, «Показать QR-код» выводит QR-код. Отсканируйте его на устройстве слушателя, чтобы слушать. Если вещание не идёт, экран сообщает, что сканировать нечего." },
+        "tile": { "name": "Выбрать канал плитки", "summary": "Выбирает канал, который открывает плитка.", "details": "Коснитесь канала в списке. Плитка StreamsPlayer на часах будет открывать этот канал.", "undo": "Выберите другой канал, чтобы сменить." },
+        "pictures": { "name": "Картинки каналов", "summary": "Удаляет скачанные картинки каналов или скачивает их снова.", "details": "На экране два набора картинок: «Превью каналов» и «Логотипы станций». Для каждого указано, есть ли он на часах, а когда опубликованный размер известен - и сколько он занимает. «Скачать» загружает набор. «Удалить» сначала спрашивает, затем удаляет набор с часов; часы не скачивают его снова, даже после «Обновить каталог», пока вы не нажмёте здесь «Скачать».\n\nТо, что вы удалили на часах, не меняет телефон, а картинки на телефоне не меняют часы.", "undo": "«Скачать» загружает удалённый набор снова." },
+        "help": { "name": "Справка", "summary": "Открывает эту страницу на телефоне.", "details": "Страница открывается на языке телефона. Если телефон не на экране, он показывает уведомление: коснитесь его. Часы сообщат, если телефон не ответил или если для StreamsPlayer на телефоне выключены уведомления." }
+      }
+    },
+    "uk": {
+      "title": "StreamsPlayer на годиннику",
+      "purpose": "Відтворюйте канали на годиннику і транслюйте звук його мікрофона. Канали годинник отримує з телефона. Ця сторінка відкривається на телефоні, бо на екрані годинника її не прочитати.",
+      "steps": [
+        "Відкрийте «Канали» (2) і торкніться каналу. Звук відкривається в аудіоплеєрі, відео - у відеоплеєрі (3).",
+        "Щоб звук продовжував грати після виходу із застосунку, увімкніть в аудіоплеєрі «Продовжувати у фоні» (3). Угорі стартового екрана з'явиться рядок «Грає у фоні» (1), який повертає в плеєр.",
+        "Щоб транслювати мікрофон годинника слухачам у тій самій мережі Wi-Fi, відкрийте «Трансляція» (4) і натисніть «Почати мовлення». «Показати QR-код» (5) виводить код, який сканує пристрій слухача.",
+        "«Вибрати канал плитки» (6) задає канал, який відкриває плитка StreamsPlayer.",
+        "Відкрийте «Зображення каналів» (7), щоб видалити завантажені зображення або завантажити їх знову.",
+        "Натисніть «Довідка» (8) будь-коли, щоб відкрити цю сторінку на телефоні."
+      ],
+      "elements": {
+        "now-playing": { "name": "Грає у фоні", "summary": "Повертає в плеєр каналу, який продовжує грати.", "details": "Рядок є на стартовому екрані, лише поки канал грає у фоні. Дотик відкриває аудіоплеєр цього каналу." },
+        "channels": { "name": "Канали", "summary": "Канали на вашому годиннику.", "details": "Список надходить з опублікованого каталогу, до нього додаються канали, надіслані з телефона. «Пошук трансляцій», «Фільтр трансляцій» і «Сортування трансляцій» звужують його, а «Оновити каталог» завантажує каталог заново. Дотик до каналу запускає його. Зображення каналу - прев'ю для відеоканалу, інакше логотип станції, інакше її маленький значок. Ці обкладинки каналів годинник завантажує сам, коли список завантажується вперше, і після «Оновити каталог», окрім наборів, які ви видалили на екрані «Зображення каналів».\n\nФільтр «Власні» показує спершу прямі трансляції ваших інших пристроїв за пристроями, а потім ваші збережені потоки. У «Власних» кнопка «Оновити» заново завантажує трансляції, не завантажуючи каталог. Годинник відтворює звукові трансляції; «Зберегти» залишає трансляцію каналом. Трансляції з'являються тут, коли годинник підключено до вашого сервера обміну.\n\nЯкщо годинник не в мережі або зв'язок надто повільний для трансляції, плеєр повідомляє про це." },
+        "player": { "name": "Плеєр", "summary": "Відтворює вибраний канал.", "details": "В обох плеєрах є «Відтворити» або «Пауза», «До прямого ефіру», «Закріпити трансляцію» або «Відкріпити трансляцію», «Відкрити на телефоні» і «Назад». В аудіоплеєрі також є «Попередній», «Наступний», «Продовжувати у фоні», «Тихіше», «Гучніше» і «Затемнити екран».\n\n«Відкрити на телефоні» показує канал на телефоні.", "undo": "«Відкріпити трансляцію» прибирає канал із закріплених." },
+        "broadcast": { "name": "Трансляція", "summary": "Транслює звук мікрофона годинника.", "details": "«Почати мовлення» вмикає мікрофон і передає звук слухачам у тій самій мережі Wi-Fi. Поки мовлення триває, на екрані написано «Мовлення триває»; «Згасити екран» затемнює екран, не зупиняючи мовлення. Без дозволу на мікрофон екран пропонує «Дозволити мікрофон».\n\nКоли годинник підключено до вашого акаунта, кожне мовлення від самого початку оголошується ще й на вашому сервері обміну, а екран показує, чи є воно на сервері; без акаунта екран повідомляє, що мовлення доступне лише в цій мережі. Щоб підключити годинник, відкрийте на телефоні «Сервер обміну» і виберіть «Підключити годинник». «Допомога на телефоні» відкриває сторінку про годинник у вашому акаунті.", "undo": "«Зупинити» завершує мовлення." },
+        "qr": { "name": "QR-код", "summary": "Показує код для пристрою слухача.", "details": "Поки годинник мовить, «Показати QR-код» виводить QR-код. Відскануйте його на пристрої слухача, щоб слухати. Якщо мовлення не триває, екран повідомляє, що сканувати нічого." },
+        "tile": { "name": "Вибрати канал плитки", "summary": "Вибирає канал, який відкриває плитка.", "details": "Торкніться каналу в списку. Плитка StreamsPlayer на годиннику відкриватиме цей канал.", "undo": "Виберіть інший канал, щоб змінити." },
+        "pictures": { "name": "Зображення каналів", "summary": "Видаляє завантажені зображення каналів або завантажує їх знову.", "details": "На екрані два набори зображень: «Прев'ю каналів» і «Логотипи станцій». Для кожного вказано, чи є він на годиннику, а коли опублікований розмір відомий - і скільки він займає. «Завантажити» завантажує набір. «Видалити» спершу запитує, а потім видаляє набір з годинника; годинник не завантажує його знову, навіть після «Оновити каталог», доки ви не натиснете тут «Завантажити».\n\nТе, що ви видалили на годиннику, не змінює телефон, а зображення на телефоні не змінюють годинник.", "undo": "«Завантажити» завантажує видалений набір знову." },
+        "help": { "name": "Довідка", "summary": "Відкриває цю сторінку на телефоні.", "details": "Сторінка відкривається мовою телефона. Якщо телефон не на екрані, він показує сповіщення: торкніться його. Годинник повідомить, якщо телефон не відповів або якщо для StreamsPlayer на телефоні вимкнено сповіщення." }
+      }
+    }
+  }
+}

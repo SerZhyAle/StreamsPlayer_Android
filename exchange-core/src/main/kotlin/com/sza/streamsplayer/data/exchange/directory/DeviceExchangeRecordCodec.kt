@@ -1,0 +1,347 @@
+package com.sza.streamsplayer.data.exchange.directory
+
+import com.google.gson.JsonArray
+import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
+import com.sza.streamsplayer.data.security.e2e.E2eDeviceKey
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
+
+/**
+ * Record codec of contract DEVICE-EXCHANGE sections 6 and 8.1.
+ *
+ * The section 8.1 wrapper:
+ * `{"schemaVersion":1,"type":..,"writtenAt":..,"ttlSeconds":..,"record":{..}}`
+ * around a section 6.1, 6.2, 6.3 or 8.3 record.
+ *
+ * Members are additive: a reader ignores every member it does not know and skips a
+ * `type`, a resource `kind` or a request `action` it does not know. It refuses a wrapper whose
+ * `schemaVersion` is above its own, and a file/record above the 16 KiB (16,384 bytes) of section 6.
+ * Members are written in fixed order matching the golden vectors `records-v1.json`.
+ */
+object DeviceExchangeRecordCodec {
+
+    const val SCHEMA_VERSION = 1
+    const val MAX_RECORD_BYTES = 16 * 1_024
+
+    const val TYPE_DEVICE = "device"
+    const val TYPE_RESOURCE = "resource"
+    const val TYPE_BROADCAST = "broadcast"
+    const val TYPE_REQUEST = "request"
+
+    private const val FILE_PREFIX = "fmsx-"
+    private const val FILE_SUFFIX = ".json"
+    private const val MAX_PORT = 65_535
+
+    private const val KEY_SCHEMA = "schemaVersion"
+    private const val KEY_TYPE = "type"
+    private const val KEY_WRITTEN_AT = "writtenAt"
+    private const val KEY_TTL = "ttlSeconds"
+    private const val KEY_RECORD = "record"
+    private const val KEY_DEVICE_ID = "deviceId"
+    private const val KEY_DEVICE_NAME = "deviceName"
+    private const val KEY_PRODUCT = "product"
+    private const val KEY_PRODUCT_VERSION = "productVersion"
+    private const val KEY_PLATFORM = "platform"
+    private const val KEY_ROLES = "roles"
+    private const val KEY_CAPABILITIES = "capabilities"
+    private const val KEY_SEALED = "sealed"
+    private const val KEY_GRANT_ID = "grantId"
+    private const val KEY_E2E_VERSION = "v"
+    private const val KEY_E2E_KEM = "kem"
+    private const val KEY_RECEIVER = "receiver"
+    private const val KEY_MODES = "modes"
+    private const val KEY_TRANSPORTS = "transports"
+    private const val KEY_PLAYS = "plays"
+    private const val KEY_MODE = "mode"
+    private const val KEY_TRANSPORT = "transport"
+    private const val KEY_PRESENCE = "presence"
+    private const val KEY_UPDATED_AT = "updatedAt"
+    private const val KEY_RESOURCE_ID = "resourceId"
+    private const val KEY_KIND = "kind"
+    private const val KEY_NAME = "name"
+    private const val KEY_ACCESS = "access"
+    private const val KEY_PROTECTION = "protection"
+    private const val KEY_DESCRIPTOR = "descriptor"
+    private const val KEY_ROOT = "root"
+    private const val KEY_SHARE_ID = "shareId"
+    private const val KEY_PUBLIC_PORT = "publicPort"
+    private const val KEY_BROADCAST_ID = "broadcastId"
+    private const val KEY_TITLE = "title"
+    private const val KEY_STARTED_AT = "startedAt"
+    private const val KEY_TO_DEVICE_ID = "toDeviceId"
+    private const val KEY_FROM_DEVICE_ID = "fromDeviceId"
+    private const val KEY_ACTION = "action"
+
+    private val KNOWN_PRESENCE = setOf(DeviceExchangeDeviceRecord.PRESENCE_ONLINE, DeviceExchangeDeviceRecord.PRESENCE_OFFLINE)
+
+    fun fileName(type: String, id: String): String = filePrefix(type) + id + FILE_SUFFIX
+
+    fun filePrefix(type: String): String = "$FILE_PREFIX$type-"
+
+    fun encode(record: DeviceExchangeRecord): String {
+        val type = when (record) {
+            is DeviceExchangeDeviceRecord -> TYPE_DEVICE
+            is DeviceExchangeResourceRecord -> TYPE_RESOURCE
+            is DeviceExchangeBroadcastRecord -> TYPE_BROADCAST
+            is DeviceExchangeRequestRecord -> TYPE_REQUEST
+        }
+        return JsonObject().apply {
+            addProperty(KEY_SCHEMA, SCHEMA_VERSION)
+            addProperty(KEY_TYPE, type)
+            addProperty(KEY_WRITTEN_AT, Iso8601Utc.format(record.writtenAtMs))
+            addProperty(KEY_TTL, record.ttlSeconds)
+            add(KEY_RECORD, body(record))
+        }.toString()
+    }
+
+    /**
+     * The section 6 record body alone, without the Drive wrapper - what an exchange server envelope carries
+     * (`publish {resource}`, `broadcast-start {broadcast}`).
+     */
+    fun body(record: DeviceExchangeRecord): JsonObject = when (record) {
+        is DeviceExchangeDeviceRecord -> deviceBody(record)
+        is DeviceExchangeResourceRecord -> resourceBody(record)
+        is DeviceExchangeBroadcastRecord -> broadcastBody(record)
+        is DeviceExchangeRequestRecord -> requestBody(record)
+    }
+
+    fun decodeBody(type: String, body: JsonObject): DeviceExchangeRecord? = when (type) {
+        TYPE_DEVICE -> decodeDevice(body, 0L, 0L)
+        TYPE_RESOURCE -> decodeResource(body, 0L, 0L)
+        TYPE_BROADCAST -> decodeBroadcast(body, 0L, 0L)
+        else -> null
+    }
+
+    /** Null for anything this build cannot use: refused, skipped, damaged, foreign, or above 16 KiB. */
+    fun decode(raw: String): DeviceExchangeRecord? {
+        if (raw.toByteArray(Charsets.UTF_8).size > MAX_RECORD_BYTES) return null
+        val wrapper = runCatching { JsonParser.parseString(raw) }.getOrNull() as? JsonObject
+        return wrapper?.let(::decodeWrapper)
+    }
+
+    private fun decodeWrapper(wrapper: JsonObject): DeviceExchangeRecord? {
+        val schema = wrapper.long(KEY_SCHEMA)?.takeIf { it in 1..SCHEMA_VERSION }
+        val ttl = wrapper.long(KEY_TTL)
+        val writtenAt = wrapper.string(KEY_WRITTEN_AT)?.takeIf { schema != null }?.let(Iso8601Utc::parse)
+        val body = (wrapper.get(KEY_RECORD) as? JsonObject)?.takeIf { ttl != null }
+        if (writtenAt == null || ttl == null || body == null) return null
+        return when (wrapper.string(KEY_TYPE)) {
+            TYPE_DEVICE -> decodeDevice(body, writtenAt, ttl)
+            TYPE_RESOURCE -> decodeResource(body, writtenAt, ttl)
+            TYPE_BROADCAST -> decodeBroadcast(body, writtenAt, ttl)
+            TYPE_REQUEST -> decodeRequest(body, writtenAt, ttl)
+            else -> null
+        }
+    }
+
+    private fun deviceBody(device: DeviceExchangeDeviceRecord) = JsonObject().apply {
+        addProperty(KEY_DEVICE_ID, device.deviceId)
+        addProperty(KEY_DEVICE_NAME, device.deviceName)
+        addProperty(KEY_PRODUCT, device.product)
+        device.productVersion?.let { addProperty(KEY_PRODUCT_VERSION, it) }
+        device.platform?.let { addProperty(KEY_PLATFORM, it) }
+        add(KEY_ROLES, stringArray(device.roles))
+        if (device.capabilities.isNotEmpty()) add(KEY_CAPABILITIES, stringArray(device.capabilities))
+        device.receiver?.let { add(KEY_RECEIVER, receiverBody(it)) }
+        device.e2eKem?.let { kem ->
+            add(
+                E2eDeviceKey.KEY_E2E_KEY,
+                JsonObject().apply {
+                    addProperty(KEY_E2E_VERSION, E2eDeviceKey.VERSION)
+                    addProperty(KEY_E2E_KEM, kem)
+                },
+            )
+        }
+        addProperty(KEY_PRESENCE, device.presence)
+        addProperty(KEY_UPDATED_AT, Iso8601Utc.format(device.updatedAtMs))
+    }
+
+    private fun receiverBody(receiver: DeviceExchangeReceiverDeclaration) = JsonObject().apply {
+        add(KEY_MODES, stringArray(receiver.modes))
+        add(KEY_TRANSPORTS, stringArray(receiver.transports))
+        receiver.plays?.let { plays ->
+            add(
+                KEY_PLAYS,
+                JsonArray().apply {
+                    plays.forEach { pair ->
+                        add(
+                            JsonObject().apply {
+                                addProperty(KEY_MODE, pair.mode)
+                                addProperty(KEY_TRANSPORT, pair.transport)
+                            }
+                        )
+                    }
+                }
+            )
+        }
+    }
+
+    private fun resourceBody(resource: DeviceExchangeResourceRecord) = JsonObject().apply {
+        addProperty(KEY_RESOURCE_ID, resource.resourceId)
+        addProperty(KEY_DEVICE_ID, resource.deviceId)
+        addProperty(KEY_KIND, resource.kind)
+        addProperty(KEY_NAME, resource.name)
+        addProperty(KEY_UPDATED_AT, Iso8601Utc.format(resource.updatedAtMs))
+        resource.presence?.let { addProperty(KEY_PRESENCE, it) }
+        resource.protection?.let { add(KEY_PROTECTION, it.deepCopy()) }
+        resource.descriptor?.takeUnless { resource.isLocked }?.let { descriptor ->
+            add(
+                KEY_ACCESS,
+                JsonObject().apply {
+                    addProperty(KEY_DESCRIPTOR, descriptor)
+                    resource.root?.let { addProperty(KEY_ROOT, it) }
+                }
+            )
+        }
+        resource.shareId?.let { addProperty(KEY_SHARE_ID, it) }
+        resource.publicPort?.let { addProperty(KEY_PUBLIC_PORT, it) }
+    }
+
+    private fun broadcastBody(broadcast: DeviceExchangeBroadcastRecord) = JsonObject().apply {
+        addProperty(KEY_BROADCAST_ID, broadcast.broadcastId)
+        addProperty(KEY_DEVICE_ID, broadcast.deviceId)
+        broadcast.title?.let { addProperty(KEY_TITLE, it) }
+        addProperty(KEY_MODE, broadcast.mode)
+        broadcast.startedAtMs?.let { addProperty(KEY_STARTED_AT, Iso8601Utc.format(it)) }
+        addProperty(KEY_UPDATED_AT, Iso8601Utc.format(broadcast.updatedAtMs))
+        add(KEY_DESCRIPTOR, JsonParser.parseString(broadcast.descriptorJson))
+        broadcast.sealed?.let { add(KEY_SEALED, JsonParser.parseString(it)) }
+        broadcast.grantId?.let { addProperty(KEY_GRANT_ID, it) }
+    }
+
+    private fun requestBody(request: DeviceExchangeRequestRecord) = JsonObject().apply {
+        addProperty(KEY_TO_DEVICE_ID, request.toDeviceId)
+        addProperty(KEY_ACTION, request.action)
+        request.fromDeviceId?.let { addProperty(KEY_FROM_DEVICE_ID, it) }
+    }
+
+    fun decodeDevice(body: JsonObject, writtenAt: Long, ttl: Long): DeviceExchangeDeviceRecord? {
+        val deviceId = body.string(KEY_DEVICE_ID)
+        val name = body.string(KEY_DEVICE_NAME)
+        val product = body.string(KEY_PRODUCT)
+        if (deviceId.isNullOrBlank() || name == null || product.isNullOrBlank()) return null
+        return DeviceExchangeDeviceRecord(
+            deviceId = deviceId,
+            deviceName = name,
+            product = product,
+            productVersion = body.string(KEY_PRODUCT_VERSION),
+            platform = body.string(KEY_PLATFORM),
+            roles = body.strings(KEY_ROLES),
+            presence = body.presence(),
+            updatedAtMs = body.string(KEY_UPDATED_AT)?.let(Iso8601Utc::parse) ?: writtenAt,
+            writtenAtMs = writtenAt,
+            ttlSeconds = ttl,
+            receiver = (body.get(KEY_RECEIVER) as? JsonObject)?.let(::decodeReceiver),
+            capabilities = body.strings(KEY_CAPABILITIES),
+            e2eKem = E2eDeviceKey.kemOf(body.get(E2eDeviceKey.KEY_E2E_KEY)),
+        )
+    }
+
+    fun decodeReceiver(receiver: JsonObject): DeviceExchangeReceiverDeclaration {
+        val plays = (receiver.get(KEY_PLAYS) as? JsonArray)?.mapNotNull { element ->
+            val pair = element as? JsonObject
+            val mode = pair?.string(KEY_MODE)?.takeIf(String::isNotBlank)
+            val transport = pair?.string(KEY_TRANSPORT)?.takeIf(String::isNotBlank)
+            if (mode != null && transport != null) DeviceExchangePlayPair(mode, transport) else null
+        }
+        return DeviceExchangeReceiverDeclaration(receiver.strings(KEY_MODES), receiver.strings(KEY_TRANSPORTS), plays)
+    }
+
+    fun decodeResource(body: JsonObject, writtenAt: Long, ttl: Long): DeviceExchangeResourceRecord? {
+        val isShare = body.string(KEY_KIND) == DeviceExchangeResourceRecord.KIND_SFTP_SHARE
+        val name = body.string(KEY_NAME)
+        val resourceId = body.string(KEY_RESOURCE_ID)?.takeIf { it.isNotBlank() && name != null && isShare }
+        val deviceId = body.string(KEY_DEVICE_ID)?.takeIf { it.isNotBlank() }
+        if (resourceId == null || deviceId == null) return null
+        val protection = body.get(KEY_PROTECTION)?.takeUnless { it.isJsonNull }?.deepCopy()
+        // A server accidentally supplying access does not grant this non-pin client permission.
+        val access = if (protection == null) body.get(KEY_ACCESS) as? JsonObject else null
+        val descriptor = access?.string(KEY_DESCRIPTOR)?.takeIf(String::isNotBlank)
+        return DeviceExchangeResourceRecord(
+            resourceId = resourceId,
+            deviceId = deviceId,
+            kind = DeviceExchangeResourceRecord.KIND_SFTP_SHARE,
+            name = name.orEmpty(),
+            descriptor = descriptor,
+            updatedAtMs = body.string(KEY_UPDATED_AT)?.let(Iso8601Utc::parse) ?: writtenAt,
+            writtenAtMs = writtenAt,
+            ttlSeconds = ttl,
+            shareId = body.string(KEY_SHARE_ID)?.takeIf(String::isNotBlank),
+            publicPort = body.long(KEY_PUBLIC_PORT)?.takeIf { it in 1..MAX_PORT }?.toInt(),
+            root = access?.string(KEY_ROOT)?.takeIf { descriptor != null && it.isNotBlank() },
+            presence = body.get(KEY_PRESENCE)?.let { body.presence() },
+            protection = protection,
+        )
+    }
+
+    fun decodeBroadcast(body: JsonObject, writtenAt: Long, ttl: Long): DeviceExchangeBroadcastRecord? {
+        val broadcastId = body.string(KEY_BROADCAST_ID)?.takeIf(String::isNotBlank)
+        val deviceId = body.string(KEY_DEVICE_ID)?.takeIf(String::isNotBlank)
+        val mode = body.string(KEY_MODE)?.takeIf(String::isNotBlank)
+        val descriptor = (body.get(KEY_DESCRIPTOR) as? JsonObject)?.takeIf { mode != null }
+        if (broadcastId == null || deviceId == null || descriptor == null) return null
+        return DeviceExchangeBroadcastRecord(
+            broadcastId = broadcastId,
+            deviceId = deviceId,
+            title = body.string(KEY_TITLE),
+            mode = checkNotNull(mode),
+            startedAtMs = body.string(KEY_STARTED_AT)?.let(Iso8601Utc::parse),
+            updatedAtMs = body.string(KEY_UPDATED_AT)?.let(Iso8601Utc::parse) ?: writtenAt,
+            descriptorJson = descriptor.toString(),
+            writtenAtMs = writtenAt,
+            ttlSeconds = ttl,
+            sealed = (body.get(KEY_SEALED) as? JsonObject)?.toString(),
+            grantId = body.string(KEY_GRANT_ID)?.takeIf(String::isNotBlank),
+        )
+    }
+
+    fun decodeRequest(body: JsonObject, writtenAt: Long, ttl: Long): DeviceExchangeRequestRecord? {
+        val to = body.string(KEY_TO_DEVICE_ID)
+        val action = body.string(KEY_ACTION)
+        if (to.isNullOrBlank() || action != DeviceExchangeRequestRecord.ACTION_ANNOUNCE) return null
+        return DeviceExchangeRequestRecord(to, action, body.string(KEY_FROM_DEVICE_ID), writtenAt, ttl)
+    }
+
+    private fun JsonObject.presence(): String =
+        string(KEY_PRESENCE)?.takeIf { it in KNOWN_PRESENCE } ?: DeviceExchangeDeviceRecord.PRESENCE_OFFLINE
+
+    private fun stringArray(values: List<String>) = JsonArray().apply { values.forEach(::add) }
+
+    private fun JsonObject.strings(key: String): List<String> =
+        (get(key) as? JsonArray)?.mapNotNull { it.stringOrNull() }.orEmpty()
+
+    private fun JsonObject.string(key: String): String? = get(key)?.stringOrNull()
+
+    private fun JsonElement.stringOrNull(): String? =
+        takeIf { it.isJsonPrimitive && it.asJsonPrimitive.isString }?.asString
+
+    private fun JsonObject.long(key: String): Long? =
+        get(key)?.takeIf { it.isJsonPrimitive && it.asJsonPrimitive.isNumber }?.asLong
+
+    private object Iso8601Utc {
+        private const val WITH_MILLIS = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+        private const val WITHOUT_MILLIS = "yyyy-MM-dd'T'HH:mm:ss'Z'"
+
+        fun format(epochMs: Long): String = formatter(WITH_MILLIS).format(Date(epochMs))
+
+        fun parse(value: String): Long? = listOf(WITH_MILLIS, WITHOUT_MILLIS).firstNotNullOfOrNull { pattern ->
+            try {
+                formatter(pattern).parse(value)?.time
+            } catch (_: ParseException) {
+                null
+            }
+        }
+
+        private fun formatter(pattern: String) = SimpleDateFormat(pattern, Locale.US).apply {
+            timeZone = TimeZone.getTimeZone("UTC")
+            isLenient = false
+        }
+    }
+}
+
+typealias SftpRendezvousCodec = DeviceExchangeRecordCodec

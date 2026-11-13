@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- S0049: the settings screen shell (SETTINGS-NAVIGATION 2.0): the rail at reading start, the page at reading end, one
+     title treatment and one inset for every page. SettingsActivity gives the rail the whole width below 600 dp. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/settingsRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/settingsToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorSurface"
+        app:navigationContentDescription="@string/action_close"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:title="@string/settings"
+        app:titleTextColor="?attr/colorOnSurface" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <ScrollView
+            android:id="@+id/settingsRailPane"
+            android:layout_width="@dimen/settings_rail_width"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <com.sza.streamsplayer.ui.settings.rail.SettingsNavigationRail
+                android:id="@+id/settingsRail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/settingsPagePane"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!-- A live region, so a screen reader says which page a switch has opened and focus stays on the rail. -->
+            <TextView
+                android:id="@+id/settingsPageTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:accessibilityHeading="true"
+                android:accessibilityLiveRegion="polite"
+                android:paddingHorizontal="@dimen/settings_page_inset"
+                android:paddingTop="@dimen/margin_normal"
+                android:textAppearance="?attr/textAppearanceTitleMedium"
+                android:textColor="?attr/colorOnSurface" />
+
+            <FrameLayout
+                android:id="@+id/settingsContent"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

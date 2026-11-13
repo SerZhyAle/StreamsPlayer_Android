@@ -1,0 +1,7 @@
+{
+  "floor_ms": 600.0,
+  "note": "query typed to the first list whose rows all match; one sample, a tree read per 0.5 s",
+  "samples_ms": [
+    67625.0
+  ]
+}

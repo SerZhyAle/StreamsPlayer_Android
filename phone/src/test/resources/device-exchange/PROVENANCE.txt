@@ -1,0 +1,27 @@
+# Vendored copy of the DEVICE-EXCHANGE conformance vectors from the shared contracts catalog.
+# Never edit the vectors here: re-vendor them from the catalog and rewrite the sha256 rows.
+# Source in the catalog: device-exchange/vectors/<the path in the row>
+# Replayed by DeviceExchangeRecordVectorsTest (records-v1.json), DeviceExchangeProtectionVectorsTest
+# (protection-v1.json), ExchangeConnectionStringVectorsTest in domain/model and in data/exchange (both
+# connection-string-v1.json files), DeviceExchangeServerRecordsReplayTest (server-records-v1.json),
+# and DeviceExchangeServerFramesReplayTest (server-frames-v2.json and fmsw-224/frames-v2.json).
+# tools/contracts/check-sync.ps1 compares every row's bytes with the catalog's.
+# terms-item-cw.md, messages-item-cz.md and ladder-item-cy.md are not catalog files: each is one table of the
+# DEVICE-EXCHANGE text (item CW the terms, item CZ the one table of messages, item CY the ladder of checks) cut out
+# of device-exchange/README.md, header row to last row, LF line endings. S0030 vendors them; ExchangeTermsDictionaryTest
+# reads CW and CZ (S0031 reads CY), and check-sync.ps1 cuts the same lines out of the catalog and compares them with
+# these bytes.
+# The date is the day the bytes were last confirmed identical to the catalog's, at the contract version named.
+contract: DEVICE-EXCHANGE
+version: 1.7
+vendored: 2026-10-25
+sha256 connection-string-v1.json 4e75c0da11515f4b4e77a46e24751b55f874d699a0362de26cd591df79a8d26d
+sha256 fmsw-224/connection-string-v1.json 45b36244ecb14c196e9c014bb901d9027f0d70e7769455657433db3ff550748f
+sha256 fmsw-224/frames-v2.json f5c6ae0db7dd47454467184c5df3378104e35bfe09609acfd37f703e833541d8
+sha256 protection-v1.json 2f6b4ddfc97edfd53db7d2b5406ccaa0510ff8a229dd1866c72c51751e01cd75
+sha256 records-v1.json ccd59c550503c87470f4568829c35fc5487e4b603b5b54dead1efc45d73b5e39
+sha256 server-frames-v2.json afa1a68273670f98c5dd615261759d1853a4cafd9086254e23acbdc7d0aea107
+sha256 server-records-v1.json 2b0edd5dca31e91fc5b828fc5707d518c3b796bdf02f0bd28738e72108113e00
+sha256 terms-item-cw.md 9a5795a12dd0ed14b69bba8de7f5157eae63b58917185fad22f9815495efe5be
+sha256 messages-item-cz.md f706718e423b18c7c0cb14ae46542a29ec9a06a93d3f100830bd874f453748e6
+sha256 ladder-item-cy.md 3843d41a2003aaf240f176fe0ff029feb686fec24cfd7f2b2faa041c8a5fdf55

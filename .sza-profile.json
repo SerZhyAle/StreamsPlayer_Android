@@ -5,7 +5,15 @@
   "projectName": "StreamsPlayer_mob",
   "envPrefix": "SZA",
 
-  "$comment_modules": "The three Gradle modules of handoff section 8 phase 2. Directory names are confirmed when phase 2 creates them; update the lock path rules in the same change.",
+  "$comment_archive": "Closed tickets live in PLAN/DONE/, the spelling StreamsPlayer for Windows uses. REPO-LAYOUT rule 6 names done/ an archive spelling beside archive/, and the harness default stays PLAN/archive, so the spelling is declared here: the archive folder and the spec file pattern that admits it. spec_catalog/archive moves files to a hard-coded archive folder (reported to the canon session), so closed tickets are moved by hand into PLAN/DONE and the journal path is updated with spec_catalog/update -File.",
+  "paths": {
+    "specArchiveDir": "PLAN/DONE"
+  },
+  "grammar": {
+    "specFilePattern": "^PLAN/(DONE/)?S\\d{4}_(?!spec_)"
+  },
+
+  "$comment_modules": "The three Gradle modules of handoff section 8 phase 2; the directory names were fixed by S0002 (settings.gradle.kts). The lock path rules below follow them.",
   "modules": {
     "default": "phone",
     "names": ["phone", "wear", "watchface"]
@@ -19,20 +27,20 @@
     ],
     "pathRules": [
       { "pattern": "^PLAN/", "domain": null },
-      { "pattern": "^(settings\\.gradle\\.kts|build\\.gradle\\.kts|gradle\\.properties|gradle/)", "domain": "Code" },
-      { "pattern": "^(phone|wear|watchface)/", "domain": "Code.Main" },
-      { "pattern": "^(tools|docs|\\.claude|\\.github)/", "domain": "Code.Scripts" },
+      { "pattern": "^(settings\\.gradle\\.kts|build\\.gradle\\.kts|gradle\\.properties|gradlew|gradlew\\.bat|gradle/|build-logic/)", "domain": "Code" },
+      { "pattern": "^(phone|wear|watchface|exchange-core)/", "domain": "Code.Main" },
+      { "pattern": "^(tools|docs|site|\\.claude|\\.github)/", "domain": "Code.Scripts" },
       { "pattern": "^(CLAUDE|AGENTS|README)\\.md$", "domain": "Code.Scripts" },
       { "pattern": "^(LICENSE|\\.gitignore|\\.gitattributes)$", "domain": "Code.Scripts" },
       { "pattern": "^(\\.sza-profile\\.json|\\.sza-canon\\.json)$", "domain": "Code.Scripts" }
     ]
   },
 
-  "$comment_probes": "Nothing is instrumented yet. Phase 2 sets scanRoots/sourceRoots to the module source trees and turns this on.",
+  "$comment_probes": "The probe gates walk the module source trees (S0002). Every other key keeps the canon default, which is the Timber.d(\"Sxxxx: ..\") form; Timber itself joins the dependencies with the first ported code (S0003), and nothing is instrumented before then.",
   "probes": {
-    "enabled": false,
-    "scanRoots": [],
-    "sourceRoots": []
+    "enabled": true,
+    "scanRoots": ["phone/src", "wear/src", "watchface/src", "exchange-core/src"],
+    "sourceRoots": ["phone/src", "wear/src", "watchface/src", "exchange-core/src"]
   },
 
   "commands": {

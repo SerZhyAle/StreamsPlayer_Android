@@ -1,0 +1,45 @@
+Own-row updates for StreamsPlayer Android, four rows, from the S0041 contract-sync run of 2026-10-27.
+For the canon session under CLAUDE.md section 6. The catalog was NOT edited by this repository.
+
+File:   registry-sync.patch (beside this note), unified diff of _meta/REGISTRY.md: two hunks, four rows, one line each.
+Base:   the catalog's file of 2026-10-27 (sha256 e804d51e3dc704fc..., unchanged while this run worked) WITH THE TWO
+        EARLIER PENDING PATCHES ALREADY APPLIED, in this order:
+        1. PLAN/DONE/S0026_contract-sync-2026-10-12/registry-sync.patch
+        2. PLAN/S0037_contract-sync-20261017/registry-sync.patch
+Apply:  from the catalog root, `patch -p1 --binary -i registry-sync.patch` (CRLF file), after the other two.
+        Verified 2026-10-27 on a scratch copy of the live file: S0026's patch, S0037's patch, then this one, each exit 0,
+        the result byte-identical to the proposed file. This patch alone does NOT apply to the file as it stands (its
+        context is S0037's text, "different line endings"); the catalog file was not touched.
+
+What changes
+1. REPO-STAMP         Implements 0.12 -> 0.13, Verified 2026-10-27.
+2. HARNESS-PROFILE    Implements 0.12 -> 0.13, Verified 2026-10-27.
+3. RULE-DELIVERY      `-` / `partial 0.12` -> `-` / `0.12`, Verified 2026-10-27. No longer partial: the only thing that
+                      made it partial was the installed reader failing the unknown-age rung, which S0037's patch closes
+                      in section 3 and which the catalog's own generated vectors now show passing.
+4. STREAM-BANK        `-` / `partial 2.4` -> `partial 2.4` / `partial 2.4`, Verified 2026-10-27. Shape only: the claim is
+                      unchanged (rules 9 and 12 stay the section 3 exception, carrier S0050); `partial` is read from
+                      `Implements` only, so the old shape was "unparsed".
+The earlier notes are kept after "Earlier:" in each row.
+
+Why these cells
+- 0.13 of REPO-STAMP and HARNESS-PROFILE is additive (optional version carriers; absence and the legacy profile "1" mean
+  wire 1.0). It obliges no change to .sza-canon.json or .sza-profile.json, and neither is edited: the stamp is written by
+  the adopt-canon run only, which also owns the digest re-sync (SZA-CANON03, a warning, 10 days from reconciledOn).
+- The cells rest on runs of 2026-10-27, all in attachments/: the catalog's reader vectors replayed against the installed
+  plugin 2026.1026.3 (exit 0, PASS run=44; the eight source hashes in the vector manifest equal the installed files),
+  the real stamp and profile read by that plugin, the stamp digest recomputed against the canon it names, and a focused
+  STREAM-BANK unit run (phone 44, Wear 19, zero failures, errors, skips).
+- No row claims more than was run. The vectors certify the readers only; real delivery is not claimed.
+
+Result with all three patches (attachments/contract-lag-*-20261027.txt, check-sync-*-20261027.txt)
+- contract-lag for this product: unparsed 4 -> 0, behind 2 -> 0, pending 2 -> 0.
+- tools/contracts/check-sync.ps1: 6 findings -> 2. The two left are one defect, the vendored DEVICE-EXCHANGE item CZ
+  messages table (and its PROVENANCE hash): owner S0053. Not S0041's, and not a registry matter.
+
+Not in this patch
+- DEVICE-EXCHANGE and LIVE-BROADCAST rows (S0026's and S0037's patches), the pending INPUT-PARITY and
+  MEDIA-CLASSIFICATION rows (S0037's patch: dated cells), the unified-UI rows (S0036, S0037).
+- The adopt-canon digest re-sync and SZA-VER03 (the play channel's manifest folder: S0047).
+- Research item "how a non-applicable contract spells Verified": answered by S0037's recommendation R1, pending the
+  canon decision; nothing further is proposed here.

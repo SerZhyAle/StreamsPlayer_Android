@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/qrScannerRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black">
+
+    <androidx.camera.view.PreviewView
+        android:id="@+id/qrPreview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/qr_scanner_viewfinder_cd"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvQrHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fitsSystemWindows="true"
+        android:paddingHorizontal="16dp"
+        android:text="@string/qr_scanner_hint"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- S0035: the help action, in the top end corner (CONTEXT-HELP rule 2); the hint keeps its place. -->
+    <!-- The container takes the status bar inset, so the button is below the bar and reachable by touch. -->
+    <FrameLayout
+        android:id="@+id/qrHelpHost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/btnQrHelp"
+            android:layout_width="@dimen/touch_target_min_height"
+            android:layout_height="@dimen/touch_target_min_height"
+            android:layout_margin="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/help"
+            android:focusable="true"
+            android:src="@drawable/ic_help_outline"
+            app:tint="@android:color/white" />
+    </FrameLayout>
+
+    <!-- S0049: content-width commands that wrap whole from reading start; Close is neutral and at most one command is
+         primary (BUTTONS 2.0 sections 2.2, 3.5 and 4.2). -->
+    <com.sza.streamsplayer.ui.common.widget.CommandFlowLayout
+        android:id="@+id/bottomControls"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:paddingHorizontal="@dimen/margin_medium"
+        android:paddingVertical="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnQrPaste"
+            style="@style/Widget.FastMediaSorter.Button.Filled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:text="@string/qr_scanner_paste_instead"
+            app:icon="@drawable/ic_copy" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnQrClose"
+            style="@style/Widget.StreamsPlayer.Button.Tonal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:text="@string/qr_scanner_close" />
+
+    </com.sza.streamsplayer.ui.common.widget.CommandFlowLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

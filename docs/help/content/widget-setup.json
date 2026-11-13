@@ -1,0 +1,61 @@
+{
+  "help": "widget-setup",
+  "surface": "StreamLaunchWidgetConfigActivity",
+  "elements": [
+    { "id": "close", "descKeys": ["action_close"], "labelKey": "action_close" },
+    { "id": "help", "descKeys": ["help"], "labelKey": "help" },
+    { "id": "search", "viewId": "etSearch", "labelKey": "search_channels" },
+    { "id": "channels", "viewId": "rvChannels" }
+  ],
+  "related": [
+    { "help": "catalog" },
+    { "help": "edit-channel" }
+  ],
+  "locales": {
+    "en": {
+      "title": "Choose channel",
+      "purpose": "Pick the channel that a channel tile on your home screen opens. This screen appears when you add the tile.",
+      "steps": [
+        "Find the channel: scroll the list (4) or type part of its name in the search field (3).",
+        "Tap the channel. The tile is created at once and this screen closes.",
+        "Leave with Close (1) if you changed your mind; no tile is added."
+      ],
+      "elements": {
+        "close": { "summary": "Leaves without adding the tile.", "details": "Nothing is added to the home screen.", "undo": "Add the tile again from the widget list of your home screen." },
+        "help": { "summary": "Opens this page.", "details": "Back returns to the list.", "shortcut": "F1" },
+        "search": { "summary": "Narrows the list as you type.", "details": "Matches the channel name. If nothing matches, the screen says that no channels were found." },
+        "channels": { "name": "Channel list", "summary": "Your channels.", "details": "Tapping a row chooses that channel for the tile. The tile then opens it with one tap on the home screen.", "undo": "Remove the tile and add it again to choose another channel." }
+      }
+    },
+    "ru": {
+      "title": "Выберите канал",
+      "purpose": "Выберите канал, который открывает плитка канала на домашнем экране. Этот экран появляется, когда вы добавляете плитку.",
+      "steps": [
+        "Найдите канал: прокрутите список (4) или введите часть названия в поле поиска (3).",
+        "Коснитесь канала. Плитка создаётся сразу, а этот экран закрывается.",
+        "Передумали - выйдите кнопкой «Закрыть» (1); плитка не добавится."
+      ],
+      "elements": {
+        "close": { "summary": "Выходит, не добавляя плитку.", "details": "На домашний экран ничего не добавляется.", "undo": "Добавьте плитку снова из списка виджетов домашнего экрана." },
+        "help": { "summary": "Открывает эту страницу.", "details": "«Назад» возвращает к списку.", "shortcut": "F1" },
+        "search": { "summary": "Сужает список по мере ввода.", "details": "Ищет по названию канала. Если ничего не подошло, экран сообщает, что каналы не найдены." },
+        "channels": { "name": "Список каналов", "summary": "Ваши каналы.", "details": "Касание строки выбирает этот канал для плитки. Затем плитка открывает его одним касанием на домашнем экране.", "undo": "Удалите плитку и добавьте снова, чтобы выбрать другой канал." }
+      }
+    },
+    "uk": {
+      "title": "Оберіть канал",
+      "purpose": "Оберіть канал, який відкриває плитка каналу на домашньому екрані. Цей екран з'являється, коли ви додаєте плитку.",
+      "steps": [
+        "Знайдіть канал: прокрутіть список (4) або введіть частину назви в полі пошуку (3).",
+        "Торкніться каналу. Плитка створюється одразу, а цей екран закривається.",
+        "Передумали - вийдіть кнопкою «Закрити» (1); плитка не додасться."
+      ],
+      "elements": {
+        "close": { "summary": "Виходить, не додаючи плитку.", "details": "На домашній екран нічого не додається.", "undo": "Додайте плитку знову зі списку віджетів домашнього екрана." },
+        "help": { "summary": "Відкриває цю сторінку.", "details": "«Назад» повертає до списку.", "shortcut": "F1" },
+        "search": { "summary": "Звужує список під час введення.", "details": "Шукає за назвою каналу. Якщо нічого не підійшло, екран повідомляє, що канали не знайдені." },
+        "channels": { "name": "Список каналів", "summary": "Ваші канали.", "details": "Дотик до рядка вибирає цей канал для плитки. Потім плитка відкриває його одним дотиком на домашньому екрані.", "undo": "Видаліть плитку й додайте знову, щоб вибрати інший канал." }
+      }
+    }
+  }
+}

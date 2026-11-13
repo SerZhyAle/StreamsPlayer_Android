@@ -1,0 +1,25 @@
+Own-row updates for StreamsPlayer Android from S0051 (documentation quality), 2026-11-08. For the canon session under CLAUDE.md
+section 6. The catalog was NOT edited by this repository.
+
+File:   registry-sync.patch (beside this note), unified diff of _meta/REGISTRY.md, LF, three replaced rows, written on top of the
+        S0057 patch (PLAN/S0057_contract-sync-2026-10-29/registry-sync.patch), which is still unapplied.
+Order:  from the catalog root, S0057 first, then this one:
+          patch -p1 --binary -i <S0057>/registry-sync.patch
+          patch -p1 --binary -i <S0051>/registry-sync.patch
+Base:   the catalog's file on 2026-11-08, sha256 7a28a3a03f0ff27072817059356d1e4ae21a1cc41aca8f977edbcc5aed1c1d0a. Verified on a
+        scratch copy: both exit 0 (S0057 hunk 3 applies at an offset of 5 lines), result byte-identical to the proposed file.
+
+What moves, and only to what ran
+ 1. DOC-INTERNAL-QUALITY   - / 0.11 -> partial 0.11 / 0.11, Verified 2026-11-08. The registry and the gates exist and each ran on its
+                           own with exit 0; negative cases proven by tools/docs/test-docs-gates.ps1 (run=53 skipped=0). Partial
+                           because no pre-release sweep and no CI run has run them, and permissions.ps1 needs release manifests.
+ 2. DOC-EXTERNAL-QUALITY   partial 0.13 / - stays, Verified 2026-11-08. The gaps of freshness, term base, glossary and subject
+                           index are closed for the declared scope; rung 2 is item D of CONTEXT-HELP; the published help is S0045 T6.
+ 3. Section 3 exception    the row of S0057 is rewritten: remediated by S0051, open only for the first sweep, same date 2026-12-31.
+
+check-sync against a scratch catalog holding this result, 2026-11-08: the 11 stale-cell findings of the live file are gone. Three
+remain, all outside this ticket: `Missing own row: EXCHANGE-MARK` (the S0039 row, not in this patch), and the item CZ table and its
+PROVENANCE row (S0053). Live file today: 14 findings, the same three plus the rows the S0057 patch moves. tools/release/pre-release-sweep.ps1
+now calls check-sync, so its ContractSync check stays FAIL until those are done: that is the gate holding, not a defect of this ticket.
+
+No release, tag, upload or deployment is implied by any cell above.

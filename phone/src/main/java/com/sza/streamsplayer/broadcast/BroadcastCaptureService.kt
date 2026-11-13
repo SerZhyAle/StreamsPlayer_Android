@@ -1,0 +1,454 @@
+package com.sza.streamsplayer.broadcast
+
+import android.Manifest
+import android.annotation.SuppressLint
+import android.app.Service
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.content.pm.ServiceInfo
+import android.media.AudioFormat
+import android.media.AudioRecord
+import android.media.MediaRecorder
+import android.os.Build
+import android.os.IBinder
+import android.os.SystemClock
+import androidx.core.app.ServiceCompat
+import androidx.core.content.ContextCompat
+import com.sza.streamsplayer.core.notification.NotificationIds
+import com.sza.streamsplayer.data.broadcast.BroadcastDescriptorDto
+import com.sza.streamsplayer.data.broadcast.BroadcastEndpointDto
+import com.sza.streamsplayer.data.broadcast.auth.BroadcastCredentialRegistry
+import com.sza.streamsplayer.data.broadcast.auth.BroadcastLinkChoice
+import com.sza.streamsplayer.data.exchange.OutgoingExchangeEntry
+import com.sza.streamsplayer.data.exchange.drive.DriveBroadcastAnnouncer
+import com.sza.streamsplayer.data.exchange.publish.BroadcastExchangePublisher
+import com.sza.streamsplayer.data.repository.settings.BroadcastSettingsStore
+import com.sza.streamsplayer.domain.repository.SettingsRepository
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import timber.log.Timber
+import java.util.UUID
+import java.util.concurrent.atomic.AtomicBoolean
+import javax.inject.Inject
+
+@Suppress("MagicNumber")
+@AndroidEntryPoint
+class BroadcastCaptureService : Service() {
+
+    @Inject
+    lateinit var settingsRepository: SettingsRepository
+
+    @Inject
+    lateinit var exchangePublisher: BroadcastExchangePublisher
+
+    @Inject
+    lateinit var driveAnnouncer: DriveBroadcastAnnouncer
+
+    @Inject
+    lateinit var credentialRegistry: BroadcastCredentialRegistry
+
+    @Inject
+    lateinit var outgoingEntry: OutgoingExchangeEntry
+
+    private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+
+    private val publication by lazy { OutgoingEntryPublication(serviceScope, outgoingEntry.server, exchangePublisher) }
+
+    // Assigned on the session coroutine, read and cleared from the main-thread stop path.
+    @Volatile
+    private var httpServer: BroadcastHttpServer? = null
+
+    private val isRecording = AtomicBoolean(false)
+
+    override fun onBind(intent: Intent?): IBinder? = null
+
+    @Suppress("ReturnCount")
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        if (intent?.action == ACTION_STOP) {
+            stopBroadcast()
+            stopSelf()
+            return START_NOT_STICKY
+        }
+
+        // Reachable only if the grant was revoked between the companion's check and this callback: a
+        // typed foreground start without RECORD_AUDIO is refused by Android 14, so this branch cannot
+        // keep the startForegroundService() promise and the promise is refused before it is made (S3267).
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            Timber.w("BroadcastCaptureService: RECORD_AUDIO permission missing")
+            _state.value = BroadcastState.Failed(
+                BroadcastFailure.MICROPHONE_PERMISSION,
+                "RECORD_AUDIO permission missing"
+            )
+            stopSelf()
+            return START_NOT_STICKY
+        }
+
+        // Before the reentrancy guard and before the asynchronous session work: a second start command,
+        // or a session that fails to open, used to leave the promise unkept and cost the process (S3267).
+        enterForeground()
+
+        startBroadcast()
+        return START_STICKY
+    }
+
+    private fun enterForeground() {
+        val notification = BroadcastNotificationFactory.createNotification(this)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            startForeground(
+                NotificationIds.PHONE_BROADCAST,
+                notification,
+                ServiceInfo.FOREGROUND_SERVICE_TYPE_MICROPHONE
+            )
+        } else {
+            startForeground(NotificationIds.PHONE_BROADCAST, notification)
+        }
+    }
+
+    private fun leaveForegroundAndStop() {
+        ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_REMOVE)
+        stopSelf()
+    }
+
+    private fun startBroadcast() {
+        // compareAndSet, not get: the session now opens asynchronously, so a second onStartCommand can
+        // arrive before the first one has bound its port.
+        if (!isRecording.compareAndSet(false, true)) return
+
+        serviceScope.launch { openSession() }
+    }
+
+    /**
+     * Reads the preference snapshot and opens the session off the main thread: onStartCommand is a
+     * main-thread callback and the settings read is DataStore I/O, which must not block it.
+     */
+    @Suppress("ReturnCount")
+    private suspend fun openSession() {
+        val config = readSessionConfig()
+        val server = BroadcastHttpServer(this, config, credentials = credentialRegistry::pairs)
+        val port = server.start()
+        if (port == -1) {
+            _state.value = BroadcastState.Failed(
+                BroadcastFailure.NETWORK_UNAVAILABLE,
+                "Port ${config.port} is occupied or unavailable"
+            )
+            isRecording.set(false)
+            leaveForegroundAndStop()
+            return
+        }
+        // Published before the recheck: a stop landing after this line finds the server in the field,
+        // and one landing before it is caught by the recheck, so the bound server cannot outlive the session.
+        httpServer = server
+        if (!isRecording.get()) {
+            server.stop()
+            clearServer(server)
+            return
+        }
+        val url = server.getBroadcastUrl() ?: run {
+            server.stop()
+            clearServer(server)
+            _state.value = BroadcastState.Failed(
+                BroadcastFailure.NETWORK_UNAVAILABLE,
+                "No reachable local IPv4 address"
+            )
+            isRecording.set(false)
+            leaveForegroundAndStop()
+            return
+        }
+        serviceScope.launch {
+            server.listenerCount.collect { count ->
+                _listenerCount.value = count
+                exchangePublisher.updateLanListeners(count)
+            }
+        }
+
+        val endpoint = BroadcastEndpointDto(
+            url = url,
+            transport = "HTTP",
+            mode = BroadcastMode.AUDIO_ONLY.name,
+            audioCodec = "aac",
+            sampleRate = config.sampleRateHz,
+            bitrate = config.bitRateBps,
+            isLive = true,
+            targetLatencyMs = 200L
+        )
+        val dto = BroadcastDescriptorDto(
+            schemaVersion = 1,
+            url = url,
+            title = config.streamTitle,
+            mode = BroadcastMode.AUDIO_ONLY.name,
+            sourceId = config.sourceDeviceId,
+            endpoints = listOf(endpoint),
+            isLive = true,
+            targetLatencyMs = 200L
+        )
+        _state.value = BroadcastState.Live(dto, SystemClock.elapsedRealtime())
+
+        // The current LAN endpoint, asked again whenever a record is rebuilt: the address can change mid-broadcast.
+        val lanEndpoint: () -> BroadcastEndpointDto? = {
+            server.getBroadcastUrl()?.let { liveUrl ->
+                BroadcastEndpointDto(
+                    url = liveUrl,
+                    transport = "HTTP",
+                    mode = BroadcastMode.AUDIO_ONLY.name,
+                    audioCodec = "aac",
+                    sampleRate = config.sampleRateHz,
+                    bitrate = config.bitRateBps,
+                    isLive = true,
+                    targetLatencyMs = 200L,
+                )
+            }
+        }
+        publication.bind(
+            session = {
+                BroadcastExchangePublisher.Session(
+                    mode = BroadcastMode.AUDIO_ONLY,
+                    title = config.streamTitle,
+                    sourceId = config.sourceDeviceId,
+                    // The phone caps no listener; the watch's cap of 4 is S0022's own record.
+                    maxListeners = 0,
+                    localPort = port,
+                    localPath = BroadcastHttpServer.ENDPOINT,
+                    lanEndpoint = lanEndpoint,
+                    tunnelPort = { scheme -> if (scheme == "http") port else null },
+                    // Item BF: this server checks the registry's pairs, so the announced broadcast is protected.
+                    linkChoice = BroadcastLinkChoice.Generated,
+                )
+            },
+        )
+        if (config.publishToDrive) {
+            // S0029: the announcement in the person's own app folder; the stream never goes through Drive.
+            driveAnnouncer.start(
+                DriveBroadcastAnnouncer.Session(
+                    mode = BroadcastMode.AUDIO_ONLY,
+                    title = config.streamTitle,
+                    sourceId = config.sourceDeviceId,
+                    deviceName = BroadcastSettingsStore.defaultDeviceTitle(this),
+                    lanEndpoint = lanEndpoint,
+                )
+            )
+        }
+
+        captureAudioLoop(server, config)
+    }
+
+    private suspend fun readSessionConfig(): BroadcastSessionConfig {
+        val settings = settingsRepository.getSettings().first()
+        val broadcast = settings.broadcast
+        val sourceDeviceId = broadcast.sourceDeviceId ?: run {
+            // Re-checked under the transform lock: a concurrent session may have minted the id first.
+            var id = UUID.randomUUID().toString()
+            settingsRepository.updateSettings { current ->
+                val existing = current.broadcast.sourceDeviceId
+                if (existing != null) {
+                    id = existing
+                    current
+                } else {
+                    current.copy(broadcast = current.broadcast.copy(sourceDeviceId = id))
+                }
+            }
+            id
+        }
+        return BroadcastSessionConfig(
+            streamTitle = broadcast.streamTitle.ifBlank { BroadcastSessionConfig.DEFAULT.streamTitle },
+            bitRateBps = broadcast.bitRateBps,
+            port = broadcast.port,
+            sampleRateHz = broadcast.sampleRateHz,
+            channelCount = broadcast.channelCount,
+            sourceDeviceId = sourceDeviceId,
+            micGainPercent = broadcast.micGainPercent,
+            feedbackGuardEnabled = broadcast.feedbackGuardEnabled,
+            publishToDrive = broadcast.publishAudioToDrive,
+        )
+    }
+
+    @Suppress("TooGenericExceptionCaught")
+    // S3155: the service refuses to start at all without RECORD_AUDIO - onStartCommand checks it and
+    // calls stopSelf() - so this loop is unreachable without the grant, and the AudioRecord below is
+    // additionally inside a try/catch(Exception) that takes the SecurityException a mid-session
+    // revocation would throw. Lint follows neither a guard in another method nor a catch around the
+    // call rather than on it.
+    @SuppressLint("MissingPermission")
+    private fun captureAudioLoop(server: BroadcastHttpServer, config: BroadcastSessionConfig) {
+        val channelConfig = if (config.channelCount >= 2) AudioFormat.CHANNEL_IN_STEREO else AudioFormat.CHANNEL_IN_MONO
+        val audioFormat = AudioFormat.ENCODING_PCM_16BIT
+        val minBufferSize = AudioRecord.getMinBufferSize(config.sampleRateHz, channelConfig, audioFormat)
+        val bufferSize = maxOf(minBufferSize, 8192)
+
+        // The server advertises audio/aac with icy-br derived from the same config, so the bytes on
+        // the wire must be ADTS AAC at that rate - the recorder's raw PCM would make the response
+        // header a lie no client can act on.
+        val encoder = BroadcastAacEncoder(
+            sampleRate = config.sampleRateHz,
+            channelCount = config.channelCount,
+            bitRate = config.bitRateBps,
+        ) { frame, offset, length ->
+            server.writeFrame(frame, offset, length)
+            // The relay upload carries the same ADTS frames (S0021): one encoder output feeds the
+            // LAN and the relay. The encoder hands a fresh array per frame, owned read-only.
+            if (offset == 0 && length == frame.size) {
+                exchangePublisher.writeFrame(frame)
+            } else {
+                exchangePublisher.writeFrame(frame.copyOfRange(offset, offset + length))
+            }
+        }
+        if (!encoder.start()) {
+            _state.value = BroadcastState.Failed(
+                BroadcastFailure.ENCODER_UNAVAILABLE,
+                "AAC encoder unavailable on this device"
+            )
+            isRecording.set(false)
+            // The publish (if any) dies with the session that owned it.
+            publication.unbind()
+            exchangePublisher.end()
+            driveAnnouncer.end()
+            // The session never opened, so the notification would otherwise outlive it.
+            leaveForegroundAndStop()
+            return
+        }
+
+        // The recorder is owned by this loop alone: stopping or releasing it from the stop path while
+        // read() is in flight on this thread raced the native object and released it twice.
+        var recorder: AudioRecord? = null
+        try {
+            recorder = AudioRecord(
+                MediaRecorder.AudioSource.MIC,
+                config.sampleRateHz,
+                channelConfig,
+                audioFormat,
+                bufferSize
+            )
+            recorder.startRecording()
+
+            val buffer = ByteArray(bufferSize)
+            val guard = BroadcastFeedbackGuard(config.micGainPercent, config.feedbackGuardEnabled)
+
+            while (isRecording.get()) {
+                val read = recorder.read(buffer, 0, bufferSize)
+                if (read > 0) {
+                    val suppressed = guard.process(buffer, read)
+                    _feedbackSuppressed.value = suppressed
+                    encoder.encode(buffer, read)
+                }
+            }
+        } catch (e: Exception) {
+            Timber.e(e, "BroadcastCaptureService: audio capture error")
+            failCapture(server, e)
+        } finally {
+            encoder.stop()
+            recorder?.let(::releaseRecorder)
+        }
+    }
+
+    /** A stop that already cleared the flag owns the teardown, and its Idle state must not turn into Failed. */
+    private fun failCapture(server: BroadcastHttpServer, cause: Exception) {
+        if (!isRecording.getAndSet(false)) return
+        _state.value = BroadcastState.Failed(
+            BroadcastFailure.CAPTURE_ERROR,
+            cause.message ?: "Capture error"
+        )
+        publication.unbind()
+        exchangePublisher.end()
+        driveAnnouncer.end()
+        server.stop()
+        clearServer(server)
+        leaveForegroundAndStop()
+    }
+
+    private fun stopBroadcast() {
+        // The capture loop sees the flag on its next read() return and releases the recorder itself.
+        isRecording.set(false)
+        httpServer?.stop()
+        httpServer = null
+        publication.unbind()
+        exchangePublisher.end()
+        driveAnnouncer.end()
+        _state.value = BroadcastState.Idle
+        _listenerCount.value = 0
+        _feedbackSuppressed.value = false
+    }
+
+    @Suppress("SwallowedException", "TooGenericExceptionCaught")
+    private fun releaseRecorder(recorder: AudioRecord) {
+        try {
+            recorder.stop()
+        } catch (_: Exception) {}
+        try {
+            recorder.release()
+        } catch (_: Exception) {}
+    }
+
+    private fun clearServer(server: BroadcastHttpServer) {
+        if (httpServer === server) httpServer = null
+    }
+
+    override fun onDestroy() {
+        stopBroadcast()
+        serviceScope.cancel()
+        super.onDestroy()
+    }
+
+    companion object {
+        const val ACTION_STOP = "com.sza.streamsplayer.broadcast.action.STOP"
+
+        private val _state = MutableStateFlow<BroadcastState>(BroadcastState.Idle)
+        val state: StateFlow<BroadcastState> = _state.asStateFlow()
+
+        private val _listenerCount = MutableStateFlow(0)
+        val listenerCount: StateFlow<Int> = _listenerCount.asStateFlow()
+
+        // S3349: true while the feedback guard is holding the microphone gain down, so the screen can
+        // say why the sound dipped instead of leaving the user to suspect the microphone.
+        private val _feedbackSuppressed = MutableStateFlow(false)
+        val feedbackSuppressed: StateFlow<Boolean> = _feedbackSuppressed.asStateFlow()
+
+        /**
+         * A start the service cannot honour is refused here rather than inside it: a promise made by
+         * startForegroundService() and not kept costs the whole process, while a refusal made before
+         * it is only a message (S3267).
+         */
+        fun start(context: Context, mode: BroadcastMode) {
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO)
+                != PackageManager.PERMISSION_GRANTED
+            ) {
+                Timber.w("BroadcastCaptureService: start refused, RECORD_AUDIO missing")
+                _state.value = BroadcastState.Failed(
+                    BroadcastFailure.MICROPHONE_PERMISSION,
+                    "RECORD_AUDIO permission missing"
+                )
+                return
+            }
+            val intent = Intent(context, BroadcastCaptureService::class.java).apply {
+                putExtra("mode", mode.name)
+            }
+            ContextCompat.startForegroundService(context, intent)
+        }
+
+        /**
+         * The failure state outlives the service that set it - it is static and the service has already
+         * stopped itself - so only the UI that reported it can retire it.
+         */
+        fun clearFailure() {
+            if (_state.value is BroadcastState.Failed) {
+                _state.value = BroadcastState.Idle
+            }
+        }
+
+        fun stop(context: Context) {
+            val intent = Intent(context, BroadcastCaptureService::class.java).apply {
+                action = ACTION_STOP
+            }
+            context.startService(intent)
+        }
+    }
+}

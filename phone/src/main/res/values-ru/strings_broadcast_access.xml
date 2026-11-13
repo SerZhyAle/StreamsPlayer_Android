@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="broadcast_password_title">Пароль трансляции</string>
+    <string name="broadcast_password_message">Введите пароль трансляции, который вам передали вместе со ссылкой.</string>
+    <string name="broadcast_password_protected">Трансляция защищена паролем</string>
+    <string name="broadcast_password_hint">Пароль</string>
+    <string name="broadcast_password_connect">Подключить</string>
+    <string name="broadcast_password_empty">Введите пароль</string>
+    <string name="broadcast_auth_unsupported">Эта программа не поддерживает защиту этой трансляции.</string>
+    <string name="broadcast_password_save_failed">Не удалось сохранить пароль. Повторите попытку.</string>
+    <string name="broadcast_password_wrong">Неверный пароль трансляции. Повторите попытку.</string>
+    <string name="exchange_directory_disconnected">Соединение потеряно. Откройте список снова.</string>
+    <string name="exchange_broadcast_mode">Режим: %1$s</string>
+    <string name="exchange_broadcast_play_label">Воспроизвести %1$s</string>
+    <string name="exchange_broadcast_keep_label">Сохранить %1$s как канал</string>
+</resources>

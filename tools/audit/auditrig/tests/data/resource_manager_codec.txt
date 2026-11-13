@@ -1,0 +1,16 @@
+ResourceManagerService: 0x77a67dc3aed0
+  Policies:
+    SupportsMultipleSecureCodecs: 1
+    SupportsSecureWithNonSecureCodec: 1
+  Processes:
+    Pid: 600
+    Priority: -900
+    Pid: 845
+    Priority: -800
+    Pid: 4242
+    Priority: 100
+      Client: 77 non-secure-codec/hw-video-codec:[]:1
+      Client: 78 non-secure-codec/sw-audio-codec:[]:1
+  Process Pid override:
+  Events logs (most recent at top):
+    10-23 20:39:25 removeResource(pid 23359, uid 10157 clientId 135842087022976)

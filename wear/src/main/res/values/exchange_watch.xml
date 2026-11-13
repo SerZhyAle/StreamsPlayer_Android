@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="exchange_watch_on_server">Broadcast is on the server</string>
+    <string name="exchange_watch_connecting">Connecting to the server..</string>
+    <string name="exchange_watch_publish_failed">Relay through the server stopped. The broadcast on your network continues.</string>
+    <string name="exchange_watch_publish_notice">Every broadcast of this watch is announced on your exchange server from its start, and the relay through the server starts by itself. Audio is encrypted on the watch and cannot be heard by the server operator.</string>
+    <string name="exchange_watch_network_only">Reachable on this network only.</string>
+    <string name="exchange_watch_pair_through_phone">To use your account, open Exchange server on the phone and choose Connect watch.</string>
+    <string name="exchange_watch_playback_unavailable">This broadcast is unavailable. Open it again from the phone.</string>
+    <string name="wear_help_on_phone">Help on the phone</string>
+    <string name="exchange_diagnose_button">Why won\'t it connect?</string>
+    <string name="wear_exchange_details_on_phone">See the details on the phone.</string>
+    <string name="wear_exchange_reason_not_permitted">A guest account cannot do this. If you need it, ask for an invitation of the kind \"own device or family\".</string>
+    <string name="wear_exchange_reason_limit_clipboard">This server does not take a clipboard of this size, or has the clipboard turned off. Send something smaller, or ask whoever runs the server.</string>
+    <string name="wear_exchange_reason_capacity">The server cannot take this: it has reached a limit of its own, or the item is too big to be listed.</string>
+    <string name="wear_exchange_reason_unavailable">The device or the server is not available right now.</string>
+    <string name="wear_exchange_reason_device_revoked">This device was removed from the account.</string>
+    <string name="wear_exchange_reason_signed_out">The password of this account was changed, so this device was signed out.</string>
+    <string name="wear_exchange_reason_bad_credentials">The login or the password is wrong.</string>
+    <string name="wear_exchange_reason_version_unsupported">This program and the server speak different versions of the exchange.</string>
+    <string name="wear_exchange_reason_unreachable">Cannot reach the server.</string>
+    <string name="wear_exchange_reason_unanswered">The server did not answer.</string>
+    <string name="wear_exchange_reason_tls_failed">A protected connection could not be set up.</string>
+    <string name="wear_exchange_reason_certificate_changed">This server does not look like the one you connected to before.</string>
+    <string name="wear_exchange_reason_refused">The server refused this.</string>
+    <string name="wear_exchange_reason_rate_limited">Too many attempts in a row.</string>
+    <string name="wear_exchange_reason_limit_reached">A limit set on the server has been reached.</string>
+    <string name="wear_exchange_reason_tls_required">The server accepts this only over a protected connection, and this one is not protected.</string>
+    <string name="wear_exchange_reason_id_collision">The server already knows another device under this device\'s number. Remove this server from the list and add it again.</string>
+    <string name="wear_exchange_reason_port_unavailable">The server has no free port to open for this folder.</string>
+    <string name="wear_exchange_reason_protection_unsupported">This folder is locked with a PIN, and this program cannot ask for it. Open it in a program that can.</string>
+    <string name="wear_exchange_reason_unreachable_device">Cannot reach the device.</string>
+    <string name="wear_exchange_reason_server_offline">The server is offline. What you added stays in the list.</string>
+    <string name="wear_exchange_reason_resource_locked">This folder is locked with a PIN. Enter the PIN to open it.</string>
+    <string name="wear_exchange_reason_e2e_missing">This device cannot receive protected content yet, so nothing is sent to it through the server.</string>
+    <string name="wear_exchange_reason_key_changed">The protection key of this device has changed, so nothing is sent to it. Remove the device from the account and add it again.</string>
+    <string name="wear_exchange_reason_server_no_e2e">This server cannot carry protected content, so folders, broadcasts and the clipboard do not go through it.</string>
+    <string name="wear_exchange_reason_sealed_failed">This could not be opened on this device. Try again from the other device.</string>
+    <string name="wear_exchange_reason_format_unsupported">This format is newer than this program supports. Nothing was imported. Use a compatible program.</string>
+</resources>

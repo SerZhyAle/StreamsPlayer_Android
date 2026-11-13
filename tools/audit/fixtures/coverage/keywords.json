@@ -1,0 +1,9 @@
+{
+  "$comment": "Fixture keyword table for test-coverage-check.ps1: three capabilities against the three scenes of spec-ok.md.",
+  "legalNaTags": ["face"],
+  "capabilities": [
+    { "noun": "alpha app", "claudeMd": "Alpha app", "scenes": [["first start"]] },
+    { "noun": "beta stream", "claudeMd": "beta stream", "scenes": [["stream playback"]] },
+    { "noun": "gamma tile (beyond CLAUDE.md)", "claudeMd": "", "scenes": [["widgets"]] }
+  ]
+}

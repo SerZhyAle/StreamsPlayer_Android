@@ -1,0 +1,12 @@
+FAIL SZA-CANON03 .sza-canon.json: adoption is stale: stamp digest sha256:410463a9ccdfd75af7a233fc91656c200fe05f047cf7617d7fc53d32e7b81afa vs canon sha256:bfa85c0bf9bdb08e8d1d1aa6f2d12904b3ea2a745e9ba05df30aea1014b8a071 (canon 2026.10.26.3; unknown age, treated as past 180 days)
+     fix: Run adopt-canon in full; the stamp is past the reconciliation window or its age is unknown.
+FAIL SZA-LAY01 LICENSE: missing
+     fix: Add it.
+FAIL SZA-LAY01 README.md: missing
+     fix: Add it.
+FAIL SZA-LAY02 CHANGELOG.md: ledgerShape 1 declared but no root CHANGELOG.md
+     fix: Add it, or declare another shape.
+FAIL SZA-RULES01 .: no agent-instructions file at the repo root
+     fix: Add CLAUDE.md and/or AGENTS.md - see NEW_PROJECT_CHECKLIST.md.
+check-compliance: probe-equal-digest - 5 error(s), 0 warning(s) (overlay B, canon 2026.10.26.3)
+[31;1mWrite-Error: [31;1mcheck-compliance: 5 error(s)[0m

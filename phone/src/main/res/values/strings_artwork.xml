@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- S0050: the on-demand channel pictures - the offer after a catalog update and the download notifications. -->
+<resources>
+    <string name="later">Later</string>
+    <string name="streams_atlas_prompt_title">Channel pictures</string>
+    <string name="streams_atlas_prompt_message">Download channel previews so video channels show a picture before you play them?</string>
+    <string name="streams_logo_prompt_title">Station logos</string>
+    <string name="streams_logo_prompt_message">Download station logos so channels without a preview show their own logo?</string>
+    <string name="streams_atlas_update_prompt_message">Newer pictures are available for these channels. Download them?</string>
+    <string name="streams_atlas_prompt_size">%1$d MB</string>
+    <string name="streams_atlas_prompt_action">Download</string>
+    <string name="delivery_state_downloading">Downloading..</string>
+    <string name="delivery_state_verifying">Checking the download..</string>
+    <string name="delivery_state_done">Done.</string>
+    <string name="delivery_state_error">Couldn\'t download - check your connection and try again.</string>
+    <string name="download_runner_notif_channel_name">Channel picture downloads</string>
+    <string name="download_runner_notif_title_running">Downloading: %s</string>
+    <string name="download_runner_notif_title_installed">Downloaded: %s</string>
+    <string name="download_runner_notif_title_failed">Could not download: %s</string>
+
+    <!-- S0064: the channel pictures group on the General settings page. -->
+    <string name="channel_pictures_heading">Channel pictures</string>
+    <string name="channel_pictures_previews_title">Channel previews</string>
+    <string name="channel_pictures_logos_title">Station logos</string>
+    <string name="channel_pictures_status_not_installed">Not downloaded</string>
+    <string name="channel_pictures_status_installed">Downloaded</string>
+    <string name="channel_pictures_status_update">A newer set is ready</string>
+    <string name="channel_pictures_status_downloading">Downloading: %1$d%%</string>
+    <string name="channel_pictures_size">Size: %1$d MB</string>
+    <string name="channel_pictures_action_update">Update</string>
+    <string name="channel_pictures_action_retry">Try again</string>
+    <string name="channel_pictures_action_remove">Remove</string>
+    <string name="channel_pictures_action_for">%1$s: %2$s</string>
+    <string name="channel_pictures_remove_title">Remove pictures?</string>
+    <string name="channel_pictures_remove_message_previews">Remove the downloaded channel previews from this phone? You can download them again here at any time.</string>
+    <string name="channel_pictures_remove_message_logos">Remove the downloaded station logos from this phone? You can download them again here at any time.</string>
+    <string name="channel_pictures_remove_size">This frees about %1$d MB.</string>
+</resources>

@@ -1,0 +1,43 @@
+contract-lag.ps1 (sza plugin 2026.1021.2) -Product "StreamsPlayer Android"; the catalog registry vs the registry with registry-sync.patch applied (scratch copies)
+=== orig
+catalog: C:\Users\serzh\AppData\Local\Temp\claude\p--ANDROID-StreamsPlayer-mob\91bedfea-f90f-4919-a1c5-3441b41ba689\scratchpad\cat-orig
+rows: 15  (current 7, behind 2, partial 0, pending 2, ahead 0, n/a 0, unparsed 4)
+
+
+product               contract        state  synced current verified
+-------               --------        -----  ------ ------- --------
+StreamsPlayer Android HARNESS-PROFILE behind 0.12   0.13    2026-10-23
+StreamsPlayer Android REPO-STAMP      behind 0.12   0.13    2026-10-23
+
+
+unparsed rows (normalize in the registry): 4
+
+product               contract        cell
+-------               --------        ----
+StreamsPlayer Android DEVICE-EXCHANGE partial 1.7
+StreamsPlayer Android LIVE-BROADCAST  partial 1.3
+StreamsPlayer Android RULE-DELIVERY   partial 0.12
+StreamsPlayer Android STREAM-BANK     partial 2.4
+
+
+=== new
+catalog: C:\Users\serzh\AppData\Local\Temp\claude\p--ANDROID-StreamsPlayer-mob\91bedfea-f90f-4919-a1c5-3441b41ba689\scratchpad\cat-new
+rows: 15  (current 7, behind 2, partial 1, pending 2, ahead 0, n/a 0, unparsed 3)
+
+
+product               contract        state   synced current verified
+-------               --------        -----   ------ ------- --------
+StreamsPlayer Android DEVICE-EXCHANGE partial 1.7    1.7     2026-10-25
+StreamsPlayer Android HARNESS-PROFILE behind  0.12   0.13    2026-10-23
+StreamsPlayer Android REPO-STAMP      behind  0.12   0.13    2026-10-23
+
+
+unparsed rows (normalize in the registry): 3
+
+product               contract       cell
+-------               --------       ----
+StreamsPlayer Android LIVE-BROADCAST partial 1.3
+StreamsPlayer Android RULE-DELIVERY  partial 0.12
+StreamsPlayer Android STREAM-BANK    partial 2.4
+
+

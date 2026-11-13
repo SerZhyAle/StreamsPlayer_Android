@@ -1,0 +1,87 @@
+{
+  "help": "filter-and-sort",
+  "surface": "StreamFilterBottomSheet",
+  "elements": [
+    { "id": "collection", "viewId": "spinnerCollection", "labelKey": "collections" },
+    { "id": "category", "viewId": "spinnerCategory", "labelKey": "category" },
+    { "id": "language", "viewId": "spinnerLanguage", "labelKey": "language" },
+    { "id": "country", "viewId": "spinnerCountry", "labelKey": "country" },
+    { "id": "sort", "viewId": "spinnerSort", "labelKey": "sort_by" },
+    { "id": "pinned-only", "viewId": "cbPinnedOnly", "labelKey": "pinned_only" },
+    { "id": "clear", "viewId": "btnClearFilters", "labelKey": "clear_filters" },
+    { "id": "apply", "viewId": "btnApplyFilters", "labelKey": "action_apply" },
+    { "id": "help", "viewId": "btnFilterHelp", "labelKey": "help" }
+  ],
+  "related": [
+    { "help": "catalog" },
+    { "help": "edit-channel" }
+  ],
+  "locales": {
+    "en": {
+      "title": "Filter & Sort",
+      "purpose": "Narrow a long channel list to the stations you want and choose the order they appear in. The sheet opens over the main screen and the list changes when you press Apply.",
+      "steps": [
+        "Pick a collection (1) if you want one ready-made group of channels.",
+        "Narrow further by category (2), language (3) and country (4). Each list offers only values that exist in your channels.",
+        "Choose the order in Sort by (5).",
+        "Tick Pinned only (6) to see just the channels you pinned.",
+        "Press Apply (8). To start over, press Clear filters (7)."
+      ],
+      "elements": {
+        "collection": { "summary": "A ready-made group of channels.", "details": "Choose one collection to see only its channels, or All collections to see them all.", "undo": "Choose All collections." },
+        "category": { "summary": "The kind of programme.", "details": "Music, news, talk and so on, as the channel catalog names them. All keeps every category.", "undo": "Choose All." },
+        "language": { "summary": "The language of the channel.", "details": "Shows only channels in the language you choose. All keeps every language.", "undo": "Choose All." },
+        "country": { "summary": "Where the channel is from.", "details": "Shows only channels from the country you choose. All keeps every country.", "undo": "Choose All." },
+        "sort": { "summary": "The order of the list.", "details": "By name, topic, language or country, or with the most recently played or added channels first. The order applies below the pinned channels, which always stay on top.", "undo": "Choose another order and press Apply." },
+        "pinned-only": { "summary": "Only the channels you pinned.", "details": "A quick way to your favourites. Pinned channels stay at the top of the list in any case; this box hides the others.", "undo": "Untick it and press Apply." },
+        "clear": { "summary": "Drops every filter and closes the sheet.", "details": "The list returns to all channels in the order you chose last. The search text is cleared as well.", "undo": "Open the sheet and set the filters again." },
+        "apply": { "summary": "Shows the list you set up.", "details": "Applies the collection, the category, the language, the country, the order and the pinned box together and closes the sheet. The bar above the list names what is on." },
+        "help": { "summary": "Opens this page.", "details": "The sheet stays open under the page; Back returns to it.", "shortcut": "F1" }
+      }
+    },
+    "ru": {
+      "title": "Фильтр и сортировка",
+      "purpose": "Сузьте длинный список до нужных станций и выберите порядок. Лист открывается поверх главного экрана, а список меняется, когда вы нажимаете «Применить».",
+      "steps": [
+        "Выберите коллекцию (1), если нужна готовая группа каналов.",
+        "Сузьте список по категории (2), языку (3) и стране (4). В каждом списке только значения, которые есть в ваших каналах.",
+        "Выберите порядок в поле «Сортировка» (5).",
+        "Отметьте «Только закреплённые» (6), чтобы видеть лишь закреплённые каналы.",
+        "Нажмите «Применить» (8). Чтобы начать заново, нажмите «Сбросить фильтры» (7)."
+      ],
+      "elements": {
+        "collection": { "summary": "Готовая группа каналов.", "details": "Выберите одну коллекцию, чтобы видеть только её каналы, или «Все коллекции», чтобы видеть все.", "undo": "Выберите «Все коллекции»." },
+        "category": { "summary": "Вид передач.", "details": "Музыка, новости, разговорные и так далее, как их называет каталог каналов. «Все» оставляет все категории.", "undo": "Выберите «Все»." },
+        "language": { "summary": "Язык канала.", "details": "Показывает только каналы на выбранном языке. «Все» оставляет все языки.", "undo": "Выберите «Все»." },
+        "country": { "summary": "Откуда канал.", "details": "Показывает только каналы выбранной страны. «Все» оставляет все страны.", "undo": "Выберите «Все»." },
+        "sort": { "summary": "Порядок списка.", "details": "По названию, теме, языку или стране либо с недавно воспроизведённых или добавленных каналов. Порядок действует ниже закреплённых каналов: они всегда остаются вверху.", "undo": "Выберите другой порядок и нажмите «Применить»." },
+        "pinned-only": { "summary": "Только закреплённые вами каналы.", "details": "Быстрый путь к любимым. Закреплённые каналы и так стоят вверху списка; эта отметка скрывает остальные.", "undo": "Снимите отметку и нажмите «Применить»." },
+        "clear": { "summary": "Убирает все фильтры и закрывает лист.", "details": "Список возвращается ко всем каналам в последнем выбранном порядке. Текст поиска тоже очищается.", "undo": "Откройте лист и задайте фильтры снова." },
+        "apply": { "summary": "Показывает настроенный список.", "details": "Применяет коллекцию, категорию, язык, страну, порядок и отметку закреплённых вместе и закрывает лист. Строка над списком называет то, что включено." },
+        "help": { "summary": "Открывает эту страницу.", "details": "Лист остаётся открытым под страницей; «Назад» возвращает к нему.", "shortcut": "F1" }
+      }
+    },
+    "uk": {
+      "title": "Фільтр і сортування",
+      "purpose": "Звузьте довгий список до потрібних станцій і виберіть порядок. Аркуш відкривається поверх головного екрана, а список змінюється, коли ви натискаєте «Застосувати».",
+      "steps": [
+        "Виберіть колекцію (1), якщо потрібна готова група каналів.",
+        "Звузьте список за категорією (2), мовою (3) і країною (4). У кожному списку лише значення, які є у ваших каналах.",
+        "Виберіть порядок у полі «Сортування» (5).",
+        "Позначте «Лише закріплені» (6), щоб бачити тільки закріплені канали.",
+        "Натисніть «Застосувати» (8). Щоб почати знову, натисніть «Скинути фільтри» (7)."
+      ],
+      "elements": {
+        "collection": { "summary": "Готова група каналів.", "details": "Виберіть одну колекцію, щоб бачити лише її канали, або «Усі колекції», щоб бачити всі.", "undo": "Виберіть «Усі колекції»." },
+        "category": { "summary": "Вид передач.", "details": "Музика, новини, розмовні й так далі, як їх називає каталог каналів. «Усі» залишає всі категорії.", "undo": "Виберіть «Усі»." },
+        "language": { "summary": "Мова каналу.", "details": "Показує лише канали вибраною мовою. «Усі» залишає всі мови.", "undo": "Виберіть «Усі»." },
+        "country": { "summary": "Звідки канал.", "details": "Показує лише канали вибраної країни. «Усі» залишає всі країни.", "undo": "Виберіть «Усі»." },
+        "sort": { "summary": "Порядок списку.", "details": "За назвою, темою, мовою чи країною або з нещодавно відтворених чи доданих каналів. Порядок діє нижче за закріплені канали: вони завжди лишаються вгорі.", "undo": "Виберіть інший порядок і натисніть «Застосувати»." },
+        "pinned-only": { "summary": "Лише закріплені вами канали.", "details": "Швидкий шлях до улюблених. Закріплені канали й так стоять угорі списку; ця позначка ховає решту.", "undo": "Зніміть позначку й натисніть «Застосувати»." },
+        "clear": { "summary": "Прибирає всі фільтри й закриває аркуш.", "details": "Список повертається до всіх каналів в останньому вибраному порядку. Текст пошуку теж очищається.", "undo": "Відкрийте аркуш і задайте фільтри знову." },
+        "apply": { "summary": "Показує налаштований список.", "details": "Застосовує колекцію, категорію, мову, країну, порядок і позначку закріплених разом та закриває аркуш. Рядок над списком називає те, що ввімкнено." },
+        "help": { "summary": "Відкриває цю сторінку.", "details": "Аркуш лишається відкритим під сторінкою; «Назад» повертає до нього.", "shortcut": "F1" }
+      }
+    }
+  }
+}

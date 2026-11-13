@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- S0035: in-app help (CONTEXT-HELP). "help" is the vocabulary name of app.help. -->
+    <string name="help">Довідка</string>
+    <string name="help_with_key">Довідка (F1)</string>
+    <string name="help_page_title">Довідка</string>
+    <string name="help_unavailable">Довідка для цього екрана недоступна</string>
+    <string name="help_open_on_site">Відкрити на сайті</string>
+    <string name="help_external_link_title">Відкрити в браузері?</string>
+    <string name="help_external_link_message">Ця довідка працює без мережі. Посилання виходить за межі застосунку й відкриється в браузері.</string>
+    <string name="help_external_link_open">Відкрити</string>
+    <string name="help_watch_notification_name">довідку для годинника</string>
+</resources>

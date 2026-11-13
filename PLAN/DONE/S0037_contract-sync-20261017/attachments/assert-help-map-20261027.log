@@ -1,0 +1,11 @@
+accepted debt: ExchangeActivity - S0027: the account and server screen is being reshaped to sign-in only
+accepted debt: ExchangeDiagnosisDialog - S0031: the connection diagnosis steps are still being written
+accepted debt: dialog_exchange_password - S0027: opened from the exchange screen, which is being reshaped
+accepted debt: wear:WearRoutes.HOME - S0035: the watch slice (Help row opening the phone page); not built yet
+accepted debt: wear:WearRoutes.STREAMS - S0035: the watch slice
+accepted debt: wear:WearRoutes.AUDIO_PLAYER_PATTERN - S0035: the watch slice
+accepted debt: wear:WearRoutes.VIDEO_PLAYER_PATTERN - S0035: the watch slice
+accepted debt: wear:WearRoutes.BROADCAST - S0035: the watch slice
+accepted debt: wear:WearRoutes.BROADCAST_QR - S0035: the watch slice
+accepted debt: wear:tile_picker - S0035: the watch slice
+assert-help-map: PASS (30 surfaces, 20 rows, 10 baseline, 27 pages, subject=P:\ANDROID\StreamsPlayer_mob)

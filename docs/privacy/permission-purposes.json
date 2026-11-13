@@ -1,0 +1,60 @@
+{
+  "$comment": "S0033: the purpose of each permission in the user's words, in the three authored locales. This file holds only the sentences. The set of permissions and the packages that declare them are read from the merged store release manifests by tools/privacy/permissions.ps1, which writes the permissions table of docs/PRIVACY_POLICY.md, docs/PRIVACY_POLICY-ru.md and docs/PRIVACY_POLICY-uk.md and fails when a manifest permission has no sentence here, when a sentence here has no manifest permission, or when a policy table differs from the manifests. Add a permission to a manifest and this file in the same edit.",
+  "labels": {
+    "en": { "permission": "Permission", "where": "Where", "purpose": "What it is for", "phone": "Phone", "watch": "Watch", "watchface": "Watch face", "noWatchface": "The watch face asks for no permissions." },
+    "ru": { "permission": "Разрешение", "where": "Где", "purpose": "Для чего", "phone": "Телефон", "watch": "Часы", "watchface": "Циферблат", "noWatchface": "Циферблат не просит никаких разрешений." },
+    "uk": { "permission": "Дозвіл", "where": "Де", "purpose": "Для чого", "phone": "Телефон", "watch": "Годинник", "watchface": "Циферблат", "noWatchface": "Циферблат не просить жодних дозволів." }
+  },
+  "purposes": {
+    "android.permission.INTERNET": {
+      "en": "Plays the streams you choose and connects to the services you set up yourself: your exchange server and, on the phone, Google Drive; and it downloads the channel catalog and channel pictures from GitHub.",
+      "ru": "Воспроизводит выбранные вами потоки и соединяется с сервисами, которые вы настроили сами: вашим сервером обмена и, на телефоне, Google Drive; а также скачивает каталог и обложки каналов с GitHub.",
+      "uk": "Відтворює вибрані вами потоки та з'єднується з сервісами, які ви налаштували самі: вашим сервером обміну і, на телефоні, Google Drive; а також завантажує каталог і обкладинки каналів з GitHub."
+    },
+    "android.permission.ACCESS_NETWORK_STATE": {
+      "en": "Notices when the network connection changes, so playback can reconnect and return to the live point by itself.",
+      "ru": "Замечает смену сетевого соединения, чтобы воспроизведение само переподключалось и возвращалось к прямому эфиру.",
+      "uk": "Помічає зміну мережевого з'єднання, щоб відтворення саме перепідключалося й поверталося до прямого ефіру."
+    },
+    "android.permission.CHANGE_NETWORK_STATE": {
+      "en": "Lets the watch hold its own Wi-Fi or mobile connection while the audio player or a broadcast is on screen.",
+      "ru": "Позволяет часам удерживать собственное соединение Wi-Fi или мобильное, пока на экране аудиоплеер или вещание.",
+      "uk": "Дозволяє годиннику утримувати власне з'єднання Wi-Fi або мобільне, поки на екрані аудіопрогравач або мовлення."
+    },
+    "android.permission.WAKE_LOCK": {
+      "en": "Keeps playback or a broadcast running while the screen is off.",
+      "ru": "Не даёт устройству уснуть, пока идут воспроизведение или вещание при погашенном экране.",
+      "uk": "Не дає пристрою заснути, поки тривають відтворення чи мовлення за вимкненого екрана."
+    },
+    "android.permission.FOREGROUND_SERVICE": {
+      "en": "Lets playback and the broadcasts you start keep running, with a notification you can see.",
+      "ru": "Позволяет воспроизведению и запущенным вами вещаниям продолжаться, с видимым уведомлением.",
+      "uk": "Дозволяє відтворенню та запущеним вами мовленням тривати, з видимим сповіщенням."
+    },
+    "android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK": {
+      "en": "Android requires it to mark the running playback service as media playback.",
+      "ru": "Android требует её, чтобы пометить работающую службу воспроизведения как воспроизведение медиа.",
+      "uk": "Android вимагає його, щоб позначити працюючу службу відтворення як відтворення медіа."
+    },
+    "android.permission.FOREGROUND_SERVICE_MICROPHONE": {
+      "en": "Android requires it to mark the running broadcast service as one that uses the microphone; it runs only while you broadcast sound.",
+      "ru": "Android требует её, чтобы пометить работающую службу вещания как использующую микрофон; она работает, только пока вы вещаете звук.",
+      "uk": "Android вимагає його, щоб позначити працюючу службу мовлення як таку, що використовує мікрофон; вона працює, лише поки ви мовите звук."
+    },
+    "android.permission.POST_NOTIFICATIONS": {
+      "en": "Shows playback controls and the on-air status of a broadcast in the notification shade.",
+      "ru": "Показывает в шторке уведомлений кнопки управления воспроизведением и состояние идущего вещания.",
+      "uk": "Показує в шторці сповіщень кнопки керування відтворенням і стан мовлення, що триває."
+    },
+    "android.permission.RECORD_AUDIO": {
+      "en": "Microphone broadcast on the phone or the watch. Used only after you start a broadcast.",
+      "ru": "Вещание с микрофона на телефоне или часах. Используется только после того, как вы запустили вещание.",
+      "uk": "Мовлення з мікрофона на телефоні чи годиннику. Використовується лише після того, як ви запустили мовлення."
+    },
+    "android.permission.CAMERA": {
+      "en": "Camera broadcast and the QR code scanner (phone only). Used only after you start a camera broadcast or open the scanner; scanner pictures are processed on the device and never stored or sent.",
+      "ru": "Вещание с камеры и сканер QR-кодов (только на телефоне). Используется только после запуска вещания с камеры или открытия сканера; картинки сканера обрабатываются на устройстве и не сохраняются и не отправляются.",
+      "uk": "Мовлення з камери та сканер QR-кодів (лише на телефоні). Використовується лише після запуску мовлення з камери чи відкриття сканера; картинки сканера обробляються на пристрої, їх не зберігають і не надсилають."
+    }
+  }
+}

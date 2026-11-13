@@ -1,0 +1,175 @@
+package com.sza.streamsplayer.wear.ui.streams
+
+import com.sza.streamsplayer.wear.domain.model.WearStreamChannel
+import com.sza.streamsplayer.wear.domain.model.WearStreamCollection
+import com.sza.streamsplayer.wear.domain.model.WearViewMode
+import com.sza.streamsplayer.wear.ui.streams.own.WearOwnAccount
+import com.sza.streamsplayer.wear.ui.streams.own.WearOwnLiveView
+
+/** S0038: a one-line answer to the wearer's last Own action, shown above the live group until the next one. */
+enum class OwnNotice {
+    ENDED,
+    UNCONFIRMED,
+    UNSUPPORTED_VIDEO,
+    UNSUPPORTED_PROTECTED,
+    UNSUPPORTED_FORMAT,
+    OPEN_FAILED,
+    SAVED,
+    SAVE_FAILED,
+    NEEDS_SERVER,
+    SIGN_IN_REQUIRED,
+    SEALED_FAILED,
+    E2E_MISSING,
+}
+
+/** S0038: what the Own category's status line says, one case at a time. */
+enum class OwnStatus {
+    /** No exchange server on this watch: saved channels only, and how to connect one. */
+    NO_SERVER,
+
+    /** The server wants the watch signed in again. */
+    SIGN_IN,
+
+    /** The first list is on its way. */
+    LOADING,
+
+    /** No list could be read and none is held. */
+    FAILED,
+
+    /** A list is held but not confirmed now. */
+    STALE,
+
+    /** The list is current. */
+    CURRENT,
+}
+
+/** S0038: the Own category's live side. */
+data class OwnStreamsState(
+    val account: WearOwnAccount = WearOwnAccount.NONE,
+    val live: WearOwnLiveView = WearOwnLiveView(),
+    val status: OwnStatus = OwnStatus.NO_SERVER,
+    val refreshing: Boolean = false,
+    /** The failure behind [OwnStatus.FAILED] or a failed [OwnStatus.STALE]; offers Retry. */
+    val failed: Boolean = false,
+    /** When the server last confirmed the list, epoch milliseconds. */
+    val lastUpdatedAtMs: Long? = null,
+    val notice: OwnNotice? = null,
+)
+
+/**
+ * S3062: [OWN] holds the channels transferred from the phone, and the two kind values exclude them, so
+ * the three offered categories partition the list. The names are persisted, so existing ones stay put.
+ */
+enum class StreamFilterKind {
+    ALL,
+    AUDIO_ONLY,
+    VIDEO_ONLY,
+    OWN
+}
+
+/**
+ * S2146: the four keys the owner called useful. Declaration order is what the sort dialog renders,
+ * so [MOST_USED] leads deliberately - it is also the default the screen starts on.
+ *
+ * `DEFAULT`, `TOPIC` and `LANGUAGE` are gone. The first returned the CSV's own row order, which is
+ * indistinguishable from random to a reader; the other two, added by S1947, were named useless by the
+ * owner on 2026-08-27 - see strategic ADR-1. Topic and language remain filter facets.
+ */
+enum class StreamSortOrder {
+    MOST_USED,
+    NAME_ASC,
+    NAME_DESC,
+    KIND
+}
+
+/**
+ * S2146: one selectable value of a filter facet, with how many channels carry it.
+ *
+ * [id] is the raw catalogue string and is what the projection matches on; the row's shown text is
+ * derived from it at render time. The count travels with the value because the list is ordered by it -
+ * deriving the number again in the row would be the per-frame work strategic §7 forbids.
+ *
+ * The shape is deliberately the pair rather than a bare string: strategic §5.3 records that country
+ * would fit it unchanged, should S1947 ever return country to the filter.
+ */
+data class StreamFacetValue(
+    val id: String,
+    val channelCount: Int
+)
+
+/**
+ * S1708/S1871/S1947: UI state for the Wear OS streams screen.
+ */
+data class StreamsUiState(
+    val channels: List<WearStreamChannel> = emptyList(),
+    val displayChannels: List<WearStreamChannel> = emptyList(),
+    val isLoading: Boolean = true,
+    val isRefreshing: Boolean = false,
+    val error: String? = null,
+    val viewMode: WearViewMode = WearViewMode.LIST,
+    val searchQuery: String = "",
+    val filterKind: StreamFilterKind = StreamFilterKind.ALL,
+    val sortOrder: StreamSortOrder = StreamSortOrder.MOST_USED,
+    val selectedTopic: String? = null,
+    val selectedLanguage: String? = null,
+    val availableTopics: List<StreamFacetValue> = emptyList(),
+    val availableLanguages: List<StreamFacetValue> = emptyList(),
+    /**
+     * S2669: the curated collections delivered with the catalog. Empty when the archive carried no
+     * entry or delivered none, which is also what hides the picker section - a watch that never got
+     * collections must show the filter dialog exactly as before (strategic criterion 7).
+     */
+    val availableCollections: List<WearStreamCollection> = emptyList(),
+    /** S2669: the selected curated collection, or null for the whole catalog. */
+    val selectedCollectionId: String? = null,
+    /** S0050: bumped when an artwork payload lands, so the visible cells ask for their pictures again. */
+    val artworkRevision: Int = 0,
+    val showSearchDialog: Boolean = false,
+    /**
+     * S1946: no activity answered the request for text or speech input. The screen has to say so -
+     * the dialog is already closed by then, so a silent refusal is indistinguishable from a search
+     * that ran and matched everything.
+     */
+    val searchInputUnavailable: Boolean = false,
+    val showFilterDialog: Boolean = false,
+    val showSortDialog: Boolean = false,
+    /**
+     * S1954: normalized addresses of the marked channels, held in state so the display projection
+     * stays a pure function of it. Read from the favourites store when the catalogue changes, not
+     * per row, because a per-row lookup would touch the store on every scrolling frame.
+     */
+    val pinnedStreamIds: Set<String> = emptySet(),
+    /**
+     * S2149: folded identities of the channels pinned on the paired phone, held apart from
+     * [pinnedStreamIds] rather than merged into it. The star means "I marked this here", so a pin the
+     * phone sent must not become a watch mark the phone can no longer withdraw - the two are unioned
+     * only when the top group is built.
+     */
+    val phonePinnedIdentities: Set<String> = emptySet(),
+    /** S0038: the Own category's live group and the state of the account directory behind it. */
+    val own: OwnStreamsState = OwnStreamsState()
+) {
+    /** S0038: the saved group of Own - the personal channels the live group does not already show. */
+    val ownSavedChannels: List<WearStreamChannel>
+        get() = if (own.live.shownSavedIds.isEmpty()) displayChannels
+        else displayChannels.filter { it.id !in own.live.shownSavedIds }
+
+    /**
+     * S2820: whether the wearer narrowed the list themselves. Every narrowing the projection applies is
+     * listed here and only here, so a facet added later (strategic §5.3) is declared once.
+     */
+    val hasActiveNarrowing: Boolean
+        get() = searchQuery.isNotBlank() ||
+            filterKind != StreamFilterKind.ALL ||
+            !selectedTopic.isNullOrBlank() ||
+            !selectedLanguage.isNullOrBlank() ||
+            selectedCollectionId != null
+
+    /**
+     * S2820: the list is empty because of the narrowing, not because the catalogue is. Derived rather
+     * than stored (strategic ADR-1): a stored flag would have to be refreshed in every selection setter
+     * and in every projection pass, and the branch that reads it already reads both lists.
+     */
+    val isNarrowedEmpty: Boolean
+        get() = channels.isNotEmpty() && displayChannels.isEmpty() && hasActiveNarrowing
+}

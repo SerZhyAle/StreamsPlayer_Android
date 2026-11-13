@@ -1,0 +1,19 @@
+{
+  "$comment": "Keyword table of tools/audit/coverage_check.ps1 (S0025 section 6). Reviewed in every diff: an entry may be added, never dropped. 'claudeMd' is a case-insensitive regex that must match CLAUDE.md section 1 (empty for a surface beyond CLAUDE.md); 'scenes' is a list of alternatives, each alternative a list of lower-case tokens that must ALL occur in the text of one scene row (the Scene, user's action and risk columns of the scene catalog); a capability is covered when at least one scene matches at least one alternative. 'reviewedSection1Sha256' pins the whitespace-collapsed text of CLAUDE.md section 1 this table was reviewed against: when section 1 changes, the check fails until the table is re-reviewed and the pin regenerated with: pwsh -NoProfile -File tools/audit/coverage_check.ps1 -PrintSection1Hash",
+  "reviewedSection1Sha256": "5157ab74a9e4019597227b99ed459832023783c207273232c63a9ce60e8aa664",
+  "legalNaTags": ["face"],
+  "capabilities": [
+    { "noun": "phone app", "claudeMd": "Phone app", "scenes": [["first start"], ["catalog work"]] },
+    { "noun": "Wear OS app", "claudeMd": "Wear OS app", "scenes": [["watch broadcast and flows"]] },
+    { "noun": "watch face", "claudeMd": "watch face", "scenes": [["watch face"]] },
+    { "noun": "internet radio", "claudeMd": "internet radio", "scenes": [["radio from the list"]] },
+    { "noun": "live video (HLS/DASH)", "claudeMd": "live video \\(HLS/DASH\\)", "scenes": [["fullscreen video", "hls/dash"]] },
+    { "noun": "RTSP", "claudeMd": "RTSP", "scenes": [["rtsp playback"]] },
+    { "noun": "phone microphone broadcast", "claudeMd": "live broadcast from the phone \\(microphone", "scenes": [["phone broadcast", "microphone"]] },
+    { "noun": "phone camera broadcast", "claudeMd": "live broadcast from the phone \\(microphone, camera\\)", "scenes": [["phone broadcast", "camera"]] },
+    { "noun": "watch microphone broadcast", "claudeMd": "and the watch \\(microphone\\)", "scenes": [["watch broadcast", "microphone"]] },
+    { "noun": "widgets and tile (beyond CLAUDE.md)", "claudeMd": "", "scenes": [["widgets"]] },
+    { "noun": "M3U import (beyond CLAUDE.md)", "claudeMd": "", "scenes": [["m3u import"]] },
+    { "noun": "device exchange (beyond CLAUDE.md)", "claudeMd": "", "scenes": [["exchange join"], ["receiver playback"], ["broadcaster publish"]] }
+  ]
+}

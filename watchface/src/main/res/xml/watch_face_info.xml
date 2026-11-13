@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Watch Face Format metadata. Preview is the only required field. Category is deliberately absent: it
+     is optional, and an invented value would pass the build in silence and surface as a store rejection. -->
+<WatchFaceInfo>
+    <Preview value="@drawable/preview" />
+    <Editable value="true" />
+    <MultipleInstancesAllowed value="false" />
+</WatchFaceInfo>

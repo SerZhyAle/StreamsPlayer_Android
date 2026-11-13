@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="open_on_phone_notification_title">Open from your watch</string>
+    <string name="open_on_phone_notification_text">Tap to open %1$s</string>
+    <string name="open_on_phone_channel_name">Open from watch</string>
+</resources>

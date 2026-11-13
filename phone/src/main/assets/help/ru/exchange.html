@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="ru" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="light dark">
+<title>Справка - Сервер обмена</title>
+<link rel="stylesheet" href="../help.css">
+</head>
+<body class="help">
+<main class="container">
+<nav class="help-crumbs" aria-label="Оглавление справки">
+<a href="index.html">Оглавление справки</a><span class="sep" aria-hidden="true">/</span><span>Сервер обмена</span>
+</nav>
+<header class="hero">
+<img class="mark-head" src="../img/exchange-mark-full.svg" width="128" height="128" alt="Media Exchange Server">
+<h1>Сервер обмена</h1>
+</header>
+<h2>Для чего этот экран</h2>
+<p class="lead">Войдите на сервер обмена, к которому вам дал доступ его хозяин, и смотрите прямые трансляции ваших других устройств. В этом приложении можно только войти: аккаунты создаются в Fast Media Sorter. Вы входите один раз и остаётесь в аккаунте, пока хозяин сервера не изменит условия. «Через Google Drive», «Сервер обмена» и «Прямые трансляции» сворачиваются каждый под своим заголовком и остаются такими, какими вы их оставили.</p>
+<h2>Порядок действий</h2>
+<ol class="order">
+<li>Получите у хозяина сервера строку подключения или QR-код. Нажмите «Вставить строку подключения» <a class="ref" href="#paste">6</a>, «Открыть файл..» <a class="ref" href="#open-file">7</a> или «Сканировать QR» <a class="ref" href="#scan-qr">8</a>. Форма заполнит сервер и, если строка его содержит, ваш логин.</li>
+<li>Проверьте имя сервера и логин. Адрес сервера <a class="ref" href="#destination">13</a> показан маленькой строкой под ними, чтобы было видно, куда уйдёт пароль.</li>
+<li>Введите пароль <a class="ref" href="#password">14</a> и нажмите «Войти» <a class="ref" href="#sign-in">15</a>. При первом подключении приложение покажет сертификат сервера и спросит, доверять ли ему; затем запомнит его.</li>
+<li>После входа появятся карточка аккаунта <a class="ref" href="#account">19</a> и список прямых трансляций <a class="ref" href="#broadcast-start-guide">28</a>. Коснитесь трансляции, чтобы её воспроизвести, или сохраните её как канал.</li>
+<li>Если подключиться не удаётся, нажмите «Почему не подключается?» <a class="ref" href="#diagnose">17</a>: приложение проверит подключение по шагам и скажет, что сделать.</li>
+</ol>
+<h2>Элементы</h2>
+<div class="elements">
+<h3>Верхняя панель</h3>
+<details class="el" id="help">
+<summary><span class="mk">1</span><span><span class="name">Справка</span><span class="one">Открывает эту страницу.</span></span></summary>
+<div class="full">
+<p>«Назад» возвращает на экран сервера обмена.</p>
+<dl class="facts">
+<dt>Сочетание клавиш</dt><dd><kbd>F1</kbd></dd>
+</dl>
+</div>
+</details>
+<h3>Через Google Drive</h3>
+<details class="el" id="drive">
+<summary><span class="mk">2</span><span><span class="name">Через Google Drive</span><span class="one">Находит трансляции ваших устройств без сервера.</span></span></summary>
+<div class="full">
+<p>Ваши другие устройства объявляют свои трансляции в скрытой папке приложения в вашем собственном аккаунте Google, а эта карточка показывает их список. Через Google Drive идут только объявления, сам поток - никогда. Работает и с аккаунтом сервера обмена, и без него.</p>
+</div>
+</details>
+<details class="el" id="drive-sign-in">
+<summary><span class="mk">3</span><span><span class="name">Войти через Google</span><span class="one">Подключает ваш аккаунт Google.</span></span></summary>
+<div class="full">
+<p>Google один раз просит разрешить доступ только к скрытой папке приложения. Ничего другого в вашем Google Drive приложение не видит.</p>
+<dl class="facts">
+<dt>Отмена</dt><dd>«Выйти из Google Drive».</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="drive-sign-out">
+<summary><span class="mk">4</span><span><span class="name">Выйти из Google Drive</span><span class="one">Отключает ваш аккаунт Google.</span></span></summary>
+<div class="full">
+<p>Список трансляций, объявленных через Google Drive, исчезает с этого экрана. Аккаунт сервера обмена ниже остаётся подключённым.</p>
+<dl class="facts">
+<dt>Отмена</dt><dd>Снова «Войти через Google».</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="drive-guide">
+<summary><span class="mk">5</span><span><span class="name">Как это работает через Google Drive</span><span class="one">Открывает в браузере руководство о Google Drive.</span></span></summary>
+<div class="full">
+<p>Веб-страница о том, как объявлять трансляции через Google Drive. Нужна сеть.</p>
+</div>
+</details>
+<h3>Вход</h3>
+<details class="el" id="paste">
+<summary><span class="mk">6</span><span><span class="name">Вставить строку подключения</span><span class="one">Заполняет форму из строки подключения.</span></span></summary>
+<div class="full">
+<p>Берёт строку подключения из буфера обмена. Заполняются сервер, его имя и, если строка его содержит, логин. Текст, который не является строкой подключения, отклоняется с сообщением, и ничего не меняется. Если буфер пуст, приложение сообщает об этом.</p>
+</div>
+</details>
+<details class="el" id="open-file">
+<summary><span class="mk">7</span><span><span class="name">Открыть файл..</span><span class="one">Заполняет форму из файла подключения.</span></span></summary>
+<div class="full">
+<p>Выберите файл .fmsexch, который прислал хозяин сервера. Он заполняет форму так же, как вставленная строка.</p>
+</div>
+</details>
+<details class="el" id="scan-qr">
+<summary><span class="mk">8</span><span><span class="name">Сканировать QR</span><span class="one">Заполняет форму из QR-кода.</span></span></summary>
+<div class="full">
+<p>Открывает камеру. Наведите её на QR-код, который показывает хозяин сервера; форма заполнится, как только код будет прочитан.</p>
+</div>
+</details>
+<details class="el" id="address">
+<summary><span class="mk">9</span><span><span class="name">Адрес сервера</span><span class="one">Сервер, введённый вручную.</span></span></summary>
+<div class="full">
+<p>Эти поля появляются, только если строка подключения не использовалась. Введите имя или адрес, которые дал хозяин сервера. Строка подключения заполняет их за вас.</p>
+</div>
+</details>
+<details class="el" id="port">
+<summary><span class="mk">10</span><span><span class="name">Порт</span><span class="one">Порт сервера, введённый вручную.</span></span></summary>
+<div class="full">
+<p>Оставьте 443, если хозяин сервера не дал другой номер. Строка подключения заполняет его за вас.</p>
+</div>
+</details>
+<details class="el" id="login">
+<summary><span class="mk">11</span><span><span class="name">Логин</span><span class="one">Ваш логин на этом сервере.</span></span></summary>
+<div class="full">
+<p>Заполняется из строки подключения, если она его содержит. Иначе введите логин, который дал хозяин сервера.</p>
+</div>
+</details>
+<details class="el" id="pairing-code">
+<summary><span class="mk">12</span><span><span class="name">Использовать код сопряжения вместо пароля</span><span class="one">Вход по одноразовому коду вместо пароля.</span></span></summary>
+<div class="full">
+<p>Отметьте, если хозяин сервера дал вам код сопряжения. Поле пароля тогда просит код. Каждый код работает один раз.</p>
+<dl class="facts">
+<dt>Отмена</dt><dd>Снимите отметку, чтобы ввести пароль.</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="destination">
+<summary><span class="mk">13</span><span><span class="name">Адрес сервера</span><span class="one">Куда уйдёт пароль.</span></span></summary>
+<div class="full">
+<p>Маленькая строка под именем сервера и логином с адресом сервера. Она нужна, чтобы вы никогда не ввели пароль не на тот сервер; делать с ней ничего не нужно.</p>
+</div>
+</details>
+<details class="el" id="password">
+<summary><span class="mk">14</span><span><span class="name">Пароль</span><span class="one">Ваш пароль или код сопряжения.</span></span></summary>
+<div class="full">
+<p>Пароль отправляется на сервер один раз и никогда не хранится в телефоне. Поле очищается после нажатия «Войти». Неверный пароль показывается один раз; приложение никогда не повторяет его само.</p>
+</div>
+</details>
+<details class="el" id="sign-in">
+<summary><span class="mk">15</span><span><span class="name">Войти</span><span class="one">Выполняет вход с этого телефона.</span></span></summary>
+<div class="full">
+<p>При первом подключении приложение показывает сертификат сервера и спрашивает, доверять ли ему, затем запоминает его. После этого телефон остаётся в аккаунте, пока хозяин сервера не изменит условия. Строка подключения с приглашением не создаёт аккаунт здесь: сначала откройте её в Fast Media Sorter, затем войдите здесь.</p>
+<dl class="facts">
+<dt>Сочетание клавиш</dt><dd><kbd>Enter</kbd></dd>
+</dl>
+</div>
+</details>
+<details class="el" id="accounts-guide">
+<summary><span class="mk">16</span><span><span class="name">Как устроены аккаунты и вход</span><span class="one">Открывает в браузере руководство об аккаунтах.</span></span></summary>
+<div class="full">
+<p>Веб-страница об аккаунтах, приглашениях и входе. Такая же кнопка есть на карточке аккаунта. Нужна сеть.</p>
+</div>
+</details>
+<details class="el" id="diagnose">
+<summary><span class="mk">17</span><span><span class="name">Почему не подключается?</span><span class="one">Объясняет, почему не удаётся подключиться.</span></span></summary>
+<div class="full">
+<p>Появляется под сообщением о неудачном подключении. Проверяет подключение по шагам и простыми словами говорит, что сделать: разбудить устройство, на котором работает сервер, подключиться к основной сети Wi-Fi, проверить логин и так далее.</p>
+</div>
+</details>
+<h3>Ваш аккаунт</h3>
+<details class="el" id="play-immediately">
+<summary><span class="mk">18</span><span><span class="name">Воспроизводить трансляции с моих устройств без подтверждения</span><span class="one">Воспроизводит трансляции с ваших устройств без вопроса.</span></span></summary>
+<div class="full">
+<p>Когда одно из ваших устройств отправляет трансляцию на этот телефон, она начинается сразу. Снимите отметку, чтобы сначала спрашивать.</p>
+<dl class="facts">
+<dt>Отмена</dt><dd>Снимите отметку.</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="account">
+<summary><span class="mk">19</span><span><span class="name">Карточка аккаунта</span><span class="one">Сервер, ваш логин и состояние этого телефона.</span></span></summary>
+<div class="full">
+<p>Показывает сервер, ваш логин, подключён ли телефон или это гостевой аккаунт, и отпечаток сертификата, которому доверяет телефон. Когда хозяин сервера меняет пароль аккаунта, карточка сообщает об этом и просит войти снова; ваши каналы и сервер сохраняются.</p>
+</div>
+</details>
+<details class="el" id="connect-watch">
+<summary><span class="mk">20</span><span><span class="name">Подключить часы</span><span class="one">Подключает ваши часы к этому аккаунту.</span></span></summary>
+<div class="full">
+<p>Часы входят в аккаунт через этот телефон. Строка под кнопкой показывает, как идёт сопряжение.</p>
+</div>
+</details>
+<details class="el" id="sign-in-again">
+<summary><span class="mk">21</span><span><span class="name">Войти снова</span><span class="one">Снова выполняет вход с вашим паролем.</span></span></summary>
+<div class="full">
+<p>Нажмите, когда карточка сообщает, что вы вышли из аккаунта, например после смены пароля аккаунта. Открывается форма входа с уже заполненными сервером и логином; введите пароль. Сертификат, которому доверяет телефон, сохраняется.</p>
+</div>
+</details>
+<details class="el" id="replace-pin">
+<summary><span class="mk">22</span><span><span class="name">Заменить отпечаток</span><span class="one">Заменяет отпечаток сертификата, которому доверяет телефон.</span></span></summary>
+<div class="full">
+<p>Нажимайте, только если хозяин сервера сообщил, что у сервера новый сертификат, и дал его отпечаток. Сертификат, обновлённый с тем же ключом, ничего от вас не требует.</p>
+<dl class="facts">
+<dt>Отмена</dt><dd>Замените снова на прежний отпечаток.</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="change-server">
+<summary><span class="mk">23</span><span><span class="name">Сменить сервер</span><span class="one">Переводит телефон на другой сервер обмена.</span></span></summary>
+<div class="full">
+<p>Телефон работает с одним сервером обмена. Смена удаляет аккаунт на этом телефоне и открывает форму входа для нового сервера. Приложение сначала спрашивает.</p>
+</div>
+</details>
+<details class="el" id="sign-out">
+<summary><span class="mk">24</span><span><span class="name">Выйти на этом устройстве</span><span class="one">Выводит этот телефон из аккаунта.</span></span></summary>
+<div class="full">
+<p>Телефон забывает свой вход, а сервер забывает этот телефон. Сохранённые каналы остаются, а аккаунт на сервере сохраняется для ваших других устройств. Часы, подключённые через этот телефон, тоже выходят из аккаунта. Приложение сначала спрашивает.</p>
+<dl class="facts">
+<dt>Отмена</dt><dd>Снова войдите со строкой подключения и паролем.</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="change-password">
+<summary><span class="mk">25</span><span><span class="name">Сменить пароль</span><span class="one">Меняет пароль вашего аккаунта.</span></span></summary>
+<div class="full">
+<p>Введите текущий пароль, новый и новый ещё раз. Этот телефон остаётся в аккаунте; на ваших других устройствах нужно войти снова с новым паролем. Забытый пароль здесь не сменить: попросите хозяина сервера сбросить его. Поля паролей очищаются, когда окно закрывается.</p>
+</div>
+</details>
+<details class="el" id="deletion-guide">
+<summary><span class="mk">26</span><span><span class="name">Как удалить аккаунт</span><span class="one">Объясняет, как удалить аккаунт.</span></span></summary>
+<div class="full">
+<p>Аккаунты удаляются на сервере, в Fast Media Sorter, а не в этом приложении. Кнопка открывает руководство в браузере; нужна сеть.</p>
+</div>
+</details>
+<details class="el" id="broadcasts-here">
+<summary><span class="mk">27</span><span><span class="name">Вещания на этом сервере</span><span class="one">Каждое вещание этого телефона объявляется на этом сервере.</span></span></summary>
+<div class="full">
+<p>С момента начала вещания ваши другие устройства видят его в своём списке, и ничего включать для этого не нужно, а «Управление вещанием» называет этот сервер. Строка также говорит, что видит оператор сервера, пока идёт раздача потока через сервер. Чтобы вещания оставались только в вашей сети, удалите сервер. У гостевого аккаунта этой строки нет: гость видит только то, чем с ним поделились, и ничего не объявляет.</p>
+</div>
+</details>
+<details class="el" id="broadcast-start-guide">
+<summary><span class="mk">28</span><span><span class="name">Подробнее</span><span class="one">Объясняет, как вещать через сервер.</span></span></summary>
+<div class="full">
+<p>Открывает в браузере руководство о начале вещания и о том, что видит сервер; нужна сеть.</p>
+</div>
+</details>
+<details class="el" id="server-sees">
+<summary><span class="mk">29</span><span><span class="name">Что видит сервер</span><span class="one">Что сервер обмена знает и чего он не может открыть.</span></span></summary>
+<div class="full">
+<p>Сервер обмена соединяет ваши устройства, поэтому знает имена вашего аккаунта, устройств, папок и трансляций, видит, какие устройства в сети, и сколько и когда передаётся. Открыть то, что идёт через него, он не может: папки и их файлы, трансляции и буфер шифруются на вашем устройстве и открываются только на других ваших устройствах или у тех, кому вы дали доступ. Чтобы заглянуть внутрь, тому, кто управляет сервером, пришлось бы добавить в ваш аккаунт своё устройство, и оно появилось бы в списке ваших устройств.</p>
+</div>
+</details>
+<h3>Прямые трансляции</h3>
+<details class="el" id="broadcasts">
+<summary><span class="mk">30</span><span><span class="name">Прямые трансляции</span><span class="one">Трансляции, которые ваши устройства ведут сейчас.</span></span></summary>
+<div class="full">
+<p>Сгруппированы по устройствам. Коснитесь трансляции, чтобы её воспроизвести, или «Сохранить как канал», чтобы добавить в свой список. Когда никто не ведёт вещание, список сообщает об этом. Папки с других устройств здесь не воспроизводятся. Папка, закрытая PIN-кодом, показана со своим устройством и строкой о том, что эта программа не может её открыть. Трансляция, защиту которой не удаётся открыть на этом телефоне, говорит почему и не воспроизводится.</p>
+</div>
+</details>
+<details class="el" id="keep-all">
+<summary><span class="mk">31</span><span><span class="name">Сохранить все текущие каналы</span><span class="one">Сохраняет каждую трансляцию списка как канал.</span></span></summary>
+<div class="full">
+<p>Добавляет все трансляции, показанные сейчас, в ваш список каналов одним нажатием. Трансляция с паролем спрашивает его.</p>
+</div>
+</details>
+<details class="el" id="broadcast-guide">
+<summary><span class="mk">32</span><span><span class="name">Как принять трансляцию</span><span class="one">Открывает руководство о приёме трансляции.</span></span></summary>
+<div class="full">
+<p>Веб-страница о том, как принять трансляцию из этого списка. Нужна сеть.</p>
+</div>
+</details>
+</div>
+<h2>Связанное</h2>
+<ul class="related">
+<li><a href="catalog.html"><b>StreamsPlayer</b><span class="pill">Экран</span></a></li>
+<li><a href="qr-scanner.html"><b>Сканировать QR-код</b><span class="pill">Экран</span></a></li>
+<li><a href="broadcast.html"><b>Управление вещанием</b><span class="pill">Экран</span></a></li>
+<li><a href="broadcast-settings.html"><b>Настройки вещания</b><span class="pill">Экран</span></a></li>
+<li><a href="index.html"><b>Оглавление справки</b></a></li>
+</ul>
+<footer class="help-foot">
+<span>StreamsPlayer 2.61.0282.350, 2026-10-29</span>
+<a href="index.html">Оглавление справки</a>
+<a href="https://github.com/SerZhyAle/StreamsPlayer_Android/issues">Задать вопрос или сообщить о проблеме</a>
+</footer>
+</main>
+</body>
+</html>

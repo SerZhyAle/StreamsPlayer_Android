@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sp_open_on_phone">Відкрити на телефоні</string>
+    <string name="sp_background_playback">Перемкнути фонове відтворення</string>
+    <string name="sp_dim_screen">Затемнити екран</string>
+    <string name="sp_channels">Канали</string>
+    <string name="sp_broadcast">Трансляція</string>
+    <string name="sp_assign_tile">Вибрати канал плитки</string>
+    <string name="sp_help">Довідка</string>
+    <string name="sp_help_shown">Довідку відкрито на телефоні</string>
+    <string name="sp_help_not_found">Не вдалося відкрити довідку</string>
+    <string name="sp_phone_shown">Канал відкрито на телефоні</string>
+    <string name="sp_phone_notified">Натисніть сповіщення на телефоні</string>
+    <string name="sp_phone_notifications_off">Увімкніть сповіщення StreamsPlayer на телефоні</string>
+    <string name="sp_phone_not_found">Не вдалося відкрити канал</string>
+    <string name="sp_phone_unreachable">StreamsPlayer на сполученому телефоні не відповів</string>
+    <string name="sp_volume_down">Тихіше</string>
+    <string name="sp_volume_up">Гучніше</string>
+</resources>

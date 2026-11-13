@@ -1,0 +1,85 @@
+{
+  "help": "broadcast-settings",
+  "surface": "fragment_settings_broadcast",
+  "elements": [
+    { "id": "title", "viewId": "rowStreamTitle", "labelKey": "settings_broadcast_stream_title" },
+    { "id": "auto-share", "viewId": "rowAutoOpenShare", "labelKey": "settings_broadcast_auto_share" },
+    { "id": "bit-rate", "viewId": "rowBitRate", "labelKey": "settings_broadcast_bit_rate" },
+    { "id": "audio-format", "viewId": "rowAudioFormat", "labelKey": "settings_broadcast_audio_format" },
+    { "id": "mic-gain", "viewId": "rowMicGain", "labelKey": "settings_broadcast_mic_gain" },
+    { "id": "feedback-guard", "viewId": "rowFeedbackGuard", "labelKey": "settings_broadcast_feedback_guard" },
+    { "id": "port", "viewId": "rowPort", "labelKey": "settings_broadcast_port" },
+    { "id": "drive", "viewId": "rowPublishToDrive", "labelKey": "settings_broadcast_drive_title" },
+    { "id": "drive-camera", "viewId": "rowPublishVideoToDrive", "labelKey": "settings_broadcast_drive_video_title" }
+  ],
+  "related": [
+    { "help": "broadcast" },
+    { "help": "settings" },
+    { "help": "catalog" }
+  ],
+  "locales": {
+    "en": {
+      "title": "Broadcast settings",
+      "purpose": "The choices that shape your broadcasts: what it is called, how good it sounds, and where it can be reached. They are the Broadcast page of Settings, opened from the settings menu or by Broadcast settings on the Broadcast Control screen, and are kept for next time. While live broadcasting is off the page shows only the way to turn it on, on the General page.",
+      "orderNote": "These settings have no fixed order. They are grouped below by what they do.",
+      "groups": [
+        { "title": "The broadcast", "elements": ["title", "auto-share"] },
+        { "title": "Sound", "elements": ["bit-rate", "audio-format", "mic-gain", "feedback-guard"] },
+        { "title": "Reaching listeners", "elements": ["port", "drive", "drive-camera"] }
+      ],
+      "elements": {
+        "title": { "summary": "The name listeners see.", "details": "Shown in the listener's channel list. Leave it empty to use the default name, Phone Broadcast." },
+        "bit-rate": { "summary": "How much data a second of sound takes.", "details": "A higher rate sounds cleaner and uses more network. Pick a lower one for a weak connection." },
+        "port": { "summary": "The network port of the broadcast.", "details": "Devices on your network connect to this port. Change it only if another program already uses the default one.", "undo": "Type the previous number." },
+        "audio-format": { "summary": "The sampling rate and mono or stereo.", "details": "Shows the sampling rate in kHz and whether the sound is Mono or Stereo. Stereo carries more data than mono." },
+        "mic-gain": { "summary": "How loud the microphone is.", "details": "Raises or lowers the microphone level for everyone who listens." },
+        "feedback-guard": { "summary": "Stops a howl between phones.", "details": "Turns the microphone gain down when a listener plays the broadcast aloud nearby, so the sound cannot build up. A warning on the Broadcast Control screen tells you when it acted." },
+        "auto-share": { "summary": "Opens the share screen by itself.", "details": "When the broadcast starts, the link and the QR code come up at once, so you can hand them out right away." },
+        "drive-camera": { "summary": "The same choice for the camera modes.", "details": "The two camera modes share this choice; the row above is for audio broadcasts. It works the same way.", "undo": "Turn it off." },
+        "drive": { "summary": "Announce the broadcast through your Google Drive.", "details": "Other devices signed in to your own Google account find this broadcast without a server. Only the announcement is written to the hidden app folder of your Drive, never the sound or the picture. Off writes nothing.", "undo": "Turn it off." }
+      }
+    },
+    "ru": {
+      "title": "Настройки вещания",
+      "purpose": "Выбор, который определяет ваши вещания: как оно называется, как звучит и где его можно найти. Это страница «Трансляция» в настройках, она открывается из меню настроек или кнопкой «Настройки вещания» на экране «Управление вещанием» и сохраняется на следующий раз. Пока прямое вещание выключено, на странице есть только путь к его включению на странице «Основные».",
+      "orderNote": "У этих настроек нет определённого порядка. Ниже они сгруппированы по назначению.",
+      "groups": [
+        { "title": "Вещание", "elements": ["title", "auto-share"] },
+        { "title": "Звук", "elements": ["bit-rate", "audio-format", "mic-gain", "feedback-guard"] },
+        { "title": "Как дойти до слушателей", "elements": ["port", "drive", "drive-camera"] }
+      ],
+      "elements": {
+        "title": { "summary": "Имя, которое видят слушатели.", "details": "Показывается в списке каналов у слушателя. Если оставить пустым, используется имя по умолчанию «Вещание с телефона»." },
+        "bit-rate": { "summary": "Сколько данных занимает секунда звука.", "details": "Чем выше битрейт, тем чище звук и тем больше расход сети. Для слабого соединения выберите поменьше." },
+        "port": { "summary": "Сетевой порт вещания.", "details": "Устройства в вашей сети подключаются к этому порту. Меняйте его, только если порт по умолчанию уже занят другой программой.", "undo": "Введите прежний номер." },
+        "audio-format": { "summary": "Частота дискретизации, моно или стерео.", "details": "Показывает частоту дискретизации в кГц и то, моно звук или стерео. Стерео несёт больше данных, чем моно." },
+        "mic-gain": { "summary": "Громкость микрофона.", "details": "Повышает или понижает уровень микрофона для всех слушателей." },
+        "feedback-guard": { "summary": "Не даёт телефонам «свистеть».", "details": "Уменьшает усиление микрофона, когда слушатель включает вещание вслух рядом, чтобы звук не нарастал. Предупреждение на экране «Управление вещанием» сообщает, что защита сработала." },
+        "auto-share": { "summary": "Сама открывает экран отправки.", "details": "Когда вещание начинается, сразу появляются ссылка и QR-код, и их можно тут же раздавать." },
+        "drive-camera": { "summary": "Тот же выбор для режимов с камерой.", "details": "Два режима с камерой делят этот выбор; строка выше относится к вещанию звука. Работает так же.", "undo": "Выключите." },
+        "drive": { "summary": "Объявляет вещание через ваш Google Drive.", "details": "Другие устройства, вошедшие в ваш собственный аккаунт Google, находят это вещание без сервера. В скрытую папку приложения на вашем Drive записывается только объявление, никогда не звук и не картинка. Если выключено, ничего не записывается.", "undo": "Выключите." }
+      }
+    },
+    "uk": {
+      "title": "Налаштування мовлення",
+      "purpose": "Вибір, що визначає ваші мовлення: як воно називається, як звучить і де його можна знайти. Це сторінка «Трансляція» в налаштуваннях, вона відкривається з меню налаштувань або кнопкою «Налаштування мовлення» на екрані «Управління мовленням» і зберігається на наступний раз. Поки пряме мовлення вимкнено, на сторінці є лише шлях до його ввімкнення на сторінці «Основні».",
+      "orderNote": "У цих налаштувань немає визначеного порядку. Нижче їх згруповано за призначенням.",
+      "groups": [
+        { "title": "Мовлення", "elements": ["title", "auto-share"] },
+        { "title": "Звук", "elements": ["bit-rate", "audio-format", "mic-gain", "feedback-guard"] },
+        { "title": "Як дійти до слухачів", "elements": ["port", "drive", "drive-camera"] }
+      ],
+      "elements": {
+        "title": { "summary": "Ім'я, яке бачать слухачі.", "details": "Показується в списку каналів у слухача. Якщо залишити порожнім, використовується ім'я за замовчуванням «Мовлення з телефона»." },
+        "bit-rate": { "summary": "Скільки даних займає секунда звуку.", "details": "Чим вищий бітрейт, тим чистіший звук і тим більша витрата мережі. Для слабкого з'єднання виберіть менший." },
+        "port": { "summary": "Мережевий порт мовлення.", "details": "Пристрої у вашій мережі підключаються до цього порту. Змінюйте його, лише якщо порт за замовчуванням уже зайнятий іншою програмою.", "undo": "Введіть попередній номер." },
+        "audio-format": { "summary": "Частота дискретизації, моно або стерео.", "details": "Показує частоту дискретизації в кГц і те, чи звук моно, чи стерео. Стерео несе більше даних, ніж моно." },
+        "mic-gain": { "summary": "Гучність мікрофона.", "details": "Підвищує або знижує рівень мікрофона для всіх слухачів." },
+        "feedback-guard": { "summary": "Не дає телефонам «свистіти».", "details": "Зменшує посилення мікрофона, коли слухач вмикає мовлення вголос поруч, щоб звук не наростав. Попередження на екрані «Управління мовленням» повідомляє, що захист спрацював." },
+        "auto-share": { "summary": "Сам відкриває екран надсилання.", "details": "Коли мовлення починається, одразу з'являються посилання й QR-код, і їх можна відразу роздавати." },
+        "drive-camera": { "summary": "Той самий вибір для режимів із камерою.", "details": "Два режими з камерою ділять цей вибір; рядок вище стосується мовлення звуку. Працює так само.", "undo": "Вимкніть." },
+        "drive": { "summary": "Оголошує мовлення через ваш Google Drive.", "details": "Інші пристрої, що увійшли у ваш власний акаунт Google, знаходять це мовлення без сервера. У приховану теку застосунку на вашому Drive записується лише оголошення, ніколи не звук і не картинка. Якщо вимкнено, нічого не записується.", "undo": "Вимкніть." }
+      }
+    }
+  }
+}

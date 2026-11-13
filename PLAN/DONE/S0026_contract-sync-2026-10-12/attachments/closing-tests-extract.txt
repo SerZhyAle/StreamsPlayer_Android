@@ -1,0 +1,11 @@
+.\gradlew.bat :exchange-core:test :phone:testStoreDebugUnitTest :phone:testNoLegalDebugUnitTest :wear:testStoreDebugUnitTest :wear:testNoLegalDebugUnitTest --console=plain
+> Task :exchange-core:test UP-TO-DATE
+> Task :phone:testNoLegalDebugUnitTest UP-TO-DATE
+> Task :phone:testStoreDebugUnitTest UP-TO-DATE
+> Task :wear:testStoreDebugUnitTest
+> Task :wear:testNoLegalDebugUnitTest
+BUILD SUCCESSFUL in 2m 12s
+161 actionable tasks: 82 executed, 79 up-to-date
+GRADLE_EXIT=0
+exchange-core and phone tasks above are UP-TO-DATE: the earlier execution stands (result XML written 00:57 2026-10-25, read before the forced rerun: phone 1053 store / 1055 noLegal tests, exchange-core 17, zero failures, errors, skipped).
+wear result XML of this run: 266 tests per flavor, zero failures (47 classes each).

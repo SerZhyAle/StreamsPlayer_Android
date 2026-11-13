@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- S0039: one topic of the portal chooser. The row of the material dialog list (its text style, height and side
+     paddings), with start and end paddings for right-to-left and a 48dp touch target (UI-SIZING); the topic about
+     the exchange server shows the exchange mark as its start drawable, the others an empty one of the same size. -->
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="?attr/materialAlertDialogBodyTextStyle"
+    android:id="@android:id/text1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/touch_target_min_height"
+    android:drawablePadding="@dimen/margin_normal"
+    android:ellipsize="marquee"
+    android:gravity="center_vertical|start"
+    android:paddingStart="?attr/listPreferredItemPaddingStart"
+    android:paddingEnd="?attr/listPreferredItemPaddingEnd"
+    android:textAlignment="viewStart" />

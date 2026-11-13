@@ -1,0 +1,1 @@
+{"version":"1","changelog":"dev/CHANGELOG.md","specArchiveDir":"PLAN/DONE","modules":"phone,wear,watchface"}

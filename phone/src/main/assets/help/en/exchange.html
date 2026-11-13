@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="light dark">
+<title>Help - Exchange server</title>
+<link rel="stylesheet" href="../help.css">
+</head>
+<body class="help">
+<main class="container">
+<nav class="help-crumbs" aria-label="Help index">
+<a href="index.html">Help index</a><span class="sep" aria-hidden="true">/</span><span>Exchange server</span>
+</nav>
+<header class="hero">
+<img class="mark-head" src="../img/exchange-mark-full.svg" width="128" height="128" alt="Media Exchange Server">
+<h1>Exchange server</h1>
+</header>
+<h2>What this is for</h2>
+<p class="lead">Sign in to the exchange server that the host of a server gave you access to, and see the live broadcasts of your other devices. This app only signs in: accounts are created in Fast Media Sorter. You sign in once and stay signed in until the host changes the conditions. Via Google Drive, Exchange server and Live broadcasts each fold under their own heading and stay the way you leave them.</p>
+<h2>In this order</h2>
+<ol class="order">
+<li>Get a connection string or a QR code from the host of the server. Press Paste connection string <a class="ref" href="#paste">6</a>, Open file.. <a class="ref" href="#open-file">7</a> or Scan QR <a class="ref" href="#scan-qr">8</a>. The form fills in the server and, when the string carries it, your login.</li>
+<li>Check the server name and the login. The address of the server <a class="ref" href="#destination">13</a> is shown in a small line below them, so you can see where the password goes.</li>
+<li>Type your password <a class="ref" href="#password">14</a> and press Sign in <a class="ref" href="#sign-in">15</a>. On the first connection the app shows the certificate of the server and asks you to trust it; it then remembers it.</li>
+<li>Once you are signed in, the account card <a class="ref" href="#account">19</a> and the list of live broadcasts <a class="ref" href="#broadcast-start-guide">28</a> appear. Tap a broadcast to play it, or keep it as a channel.</li>
+<li>If the app cannot connect, press Why won't it connect? <a class="ref" href="#diagnose">17</a>: it checks the connection step by step and says what to do.</li>
+</ol>
+<h2>The elements</h2>
+<div class="elements">
+<h3>The top bar</h3>
+<details class="el" id="help">
+<summary><span class="mk">1</span><span><span class="name">Help</span><span class="one">Opens this page.</span></span></summary>
+<div class="full">
+<p>Back returns to the exchange server screen.</p>
+<dl class="facts">
+<dt>Shortcut</dt><dd><kbd>F1</kbd></dd>
+</dl>
+</div>
+</details>
+<h3>Via Google Drive</h3>
+<details class="el" id="drive">
+<summary><span class="mk">2</span><span><span class="name">Via Google Drive</span><span class="one">Finds the broadcasts of your devices without a server.</span></span></summary>
+<div class="full">
+<p>Your other devices announce their broadcasts in a hidden app folder of your own Google account, and this card lists them. Only the announcements go through Google Drive, never the stream itself. It works with or without an exchange account.</p>
+</div>
+</details>
+<details class="el" id="drive-sign-in">
+<summary><span class="mk">3</span><span><span class="name">Sign in with Google</span><span class="one">Connects your Google account.</span></span></summary>
+<div class="full">
+<p>Google asks you once to allow access to the hidden app folder only. The app sees nothing else in your Google Drive.</p>
+<dl class="facts">
+<dt>Undo</dt><dd>Sign out of Google Drive.</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="drive-sign-out">
+<summary><span class="mk">4</span><span><span class="name">Sign out of Google Drive</span><span class="one">Disconnects your Google account.</span></span></summary>
+<div class="full">
+<p>The list of broadcasts announced through Google Drive disappears from this screen. The exchange account below stays signed in.</p>
+<dl class="facts">
+<dt>Undo</dt><dd>Sign in with Google again.</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="drive-guide">
+<summary><span class="mk">5</span><span><span class="name">How it works via Google Drive</span><span class="one">Opens the guide about Google Drive in your browser.</span></span></summary>
+<div class="full">
+<p>A web page that explains announcing broadcasts through Google Drive. It needs a network.</p>
+</div>
+</details>
+<h3>Signing in</h3>
+<details class="el" id="paste">
+<summary><span class="mk">6</span><span><span class="name">Paste connection string</span><span class="one">Fills the form from a connection string.</span></span></summary>
+<div class="full">
+<p>Takes the connection string from the clipboard. The server, its name and, when the string carries it, the login are filled in. A string that is not a connection string is refused with a message, and nothing changes. If the clipboard is empty, the app says so.</p>
+</div>
+</details>
+<details class="el" id="open-file">
+<summary><span class="mk">7</span><span><span class="name">Open file..</span><span class="one">Fills the form from a connection file.</span></span></summary>
+<div class="full">
+<p>Choose the .fmsexch file that the host sent you. It fills the form in the same way as a pasted string.</p>
+</div>
+</details>
+<details class="el" id="scan-qr">
+<summary><span class="mk">8</span><span><span class="name">Scan QR</span><span class="one">Fills the form from a QR code.</span></span></summary>
+<div class="full">
+<p>Opens the camera. Point it at the QR code that the host shows; the form fills in as soon as the code is read.</p>
+</div>
+</details>
+<details class="el" id="address">
+<summary><span class="mk">9</span><span><span class="name">Server address</span><span class="one">The server, typed by hand.</span></span></summary>
+<div class="full">
+<p>These fields appear only when no connection string was used. Type the name or the address that the host gave you. A connection string fills them for you.</p>
+</div>
+</details>
+<details class="el" id="port">
+<summary><span class="mk">10</span><span><span class="name">Port</span><span class="one">The port of the server, typed by hand.</span></span></summary>
+<div class="full">
+<p>Leave 443 unless the host gave you another number. A connection string fills it for you.</p>
+</div>
+</details>
+<details class="el" id="login">
+<summary><span class="mk">11</span><span><span class="name">Login</span><span class="one">Your login on this server.</span></span></summary>
+<div class="full">
+<p>Filled in from the connection string when it carries one. Otherwise type the login that the host gave you.</p>
+</div>
+</details>
+<details class="el" id="pairing-code">
+<summary><span class="mk">12</span><span><span class="name">Use pairing code instead of password</span><span class="one">Signs in with a one-time code instead of a password.</span></span></summary>
+<div class="full">
+<p>Tick it when the host gave you a pairing code. The password field then asks for the code. Each code works once.</p>
+<dl class="facts">
+<dt>Undo</dt><dd>Untick it to type a password.</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="destination">
+<summary><span class="mk">13</span><span><span class="name">Server address</span><span class="one">Where the password goes.</span></span></summary>
+<div class="full">
+<p>A small line under the server name and the login that shows the address of the server. It is there so that you never type your password into the wrong server; you do not need to do anything with it.</p>
+</div>
+</details>
+<details class="el" id="password">
+<summary><span class="mk">14</span><span><span class="name">Password</span><span class="one">Your password, or the pairing code.</span></span></summary>
+<div class="full">
+<p>The password is sent to the server once and is never stored on the phone. The field is cleared after you press Sign in. A wrong password is shown once; the app never retries it by itself.</p>
+</div>
+</details>
+<details class="el" id="sign-in">
+<summary><span class="mk">15</span><span><span class="name">Sign in</span><span class="one">Signs this phone in.</span></span></summary>
+<div class="full">
+<p>On the first connection the app shows the certificate of the server and asks you to trust it, then remembers it. After that the phone stays signed in until the host changes the conditions. A connection string that is an invitation cannot create an account here: open it in Fast Media Sorter first, then sign in here.</p>
+<dl class="facts">
+<dt>Shortcut</dt><dd><kbd>Enter</kbd></dd>
+</dl>
+</div>
+</details>
+<details class="el" id="accounts-guide">
+<summary><span class="mk">16</span><span><span class="name">How accounts and sign-in work</span><span class="one">Opens the guide about accounts in your browser.</span></span></summary>
+<div class="full">
+<p>A web page that explains accounts, invitations and signing in. The same button is on the account card. It needs a network.</p>
+</div>
+</details>
+<details class="el" id="diagnose">
+<summary><span class="mk">17</span><span><span class="name">Why won't it connect?</span><span class="one">Explains why the connection fails.</span></span></summary>
+<div class="full">
+<p>Appears under a message about a failed connection. It checks the connection step by step and says, in plain words, what to do: wake the device that runs the server, join the main Wi-Fi network, check the login, and so on.</p>
+</div>
+</details>
+<h3>Your account</h3>
+<details class="el" id="play-immediately">
+<summary><span class="mk">18</span><span><span class="name">Play broadcasts sent from my devices without asking</span><span class="one">Plays a broadcast your devices send without asking.</span></span></summary>
+<div class="full">
+<p>When one of your own devices sends a broadcast to this phone, it starts at once. Untick it to be asked first.</p>
+<dl class="facts">
+<dt>Undo</dt><dd>Untick it.</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="account">
+<summary><span class="mk">19</span><span><span class="name">Account card</span><span class="one">The server, your login and the state of this phone.</span></span></summary>
+<div class="full">
+<p>Shows the server, your login, whether this phone is connected or is a guest, and the certificate fingerprint the phone trusts. When the host changes the password of the account, the card says so and asks you to sign in again; your channels and the server are kept.</p>
+</div>
+</details>
+<details class="el" id="connect-watch">
+<summary><span class="mk">20</span><span><span class="name">Connect watch</span><span class="one">Connects your watch to this account.</span></span></summary>
+<div class="full">
+<p>The watch signs in through this phone. The line below the button tells how the pairing is going.</p>
+</div>
+</details>
+<details class="el" id="sign-in-again">
+<summary><span class="mk">21</span><span><span class="name">Sign in again</span><span class="one">Signs in again with your password.</span></span></summary>
+<div class="full">
+<p>Use it when the card says you were signed out, for example after the password of the account was changed. It opens the sign-in form with the server and the login already filled in; type the password. The certificate the phone trusts is kept.</p>
+</div>
+</details>
+<details class="el" id="replace-pin">
+<summary><span class="mk">22</span><span><span class="name">Replace PIN</span><span class="one">Replaces the certificate fingerprint this phone trusts.</span></span></summary>
+<div class="full">
+<p>Use it only when the host tells you the server has a new certificate and gives you its fingerprint. A certificate renewed with the same key needs nothing from you.</p>
+<dl class="facts">
+<dt>Undo</dt><dd>Replace it again with the old fingerprint.</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="change-server">
+<summary><span class="mk">23</span><span><span class="name">Change server</span><span class="one">Moves this phone to another exchange server.</span></span></summary>
+<div class="full">
+<p>The phone works with one exchange server. Changing it removes the account on this phone and opens the sign-in form for the new server. The app asks first.</p>
+</div>
+</details>
+<details class="el" id="sign-out">
+<summary><span class="mk">24</span><span><span class="name">Sign out on this device</span><span class="one">Signs this phone out of the account.</span></span></summary>
+<div class="full">
+<p>The phone forgets its sign-in and the server forgets this phone. The channels you kept stay, and the account on the server is kept for your other devices. A watch connected through this phone is signed out too. The app asks first.</p>
+<dl class="facts">
+<dt>Undo</dt><dd>Sign in again with a connection string and your password.</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="change-password">
+<summary><span class="mk">25</span><span><span class="name">Change password</span><span class="one">Changes the password of your account.</span></span></summary>
+<div class="full">
+<p>Type the current password, the new one and the new one again. This phone stays signed in; your other devices must sign in again with the new password. A forgotten password cannot be changed here: ask the host to reset it. The password fields are cleared when the window closes.</p>
+</div>
+</details>
+<details class="el" id="deletion-guide">
+<summary><span class="mk">26</span><span><span class="name">How to delete an account</span><span class="one">Explains how to delete an account.</span></span></summary>
+<div class="full">
+<p>Accounts are deleted on the server, in Fast Media Sorter, not in this app. The button opens the guide in your browser; it needs a network.</p>
+</div>
+</details>
+<details class="el" id="broadcasts-here">
+<summary><span class="mk">27</span><span><span class="name">Broadcasts on this server</span><span class="one">Every broadcast of this phone is announced on this server.</span></span></summary>
+<div class="full">
+<p>From the moment a broadcast starts, your other devices see it in their list, with no switch to turn on, and Broadcast Control names this server. The line also says what the server's operator sees while the relay through the server runs. To keep broadcasts on your own network only, remove the server. A guest account does not have this line: a guest sees only what was shared with them and announces nothing.</p>
+</div>
+</details>
+<details class="el" id="broadcast-start-guide">
+<summary><span class="mk">28</span><span><span class="name">Learn more</span><span class="one">Explains going on air through the server.</span></span></summary>
+<div class="full">
+<p>Opens the guide about starting a broadcast and what the server sees, in your browser; it needs a network.</p>
+</div>
+</details>
+<details class="el" id="server-sees">
+<summary><span class="mk">29</span><span><span class="name">What the server sees</span><span class="one">What the exchange server knows and what it cannot open.</span></span></summary>
+<div class="full">
+<p>The exchange server connects your devices, so it knows the names of your account, devices, folders and broadcasts, sees which devices are online, and how much is sent and when. It cannot open what goes through it: folders and their files, broadcasts and the clipboard are encrypted on your device and opened only on your other devices or by the people you gave access to. To look inside, whoever runs the server would have to add a device of their own to your account, and it would appear in your list of devices.</p>
+</div>
+</details>
+<h3>Live broadcasts</h3>
+<details class="el" id="broadcasts">
+<summary><span class="mk">30</span><span><span class="name">Live broadcasts</span><span class="one">The broadcasts your devices are running now.</span></span></summary>
+<div class="full">
+<p>Grouped by device. Tap a broadcast to play it, or Keep as channel to add it to your list. When nobody is broadcasting, the list says so. Folders shared by other devices are not played here. A folder locked with a PIN is listed with its device and the line saying this program cannot open it. A broadcast whose protection cannot be opened on this phone says why and is not played.</p>
+</div>
+</details>
+<details class="el" id="keep-all">
+<summary><span class="mk">31</span><span><span class="name">Keep everything listed now</span><span class="one">Keeps every broadcast in the list as a channel.</span></span></summary>
+<div class="full">
+<p>Adds all the broadcasts listed now to your channel list in one go. A broadcast with a password asks for it.</p>
+</div>
+</details>
+<details class="el" id="broadcast-guide">
+<summary><span class="mk">32</span><span><span class="name">How to receive a broadcast</span><span class="one">Opens the guide about receiving a broadcast.</span></span></summary>
+<div class="full">
+<p>A web page that explains how to receive a broadcast from this list. It needs a network.</p>
+</div>
+</details>
+</div>
+<h2>Related</h2>
+<ul class="related">
+<li><a href="catalog.html"><b>StreamsPlayer</b><span class="pill">Screen</span></a></li>
+<li><a href="qr-scanner.html"><b>Scan QR code</b><span class="pill">Screen</span></a></li>
+<li><a href="broadcast.html"><b>Broadcast Control</b><span class="pill">Screen</span></a></li>
+<li><a href="broadcast-settings.html"><b>Broadcast settings</b><span class="pill">Screen</span></a></li>
+<li><a href="index.html"><b>Help index</b></a></li>
+</ul>
+<footer class="help-foot">
+<span>StreamsPlayer 2.61.0282.350, 2026-10-29</span>
+<a href="index.html">Help index</a>
+<a href="https://github.com/SerZhyAle/StreamsPlayer_Android/issues">Ask a question or report a problem</a>
+</footer>
+</main>
+</body>
+</html>

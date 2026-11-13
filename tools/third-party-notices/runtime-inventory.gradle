@@ -1,0 +1,17 @@
+allprojects {
+    afterEvaluate {
+        if (name in ['wear', 'phone']) {
+            tasks.register('spRuntimeInventory') {
+                doLast {
+                    def lines = configurations.getByName('storeReleaseRuntimeClasspath').resolvedConfiguration.resolvedArtifacts.collect {
+                        def id = it.moduleVersion.id
+                        "${id.group}\t${id.name}\t${id.version}\t${it.file.absolutePath}"
+                    }.sort()
+                    def directory = rootProject.file(rootProject.findProperty('sp.noticesInventoryDir') ?: 'temp/third-party-notices')
+                    directory.mkdirs()
+                    new File(directory, "${project.name}-runtime.tsv").text = lines.join('\n')
+                }
+            }
+        }
+    }
+}

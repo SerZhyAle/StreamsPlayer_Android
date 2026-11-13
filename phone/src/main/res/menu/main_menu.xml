@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- S0035: mode and filter sat in the bar before the help action existed. The toolbar policy of AppCompat
+         grants a fixed number of slots, so an action that merely asked for room would be pushed into the
+         overflow by the help action; these two keep their place by asking for it outright. -->
+    <item
+        android:id="@+id/menu_mode_toggle"
+        android:icon="@drawable/ic_grid"
+        android:title="@string/view_grid"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_filter"
+        android:icon="@drawable/ic_filter"
+        android:title="@string/filter_and_sort"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_add_channel"
+        android:title="@string/add_channel"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_recently_played"
+        android:icon="@drawable/ic_history"
+        android:title="@string/menu_recently_played"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_broadcast"
+        android:icon="@drawable/ic_live_broadcast"
+        android:title="@string/broadcast_control_title"
+        app:showAsAction="ifRoom" />
+
+    <!-- S0035: the help action, last of the visible actions so it stands right before the overflow
+         (CONTEXT-HELP rule 2); every action above keeps its place. -->
+    <item
+        android:id="@+id/menu_help"
+        android:icon="@drawable/ic_help_outline"
+        android:title="@string/help"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_import_playlist"
+        android:title="@string/menu_import_playlist"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_import_broadcast"
+        android:title="@string/menu_import_broadcast"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_refresh_catalog"
+        android:title="@string/refresh_catalog"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_media_exchange_portal"
+        android:title="@string/media_exchange_portal"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_exchange_server"
+        android:title="@string/menu_exchange_server"
+        app:showAsAction="never" />
+    <!-- S0049: the settings screen, app.settings; the last overflow entry, every entry above keeps its place. -->
+    <item
+        android:id="@+id/menu_settings"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/settings"
+        app:showAsAction="never" />
+</menu>

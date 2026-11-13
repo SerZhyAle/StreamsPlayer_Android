@@ -1,0 +1,52 @@
+Own-row updates for StreamsPlayer Android from the S0057 contract-sync run of 2026-10-29, ONE patch that replaces the
+three pending ones. For the canon session under CLAUDE.md section 6. The catalog was NOT edited by this repository.
+
+File:   registry-sync.patch (beside this note), unified diff of _meta/REGISTRY.md, LF, three hunks.
+Base:   the catalog's file as it stands on 2026-10-29 (sha256 4716fa1b5f1cd0e79d2571a7c53a1ccbc20dbf7abb7e12ebad05384e0126ee61,
+        unchanged from the start to the end of this run). Apply from the catalog root: `patch -p1 --binary -i registry-sync.patch`.
+        Verified on a scratch copy of the live file: exit 0, result byte-identical to the proposed file.
+
+Why one patch and not a fourth in the chain
+- The registry is LF now (0 CRLF lines of 1452). The patches of S0026, S0037 and S0041 were diffed against the CRLF file of
+  2026-10-27 and fail against it ("different line endings"; with the CRs stripped they apply only with fuzz, and two hunks
+  fail because FileDO's PACKAGE-VERSIONING row and the end of the file have moved).
+- Their content is folded in unchanged, rebased on the current file: the DEVICE-EXCHANGE, LIVE-BROADCAST and STREAM-BANK
+  rows, the REPO-STAMP / HARNESS-PROFILE / RULE-DELIVERY rows, the seven unified-UI and documentation-quality rows, the
+  struck-through REPO-STAMP and RULE-DELIVERY exception rows, the five DEVICE-EXCHANGE exception rows, and the section
+  "StreamsPlayer Android contract sync 2026-10-17 - 2026-10-27". Apply THIS patch and discard those three; applying any of
+  them as well would fail or duplicate.
+
+What S0057 adds on top (all of this product's own rows, Verified 2026-10-29)
+ 1. STREAM-BANK          `-` / `partial 2.4` -> `partial 2.5` / `partial 2.5`. Item P: the country half holds, the language
+                         half does not (three-letter codes), exception row, ticket S0059.
+ 2. DEVICE-EXCHANGE      `partial 1.10` x2 -> `partial 1.11` x2. 1.11 read in full; EB, EG, EH, EI held by reading; ED not
+                         held (change-password dialog shows no host:port), exception row, ticket S0058.
+ 3. PACKAGE-VERSIONING   `0.5` -> `0.6`. Registration of other products' bands only; the build-logic sources are unchanged
+                         since 2026-10-02.
+ 4. INPUT-PARITY         `partial 0.4` / `0.4` -> `partial 0.5` / `0.5` (also `pending` -> a date). Items F to H read; the
+                         thirteen gaps stand and S0052 re-reads them against F and G.
+ 5. ICON-SET             Reads 0.36 -> 0.37. Nothing moves in the product's icon map.
+ 6. HARNESS-PROFILE      `0.13` -> `0.14`. Rules 8-10 are optional keys; the profile declares none.
+ 7. CONTEXT-HELP         `partial 0.1` -> `partial 0.2`. Section 7 read; still partial.
+ 8. CHECK-VERDICT        `partial 0.13` -> `partial 0.14`; gap A.1 (legacy self-test line), exception row, ticket S0060.
+ 9. CHECK-BASELINE       `partial 0.11` -> `partial 0.12`; gap B (no comparison with the committed copy), same exception row.
+10. DOC-INTERNAL-QUALITY Reads 0.10 -> 0.11. 11. DOC-EXTERNAL-QUALITY `partial 0.12` -> `partial 0.13`. No gap moves.
+12. MEDIA-CLASSIFICATION `pending` -> 2026-10-29. 0.13 read; the not-applicable record stands, no version claimed.
+New section "StreamsPlayer Android contract sync 2026-10-29": three exception rows (STREAM-BANK item P; DEVICE-EXCHANGE item ED;
+CHECK-VERDICT A.1 with CHECK-BASELINE B), each with scope, evidence, impact, compensation, ticket and review, until 2026-12-31.
+Each changed row keeps its earlier note after "Earlier:".
+Unchanged on purpose: LIVE-BROADCAST (1.6 is current; the S0037 shape `partial 1.6` x2 is the proposal), REPO-STAMP (0.13 is
+current), USER-PLAYLIST, ICON-RENDER, ICON-EXTERNAL, REPO-LAYOUT, TEST-LAB.
+
+Evidence (attachments/, all 2026-10-29)
+- contract-lag, live catalog:  rows 18, current 5, behind 4, partial 3, pending 2, unparsed 4.
+- contract-lag, proposed:      rows 25, current 13, behind 0, partial 11, pending 0, n/a 1, unparsed 0.
+- check-sync, live:            exit 1, 29 findings (16 pointers, 11 cells, the item CZ pair).
+- check-sync, proposed:        exit 1, 2 findings, both the item CZ table (S0053 item 3, not this run's).
+- The 16 pointers in docs/contracts/ were moved in this repository; the pointer block of check-sync passes on the live
+  catalog (31 of 31).
+- No build, no unit test and no emulator run: the verdicts rest on static reading of the tree and on the catalog's log rows,
+  as each note says. The cells read "partial" or "read", never "verified by a run".
+
+After the canon session applies it: `pwsh -NoProfile -File tools/contracts/check-sync.ps1 -CatalogRoot <catalog>` should report
+only the item CZ findings.

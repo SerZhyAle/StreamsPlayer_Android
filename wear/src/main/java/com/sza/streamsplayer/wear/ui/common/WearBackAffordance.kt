@@ -1,0 +1,206 @@
+package com.sza.streamsplayer.wear.ui.common
+
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
+import androidx.annotation.StringRes
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.waitForUpOrCancellation
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ExitToApp
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.pointer.PointerEventPass
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.onClick
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import androidx.wear.compose.material.Icon
+import androidx.wear.compose.material.MaterialTheme
+import com.sza.streamsplayer.wear.R
+import com.sza.streamsplayer.wear.domain.model.WearGeometryMode
+
+// Declared as consts because detekt's MagicNumber is active on this module's main sources and
+// exempts a constant declaration but not a property one.
+private const val AFFORDANCE_TOUCH_TARGET_DP = 40
+private const val AFFORDANCE_GLYPH_DP = 24
+private val AFFORDANCE_EDGE_SHIFT = 6.dp
+private val AFFORDANCE_HALF_GLYPH_DP = (AFFORDANCE_GLYPH_DP / 2).dp
+private val AFFORDANCE_EXTRA_OUTWARD_SHIFT = 8.dp
+
+/**
+ * Size of the control a caller has to place. Published because the edge inset that puts it against
+ * the rim is a function of its height, so a caller that guesses the height mis-places it (S2472).
+ */
+val WearBackAffordanceSize = AFFORDANCE_TOUCH_TARGET_DP.dp
+
+/**
+ * The rim inset shared by the navigation affordance (left) and the screen-off command (right).
+ *
+ * S4027: answered per geometry view. The owner's outward shifts sum past the side-band clearance on
+ * every round watch from 192 dp to 240 dp, so the ORIGINAL answer is 0 dp and the glyph's corners
+ * stand outside the glass - Google Play rejected exactly that on WO-V16 on 2026-10-01. The STORE view
+ * keeps the whole touch box on the glass with the side band's own clearance instead.
+ */
+@Composable
+fun wearBackAffordanceInset(): Dp {
+    val sideBand = wearSideBandInset(WearBackAffordanceSize)
+    if (LocalWearGeometryMode.current != WearGeometryMode.ORIGINAL) {
+        return sideBand
+    }
+    return (sideBand - AFFORDANCE_EDGE_SHIFT - AFFORDANCE_HALF_GLYPH_DP - AFFORDANCE_EXTRA_OUTWARD_SHIFT)
+        .coerceAtLeast(0.dp)
+}
+
+/**
+ * What the affordance does on the screen it stands on; it decides sign, announcement and meaning
+ * together, so no caller can pair the wrong glyph with the wrong action (S2472 ADR-1).
+ */
+enum class WearBackAffordanceRole {
+    /** One screen back on the navigation stack: a small left-pointing arrow. */
+    Back,
+
+    /** Leave the app from its home screen: the exit glyph (ICON-SET nav.exit, S3482), never the panel-closing cross. */
+    Close,
+
+    /** Send the app to the background with sound alive: the phone's double chevron down (S0759). */
+    Minimize
+}
+
+/**
+ * The one back/close/minimize control of the watch app (S2472).
+ *
+ * The owner ruled the placement: hard against the left rim, vertically centered - the caller owns
+ * the position and must align this at `Alignment.CenterStart` with leading padding from
+ * [wearBackAffordanceInset], because only the caller knows its own container. Not [wearRingInset], which
+ * is a corner's clearance and puts the control a seventh of the display inwards, on top of the
+ * content band rather than in the free ring beside it (S2472, owner report 2026-09-03). The
+ * left-middle band is where a round display's side chord is widest, so the sign survives out there
+ * at full size while the list keeps its own inset untouched.
+ *
+ * Two sizes, and they are not the same thing: the touch target is what a finger hits, the glyph is
+ * what an eye reads. The owner asked for a small but noticeable mark, which is a small glyph, never
+ * a small target. They are aligned at the START of the box rather than at its centre for the same
+ * reason: centring spends half the difference between them - 8 dp - pushing the mark back inwards,
+ * which is the visible half of what the owner reported. The finger keeps the full target; it simply
+ * grows inwards, where there is nothing at this height, instead of outwards past the glass.
+ *
+ * The tint uses the shared secondary accent so the navigation mark stays recognisable at a glance
+ * without becoming a filled primary action.
+ */
+@Composable
+fun WearBackAffordance(
+    role: WearBackAffordanceRole,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        contentAlignment = Alignment.CenterStart,
+        modifier = modifier
+            .size(WearBackAffordanceSize)
+            .nonSwallowingClickable(onClick = {
+                onClick()
+            })
+    ) {
+        when (role) {
+            WearBackAffordanceRole.Back -> VectorGlyph(
+                icon = Icons.AutoMirrored.Filled.ArrowBack,
+                labelRes = R.string.wear_navigate_back
+            )
+            WearBackAffordanceRole.Close -> VectorGlyph(
+                icon = Icons.AutoMirrored.Filled.ExitToApp,
+                labelRes = R.string.wear_close_app
+            )
+            WearBackAffordanceRole.Minimize -> Icon(
+                painter = painterResource(R.drawable.ic_double_arrow_down),
+                contentDescription = stringResource(R.string.wear_minimize_to_background),
+                tint = MaterialTheme.colors.secondary,
+                modifier = Modifier.size(AFFORDANCE_GLYPH_DP.dp)
+            )
+        }
+    }
+}
+
+/**
+ * S3098: the screen-off command, standing at the opposite edge of the same box as [WearBackAffordance]
+ * and on exactly the routes that draw it. The owner named those screens by the mark already on them -
+ * the back arrow at the middle of the left rim - so this one mirrors it rather than declaring a route
+ * list of its own, which would drift apart from that predicate at the first new screen.
+ *
+ * The glyph is aligned at the END of the box for the mirrored reason the navigation mark is aligned at
+ * its start: centring spends half the 16 dp between the 40 dp touch target and the 24 dp glyph pushing
+ * the mark inwards, away from the rim the owner asked it to stand against. The finger keeps the full
+ * target, which grows inwards where there is nothing at this height.
+ */
+@Composable
+fun WearScreenOffAffordance(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        contentAlignment = Alignment.CenterEnd,
+        modifier = modifier
+            .size(WearBackAffordanceSize)
+            .nonSwallowingClickable(onClick = {
+                onClick()
+            })
+    ) {
+        VectorGlyph(icon = wearScreenOffIcon(), labelRes = R.string.wear_screen_off)
+    }
+}
+
+/**
+ * The screen-off glyph of every watch surface: the moon. S4020 took it back from the phone's dark-phone
+ * media.black-screen drawing by owner ruling - the moon explains "put the watch to sleep" better. It is a
+ * known deviation from ICON-SET (the moon is app.night-mode there): a label-glyph finding the icon gate
+ * raises for it is excused in docs/icons/icon-contract-map.json, never "fixed" back to the dark phone.
+ */
+@Composable
+fun wearScreenOffIcon(): ImageVector = ImageVector.vectorResource(R.drawable.ic_night_mode)
+
+/**
+ * Detects clicks without consuming pointer down or horizontal drag events, allowing system back
+ * swipe gestures (swipe-to-dismiss) starting over this control to pass through to parent containers (S2472).
+ */
+internal fun Modifier.nonSwallowingClickable(
+    onClick: () -> Unit,
+    role: Role = Role.Button
+): Modifier = this
+    .pointerInput(onClick) {
+        awaitEachGesture {
+            awaitFirstDown(pass = PointerEventPass.Main, requireUnconsumed = false)
+            val up = waitForUpOrCancellation(pass = PointerEventPass.Main)
+            if (up != null && !up.isConsumed) {
+                up.consume()
+                onClick()
+            }
+        }
+    }
+    .semantics(mergeDescendants = true) {
+        this.role = role
+        onClick {
+            onClick()
+            true
+        }
+    }
+
+@Composable
+private fun VectorGlyph(icon: ImageVector, @StringRes labelRes: Int) {
+    Icon(
+        imageVector = icon,
+        contentDescription = stringResource(labelRes),
+        tint = MaterialTheme.colors.secondary,
+        modifier = Modifier.size(AFFORDANCE_GLYPH_DP.dp)
+    )
+}

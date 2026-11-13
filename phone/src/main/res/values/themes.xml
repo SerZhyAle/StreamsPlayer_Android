@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- S0036: the theme routes every product-owned MaterialButton and every dialog answer through the shared
+         command styles below (BUTTONS 2.0 section 3), so an unstyled button cannot fall back to the pill shape. -->
+    <style name="Theme.StreamsPlayer" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="materialButtonStyle">@style/Widget.StreamsPlayer.Button</item>
+        <item name="materialButtonOutlinedStyle">@style/Widget.StreamsPlayer.Button.Outlined</item>
+        <item name="borderlessButtonStyle">@style/Widget.StreamsPlayer.Button.Text</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.StreamsPlayer.MaterialAlertDialog</item>
+    </style>
+
+    <!-- S0036: dialog answers keep their captions and the shared rectangular command shape (BUTTONS 2.0 sections
+         2.4 and 3.2). Cancel, No and Close stay neutral: no answer is tinted green or red (section 3.5). -->
+    <style name="ThemeOverlay.StreamsPlayer.MaterialAlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.StreamsPlayer.Button.Text.Dialog</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Widget.StreamsPlayer.Button.Text.Dialog</item>
+        <item name="buttonBarNeutralButtonStyle">@style/Widget.StreamsPlayer.Button.Text.Dialog</item>
+    </style>
+
+    <!-- S0036: the one command-button family (BUTTONS 2.0 section 3, touch column of the token table; the values
+         come from values/dimens_ui.xml). Rectangular radius 4, no pill ends, 16 per-side padding, a 20 glyph with an
+         8 gap, content width with a 48 minimum target. The Material insets keep the 48 hit target while the visible
+         face is 40 (UI-SIZING amendment 1.1: the visible height is not necessarily the whole target). -->
+    <style name="Widget.StreamsPlayer.Button" parent="Widget.Material3.Button">
+        <item name="android:letterSpacing">0</item>
+        <item name="textAllCaps">false</item>
+        <item name="cornerRadius">@dimen/ui_button_corner_radius</item>
+        <item name="android:paddingStart">@dimen/ui_button_padding_horizontal</item>
+        <item name="android:paddingEnd">@dimen/ui_button_padding_horizontal</item>
+        <item name="android:minWidth">@dimen/ui_touch_target</item>
+        <item name="iconSize">@dimen/ui_button_glyph</item>
+        <item name="iconPadding">@dimen/ui_button_glyph_gap</item>
+        <item name="android:breakStrategy">balanced</item>
+    </style>
+
+    <style name="Widget.StreamsPlayer.Button.Filled" parent="Widget.StreamsPlayer.Button" />
+
+    <style name="Widget.StreamsPlayer.Button.Tonal" parent="Widget.Material3.Button.TonalButton">
+        <item name="android:letterSpacing">0</item>
+        <item name="textAllCaps">false</item>
+        <item name="cornerRadius">@dimen/ui_button_corner_radius</item>
+        <item name="android:paddingStart">@dimen/ui_button_padding_horizontal</item>
+        <item name="android:paddingEnd">@dimen/ui_button_padding_horizontal</item>
+        <item name="android:minWidth">@dimen/ui_touch_target</item>
+        <item name="iconSize">@dimen/ui_button_glyph</item>
+        <item name="iconPadding">@dimen/ui_button_glyph_gap</item>
+        <item name="android:breakStrategy">balanced</item>
+    </style>
+
+    <style name="Widget.StreamsPlayer.Button.Outlined" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:letterSpacing">0</item>
+        <item name="textAllCaps">false</item>
+        <item name="cornerRadius">@dimen/ui_button_corner_radius</item>
+        <item name="strokeWidth">@dimen/ui_button_border</item>
+        <item name="android:paddingStart">@dimen/ui_button_padding_horizontal</item>
+        <item name="android:paddingEnd">@dimen/ui_button_padding_horizontal</item>
+        <item name="android:minWidth">@dimen/ui_touch_target</item>
+        <item name="iconSize">@dimen/ui_button_glyph</item>
+        <item name="iconPadding">@dimen/ui_button_glyph_gap</item>
+        <item name="android:breakStrategy">balanced</item>
+    </style>
+
+    <!-- Secondary rank: transparent face (BUTTONS 2.0 section 3.5). -->
+    <style name="Widget.StreamsPlayer.Button.Text" parent="Widget.Material3.Button.TextButton">
+        <item name="android:letterSpacing">0</item>
+        <item name="textAllCaps">false</item>
+        <item name="cornerRadius">@dimen/ui_button_corner_radius</item>
+        <item name="android:paddingStart">@dimen/ui_button_padding_horizontal</item>
+        <item name="android:paddingEnd">@dimen/ui_button_padding_horizontal</item>
+        <item name="android:minWidth">@dimen/ui_touch_target</item>
+        <item name="iconSize">@dimen/ui_button_glyph</item>
+        <item name="iconPadding">@dimen/ui_button_glyph_gap</item>
+        <item name="android:breakStrategy">balanced</item>
+    </style>
+
+    <style name="Widget.StreamsPlayer.Button.Text.Dialog" parent="Widget.StreamsPlayer.Button.Text" />
+
+    <!-- Destructive rank for the acting button of a destructive confirmation only (BUTTONS 2.0 section 2.2). -->
+    <style name="Widget.StreamsPlayer.Button.Destructive" parent="Widget.StreamsPlayer.Button">
+        <item name="backgroundTint">?attr/colorError</item>
+        <item name="android:textColor">?attr/colorOnError</item>
+        <item name="iconTint">?attr/colorOnError</item>
+    </style>
+
+    <!-- Names kept from the FastMediaSorter port; since S0036 they are aliases of the shared family above. -->
+    <style name="Widget.FastMediaSorter.Button.Filled" parent="Widget.StreamsPlayer.Button" />
+
+    <style name="Widget.FastMediaSorter.Button.Tonal" parent="Widget.StreamsPlayer.Button.Tonal" />
+
+    <style name="Widget.FastMediaSorter.Button.Outlined" parent="Widget.StreamsPlayer.Button.Outlined" />
+
+    <style name="Widget.FastMediaSorter.Button.Destructive" parent="Widget.StreamsPlayer.Button.Destructive" />
+
+    <style name="Theme.FastMediaSorter.Transparent" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+</resources>

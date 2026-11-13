@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="exchange_watch_connect">Підключити годинник</string>
+    <string name="exchange_watch_pairing">Підключення годинника. Очікування до 45 секунд.</string>
+    <string name="exchange_watch_paired">Годинник підключено до цього акаунта.</string>
+    <string name="exchange_watch_not_connected">Підключіть годинник до цього телефона й повторіть.</string>
+    <string name="exchange_watch_no_answer">Годинник не відповів. Відкрийте StreamsPlayer на годиннику й повторіть.</string>
+    <string name="exchange_watch_server_unreachable">Сервер не відповів. Перевірте з’єднання й повторіть.</string>
+    <string name="exchange_watch_pairing_refused">Не вдалося підключити годинник. Перевірте з’єднання із сервером і повторіть.</string>
+    <string name="exchange_watch_code_expired">Код сполучення сплив або відхилений. Натисніть «Підключити годинник» для нового коду.</string>
+    <string name="exchange_watch_certificate_refused">Годинник відхилив сертифікат сервера. Перевірте сертифікат на телефоні й підключіть годинник знову.</string>
+    <string name="exchange_watch_update_required">Оновіть StreamsPlayer на годиннику й повторіть.</string>
+    <string name="exchange_watch_revoked_from_phone">Ви вийшли з акаунта. Годинник був недоступний, тому телефон відкликав його доступ на сервері.</string>
+    <string name="exchange_watch_remove_unreachable">Ви вийшли з акаунта на телефоні. Годинник і сервер недоступні; видаліть годинник з акаунта на іншому пристрої.</string>
+</resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="exchange_watch_connect">Подключить часы</string>
+    <string name="exchange_watch_pairing">Подключение часов. Ожидание до 45 секунд.</string>
+    <string name="exchange_watch_paired">Часы подключены к этому аккаунту.</string>
+    <string name="exchange_watch_not_connected">Подключите часы к этому телефону и повторите.</string>
+    <string name="exchange_watch_no_answer">Часы не ответили. Откройте StreamsPlayer на часах и повторите.</string>
+    <string name="exchange_watch_server_unreachable">Сервер не ответил. Проверьте соединение и повторите.</string>
+    <string name="exchange_watch_pairing_refused">Не удалось подключить часы. Проверьте соединение с сервером и повторите.</string>
+    <string name="exchange_watch_code_expired">Код сопряжения истёк или отклонён. Нажмите «Подключить часы» для нового кода.</string>
+    <string name="exchange_watch_certificate_refused">Часы отклонили сертификат сервера. Проверьте сертификат на телефоне и подключите часы снова.</string>
+    <string name="exchange_watch_update_required">Обновите StreamsPlayer на часах и повторите.</string>
+    <string name="exchange_watch_revoked_from_phone">Вы вышли из аккаунта. Часы были недоступны, поэтому телефон отозвал их доступ на сервере.</string>
+    <string name="exchange_watch_remove_unreachable">Вы вышли из аккаунта на телефоне. Часы и сервер недоступны; удалите часы из аккаунта на другом устройстве.</string>
+</resources>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- S0038: Own on the watch - personal channels together with the live broadcasts of the account's other devices. -->
+<resources>
+    <string name="wear_own_section_live">В ефірі на моїх пристроях</string>
+    <string name="wear_own_section_saved">Збережені потоки</string>
+    <string name="wear_own_device_unnamed">Пристрій без назви</string>
+    <string name="wear_own_live_untitled">Пряма трансляція</string>
+    <string name="wear_own_kind_audio">Звук</string>
+    <string name="wear_own_kind_video">Відео</string>
+    <string name="wear_own_presence_online">У мережі</string>
+    <string name="wear_own_presence_offline">Не в мережі</string>
+    <string name="wear_own_presence_unknown">Стан невідомий</string>
+    <string name="wear_own_live_saved_badge">Збережено</string>
+    <string name="wear_own_live_row_video">Відео дивляться на телефоні</string>
+    <string name="wear_own_live_row_protected">Трансляція з паролем - відкрийте її на телефоні</string>
+    <string name="wear_own_live_row_format">Не можна відтворити на годиннику</string>
+    <string name="wear_own_live_save">Зберегти</string>
+    <string name="wear_own_live_save_desc">Зберегти «%1$s» як канал</string>
+    <string name="wear_own_live_empty">Зараз інші пристрої нічого не транслюють.</string>
+    <string name="wear_own_saved_empty">Тут з’являться потоки, надіслані з телефона, і трансляції, які ви збережете.</string>
+    <string name="wear_own_filtered_empty">Нічого не знайдено за пошуком.</string>
+    <string name="wear_own_refresh">Оновити</string>
+    <string name="wear_own_retry">Повторити</string>
+    <string name="wear_own_status_loading">Шукаємо трансляції..</string>
+    <string name="wear_own_status_updated">Оновлено о %1$s</string>
+    <string name="wear_own_status_stale">Останній відомий список, оновлено о %1$s</string>
+    <string name="wear_own_status_stale_unknown">Останній відомий список</string>
+    <string name="wear_own_status_unreachable">Не вдається зв’язатися з сервером обміну.</string>
+    <string name="wear_own_status_no_server">Трансляції з ваших інших пристроїв з’являться тут після підключення годинника до сервера обміну: на телефоні відкрийте Сервер обміну та виберіть Підключити годинник.</string>
+    <string name="wear_own_status_sign_in">Годинник потрібно знову підключити до сервера обміну: на телефоні відкрийте Сервер обміну та виберіть Підключити годинник.</string>
+    <string name="wear_own_notice_ended">Трансляцію завершено</string>
+    <string name="wear_own_notice_unconfirmed">Не вдалося підтвердити, що трансляція триває. Оновіть список і повторіть.</string>
+    <string name="wear_own_notice_video">Годинник відтворює звукові трансляції. Відкрийте цю на телефоні.</string>
+    <string name="wear_own_notice_protected">Для цієї трансляції потрібен пароль. Відкрийте її на телефоні.</string>
+    <string name="wear_own_notice_format">Цю трансляцію не можна відтворити на годиннику.</string>
+    <string name="wear_own_notice_open_failed">Не вдалося відкрити трансляцію. Повторіть.</string>
+    <string name="wear_own_notice_saved">Трансляцію збережено</string>
+    <string name="wear_own_notice_save_failed">Не вдалося зберегти трансляцію. Повторіть.</string>
+    <string name="wear_own_notice_needs_server">Підключіть годинник до сервера обміну, щоб знаходити трансляції з ваших інших пристроїв.</string>
+    <string name="wear_own_notice_sign_in">Знову підключіть годинник до сервера обміну, щоб оновити список.</string>
+</resources>

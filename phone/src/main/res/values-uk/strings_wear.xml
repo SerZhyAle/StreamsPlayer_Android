@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="open_on_phone_notification_title">Відкрити з годинника</string>
+    <string name="open_on_phone_notification_text">Натисніть, щоб відкрити %1$s</string>
+    <string name="open_on_phone_channel_name">Відкриття з годинника</string>
+</resources>

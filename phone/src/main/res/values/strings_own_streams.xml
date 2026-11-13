@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- S0038: Own streams - saved channels together with the live broadcasts of the account's other devices. -->
+<resources>
+    <string name="own_section_live">Live from my devices</string>
+    <string name="own_section_saved">Saved streams</string>
+    <string name="own_device_unnamed">Unnamed device</string>
+    <string name="own_live_untitled">Live broadcast</string>
+    <string name="own_kind_audio">Audio</string>
+    <string name="own_kind_video">Video</string>
+    <string name="own_presence_online">Online</string>
+    <string name="own_presence_offline">Offline</string>
+    <string name="own_presence_unknown">Status unknown</string>
+    <string name="own_live_saved_badge">Saved</string>
+    <string name="own_live_unsupported_row">Cannot be played on this device</string>
+    <string name="own_live_save_desc">Save %1$s as a channel</string>
+    <string name="own_live_empty">No other device is broadcasting right now.</string>
+    <string name="own_live_ended">Broadcast ended</string>
+    <string name="own_live_unconfirmed">Cannot confirm that this broadcast is live. Refresh and try again.</string>
+    <string name="own_live_unsupported">This broadcast cannot be played on this device.</string>
+    <string name="own_live_saved">Broadcast saved</string>
+    <string name="own_action_refresh">Refresh</string>
+    <string name="own_action_setup">Set up</string>
+    <string name="own_action_sign_in">Sign in</string>
+    <string name="own_status_loading">Looking for broadcasts..</string>
+    <string name="own_status_updated">Updated %1$s</string>
+    <string name="own_status_stale">Last known list, updated %1$s</string>
+    <string name="own_status_stale_unknown">Last known list</string>
+    <string name="own_status_unreachable">Cannot reach the exchange server.</string>
+    <string name="own_status_refused">The exchange server refused the request.</string>
+    <string name="own_status_no_server">Broadcasts from your other devices appear here once an exchange server is connected.</string>
+    <string name="own_status_sign_in">Sign in to the exchange server again to see broadcasts from your other devices.</string>
+    <string name="own_refresh_needs_server">Connect an exchange server to find broadcasts from your other devices.</string>
+    <string name="own_refresh_sign_in_required">Sign in to the exchange server again to refresh.</string>
+    <string name="own_filtered_empty">Nothing matches the search or filters.</string>
+</resources>

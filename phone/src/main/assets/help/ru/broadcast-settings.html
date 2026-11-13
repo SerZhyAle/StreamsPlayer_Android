@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ru" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="light dark">
+<title>Справка - Настройки вещания</title>
+<link rel="stylesheet" href="../help.css">
+</head>
+<body class="help">
+<main class="container">
+<nav class="help-crumbs" aria-label="Оглавление справки">
+<a href="index.html">Оглавление справки</a><span class="sep" aria-hidden="true">/</span><span>Настройки вещания</span>
+</nav>
+<header class="hero">
+<h1>Настройки вещания</h1>
+</header>
+<h2>Для чего этот экран</h2>
+<p class="lead">Выбор, который определяет ваши вещания: как оно называется, как звучит и где его можно найти. Это страница «Трансляция» в настройках, она открывается из меню настроек или кнопкой «Настройки вещания» на экране «Управление вещанием» и сохраняется на следующий раз. Пока прямое вещание выключено, на странице есть только путь к его включению на странице «Основные».</p>
+<figure class="shot">
+<img class="on-light" src="../img/broadcast-settings-ru-light.jpg" alt="Снимок экрана: Настройки вещания">
+<img class="on-dark" src="../img/broadcast-settings-ru-dark.jpg" alt="Снимок экрана: Настройки вещания">
+<figcaption>Демонстрационные данные. Номера совпадают с элементами в списке ниже.</figcaption>
+</figure>
+<h2>Порядок действий</h2>
+<p class="order-note">У этих настроек нет определённого порядка. Ниже они сгруппированы по назначению.</p>
+<h2>Элементы</h2>
+<div class="elements">
+<h3>Вещание</h3>
+<details class="el" id="title">
+<summary><span class="mk">1</span><span><span class="name">Название вещания</span><span class="one">Имя, которое видят слушатели.</span></span></summary>
+<div class="full">
+<p>Показывается в списке каналов у слушателя. Если оставить пустым, используется имя по умолчанию «Вещание с телефона».</p>
+</div>
+</details>
+<details class="el" id="auto-share">
+<summary><span class="mk">2</span><span><span class="name">Автооткрытие экрана отправки</span><span class="one">Сама открывает экран отправки.</span></span></summary>
+<div class="full">
+<p>Когда вещание начинается, сразу появляются ссылка и QR-код, и их можно тут же раздавать.</p>
+</div>
+</details>
+<h3>Звук</h3>
+<details class="el" id="bit-rate">
+<summary><span class="mk">3</span><span><span class="name">Битрейт</span><span class="one">Сколько данных занимает секунда звука.</span></span></summary>
+<div class="full">
+<p>Чем выше битрейт, тем чище звук и тем больше расход сети. Для слабого соединения выберите поменьше.</p>
+</div>
+</details>
+<details class="el" id="audio-format">
+<summary><span class="mk">4</span><span><span class="name">Формат аудио</span><span class="one">Частота дискретизации, моно или стерео.</span></span></summary>
+<div class="full">
+<p>Показывает частоту дискретизации в кГц и то, моно звук или стерео. Стерео несёт больше данных, чем моно.</p>
+</div>
+</details>
+<details class="el" id="mic-gain">
+<summary><span class="mk">5</span><span><span class="name">Усиление микрофона</span><span class="one">Громкость микрофона.</span></span></summary>
+<div class="full">
+<p>Повышает или понижает уровень микрофона для всех слушателей.</p>
+</div>
+</details>
+<details class="el" id="feedback-guard">
+<summary><span class="mk">6</span><span><span class="name">Защита от петли</span><span class="one">Не даёт телефонам «свистеть».</span></span></summary>
+<div class="full">
+<p>Уменьшает усиление микрофона, когда слушатель включает вещание вслух рядом, чтобы звук не нарастал. Предупреждение на экране «Управление вещанием» сообщает, что защита сработала.</p>
+</div>
+</details>
+<h3>Как дойти до слушателей</h3>
+<details class="el" id="port">
+<summary><span class="mk">7</span><span><span class="name">Порт</span><span class="one">Сетевой порт вещания.</span></span></summary>
+<div class="full">
+<p>Устройства в вашей сети подключаются к этому порту. Меняйте его, только если порт по умолчанию уже занят другой программой.</p>
+<dl class="facts">
+<dt>Отмена</dt><dd>Введите прежний номер.</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="drive">
+<summary><span class="mk">8</span><span><span class="name">Объявить через Google Drive: звук</span><span class="one">Объявляет вещание через ваш Google Drive.</span></span></summary>
+<div class="full">
+<p>Другие устройства, вошедшие в ваш собственный аккаунт Google, находят это вещание без сервера. В скрытую папку приложения на вашем Drive записывается только объявление, никогда не звук и не картинка. Если выключено, ничего не записывается.</p>
+<dl class="facts">
+<dt>Отмена</dt><dd>Выключите.</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="drive-camera">
+<summary><span class="mk">9</span><span><span class="name">Объявить через Google Drive: камера</span><span class="one">Тот же выбор для режимов с камерой.</span></span></summary>
+<div class="full">
+<p>Два режима с камерой делят этот выбор; строка выше относится к вещанию звука. Работает так же.</p>
+<dl class="facts">
+<dt>Отмена</dt><dd>Выключите.</dd>
+</dl>
+</div>
+</details>
+</div>
+<h2>Связанное</h2>
+<ul class="related">
+<li><a href="broadcast.html"><b>Управление вещанием</b><span class="pill">Экран</span></a></li>
+<li><a href="settings.html"><b>Настройки</b><span class="pill">Экран</span></a></li>
+<li><a href="catalog.html"><b>StreamsPlayer</b><span class="pill">Экран</span></a></li>
+<li><a href="index.html"><b>Оглавление справки</b></a></li>
+</ul>
+<footer class="help-foot">
+<span>StreamsPlayer 2.61.0282.350, 2026-10-29</span>
+<a href="index.html">Оглавление справки</a>
+<a href="https://github.com/SerZhyAle/StreamsPlayer_Android/issues">Задать вопрос или сообщить о проблеме</a>
+</footer>
+</main>
+</body>
+</html>

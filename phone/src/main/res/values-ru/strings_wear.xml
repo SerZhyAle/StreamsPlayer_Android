@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="open_on_phone_notification_title">Открыть с часов</string>
+    <string name="open_on_phone_notification_text">Нажмите, чтобы открыть %1$s</string>
+    <string name="open_on_phone_channel_name">Открытие с часов</string>
+</resources>

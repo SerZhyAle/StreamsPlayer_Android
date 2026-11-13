@@ -1,0 +1,108 @@
+package com.sza.streamsplayer.core.notification
+
+/**
+ * Single registry of every notification id this app posts.
+ *
+ * Android keys a notification by (package, tag, id) and none of these posters use a tag, so two
+ * owners sharing an id silently replace each other's notification - and either one's
+ * `stopForeground(STOP_FOREGROUND_REMOVE)` or WorkManager teardown then cancels it for both.
+ * S1292 found two live collisions this way (screen recording vs the gesture-overlay host, and the
+ * periodic sync worker vs the S0710 permission advisory), so ids are declared here instead of
+ * privately per class, and `NotificationIdsTest` fails the build if two ever match again.
+ *
+ * Each class keeps its own `NOTIFICATION_ID` alias pointing here, so call sites stay unchanged.
+ * A poster that derives many ids declares an [IntRange] block and picks inside it with [slotIn];
+ * the test also refuses a block that overlaps another block or swallows a single id.
+ */
+object NotificationIds {
+
+    /** Media3 playback notification owned by AudioPlaybackService. */
+    const val MEDIA_PLAYBACK = 1001
+
+    /** Progress/result notification of the scheduled-operations worker. */
+    const val SCHEDULED_OPERATIONS = 4200
+
+    /** S0710 one-shot advisory telling the user to grant All-Files access; must outlive any worker run. */
+    const val SCHEDULED_OPERATIONS_PERMISSION = 4201
+
+    /** Foreground notification of the periodic network-resource sync worker. */
+    const val NETWORK_FILES_SYNC = 4202
+
+    /** Foreground notification of the duplicate-detection worker. */
+    const val DUPLICATE_DETECTION = 4203
+
+    /** S1802: one log report arrived from the paired watch and is ready to send on. */
+    const val WATCH_LOG_REPORT = 4204
+
+    /** S2044: upload of one file received from the watch into a network or cloud destination. */
+    const val WEAR_RECEIVED_FILE_UPLOAD = 4205
+
+    /** S2004: the watch asked this phone to show one of its own files while the app was not in front. */
+    const val WEAR_OPEN_ON_PHONE = 4206
+
+    /** S2142: a file the watch sent here to be handed on to one of this phone's «Send to..» receivers. */
+    const val WEAR_SEND_TO_FROM_WATCH = 4207
+
+    /** S2551: the paired watch is asking to see this phone's camera and the owner must allow it. */
+    const val WEAR_CAMERA_SESSION_CONSENT = 4208
+
+    /** S2776: the permanent shade entry that lights and extinguishes the camera flash on a tap. */
+    const val FLASHLIGHT_SHORTCUT = 4209
+
+    /** S3108: one system-information report arrived from the paired watch and is stored here. */
+    const val WATCH_SYSTEM_INFO_REPORT = 4210
+
+    /** S3109: the paired watch sent its text clipboard and it now sits on this phone's clipboard. */
+    const val WEAR_CLIPBOARD_TEXT = 4211
+
+    /** S3216: the running distress signal - siren, torch strobe, and the action that ends both. */
+    const val SOS_SIGNAL = 4212
+
+    /** S3041: the running embedded SFTP server, with the action that stops it. */
+    const val SFTP_SERVER = 4213
+
+    /** S3908: the system refused a watch-initiated SOS from the background; a tap opens the window. */
+    const val SOS_START_FROM_WATCH = 4214
+
+    /** Foreground notification of the shared-link download worker. */
+    const val LINK_DOWNLOAD_PROGRESS = 7100
+
+    /** Per-URL result notifications of the link download worker, one slot per URL hash. */
+    val LINK_DOWNLOAD_RESULTS: IntRange = IntRange(start = 7200, endInclusive = 7299)
+
+    /** Foreground notification of the browse copy/move/delete worker, carrying its Cancel action. */
+    const val BROWSE_TRANSFER_PROGRESS = 7300
+
+    /** Per-run result notifications of the browse transfer worker, one slot per work id hash. */
+    val BROWSE_TRANSFER_RESULTS: IntRange = IntRange(start = 7400, endInclusive = 7499)
+
+    /** Foreground notification of the deliverable download worker, one slot per deliverable set. */
+    val DELIVERABLE_DOWNLOAD_PROGRESS: IntRange = IntRange(start = 7500, endInclusive = 7599)
+
+    /** Installed/failed notification of the deliverable download worker, one slot per deliverable set. */
+    val DELIVERABLE_DOWNLOAD_RESULTS: IntRange = IntRange(start = 7600, endInclusive = 7699)
+
+    /** MediaProjection screenshot capture service. */
+    const val SCREEN_CAPTURE = 0x4053
+
+    /** Edge-gesture overlay host service; re-posted on every process foreground. */
+    const val GESTURE_OVERLAY_HOST = 0x4054
+
+    /** Screen+audio video recording service, including its pause/resume updates. */
+    const val SCREEN_VIDEO_RECORDING = 0x4055
+
+    /** Quick audio recorder widget service. */
+    const val QUICK_AUDIO_RECORDER = 0xA349
+
+    /** Live phone audio/video broadcast service. */
+    const val PHONE_BROADCAST = 0xB700
+
+    /**
+     * SaveFallbackNotifier derives one id per rescued file by adding an offset to this base, so the
+     * whole 0x5A22xxxx block is reserved. Keep every other id well below it.
+     */
+    const val SAVE_FALLBACK_BASE = 0x5A220000
+
+    /** Maps [key] onto one id inside [block], so a derived id can never leave its reserved range. */
+    fun slotIn(block: IntRange, key: Int): Int = block.first + Math.floorMod(key, block.last - block.first + 1)
+}

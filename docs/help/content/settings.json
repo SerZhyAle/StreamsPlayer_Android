@@ -1,0 +1,131 @@
+{
+  "help": "settings",
+  "surface": "SettingsActivity",
+  "elements": [
+    { "id": "help", "descKeys": ["help"], "labelKey": "help" },
+    { "id": "pages", "viewId": "settingsRail" },
+    { "id": "theme", "viewId": "rowTheme", "labelKey": "settings_theme" },
+    { "id": "language", "viewId": "rowLanguage", "labelKey": "language" },
+    { "id": "enable", "viewId": "rowEnableBroadcasting", "labelKey": "settings_broadcast_enable_title" },
+    { "id": "catalogRefresh", "viewId": "rowCatalogRefresh", "labelKey": "settings_streams_catalog_refresh" },
+    { "id": "channelPreviews", "viewId": "rowChannelPreviews", "labelKey": "channel_pictures_previews_title" },
+    { "id": "channelLogos", "viewId": "rowChannelLogos", "labelKey": "channel_pictures_logos_title" },
+    { "id": "version", "viewId": "about_text_version" },
+    { "id": "license", "viewId": "about_btn_license", "labelKey": "about_license" },
+    { "id": "privacy", "viewId": "about_btn_privacy", "labelKey": "about_privacy_policy" },
+    { "id": "docs", "viewId": "about_btn_help", "labelKey": "about_help" },
+    { "id": "portal", "viewId": "about_btn_portal", "labelKey": "about_portal" },
+    { "id": "support", "viewId": "about_btn_support", "labelKey": "about_support" },
+    { "id": "repository", "viewId": "about_btn_repository", "labelKey": "about_repository" },
+    { "id": "updates", "viewId": "about_btn_updates", "labelKey": "about_download_updates" },
+    { "id": "diagnostics", "viewId": "about_btn_export_diagnostics", "labelKey": "about_export_diagnostics" },
+    { "id": "related", "viewId": "about_btn_related_fms" },
+    { "id": "resources", "viewId": "about_text_resources", "labelKey": "about_resources_index" }
+  ],
+  "related": [
+    { "help": "broadcast-settings" },
+    { "help": "broadcast" },
+    { "help": "catalog" }
+  ],
+  "locales": {
+    "en": {
+      "title": "Settings",
+      "purpose": "Everything you can set in StreamsPlayer, on three pages: General, Broadcast and About. A change applies at once and is kept. There is nothing to save, and the app does not restart.",
+      "orderNote": "These settings have no fixed order. They are grouped below by page.",
+      "groups": [
+        { "title": "The top bar", "elements": ["help"] },
+        { "title": "Pages", "elements": ["pages"] },
+        { "title": "General", "elements": ["theme", "language", "enable", "catalogRefresh"] },
+        { "title": "Channel pictures", "elements": ["channelPreviews", "channelLogos"] },
+        { "title": "About", "elements": ["version", "license", "privacy", "docs", "portal", "support", "repository", "updates", "diagnostics", "related", "resources"] }
+      ],
+      "elements": {
+        "help": { "summary": "Opens this help.", "details": "On the Broadcast page it opens the page about the broadcast settings. F1 on a hardware keyboard does the same." },
+        "pages": { "name": "List of pages", "summary": "Moves between General, Broadcast and About.", "details": "On a wide screen the list stays beside the page. On a narrow one it comes first: pick a page, and the back arrow returns to the list. The screen opens on the page you left last, at the place you left it." },
+        "theme": { "summary": "Light, dark, or as the system is.", "details": "As in the system follows the device's dark theme, also when it changes while the app is open. The change applies at once on every open screen.", "undo": "Pick another theme." },
+        "language": { "summary": "The language of the app.", "details": "Each language is listed under its own name. As in the system follows the language of the device. The change applies at once on every open screen, without a restart.", "undo": "Pick another language." },
+        "enable": { "summary": "Allows live broadcasting.", "details": "Allows live audio broadcasting and shows the shortcuts for it. While it is off, the Broadcast page says so and offers the way back here.", "undo": "Turn it off again." },
+        "catalogRefresh": { "summary": "How the channel list stays current.", "details": "Suggest when I open checks, each time you open the channel list, whether a newer catalog is published, and offers it in a bar above the list. Only when I ask makes no check: the list changes only through Refresh catalog in the menu. Automatically on Wi-Fi downloads a newer catalog by itself, on Wi-Fi and at most once a day. The check downloads no file and sends nothing about you.", "undo": "Pick another position." },
+        "channelPreviews": { "summary": "The preview pictures of video channels.", "details": "Shows the state of the set - not downloaded, downloading with its percent, downloaded, a newer set ready, or failed - and its size. Download fetches it in the background with a progress notification, Update replaces the copy you have, and Try again repeats a failed download. Remove deletes the set from this phone after you confirm, and the channel list stops showing it the next time you are on the list. Your channels are not touched. After a catalog update the app offers a removed set again.", "undo": "Press Download to fetch the set again." },
+        "channelLogos": { "summary": "The logos of stations and channels.", "details": "Works like the previews above, for the logos. A channel without a preview shows its logo, and one with neither keeps its small icon.", "undo": "Press Download to fetch the set again." },
+        "version": { "name": "Version", "summary": "The version you are running.", "details": "Taken from the installed package, so it is the one to quote when you report a problem." },
+        "license": { "summary": "Opens the license in your browser.", "details": "StreamsPlayer is free software under the MIT license." },
+        "privacy": { "summary": "Opens the privacy policy in your browser.", "details": "What the app stores and sends and where, in your language where the policy has it." },
+        "docs": { "summary": "Opens the list of help pages.", "details": "The pages about each screen of the app. They are part of the app and need no network." },
+        "portal": { "summary": "Opens the guides in your browser.", "details": "The official pages about the media exchange and live broadcasts." },
+        "support": { "summary": "Opens the issue tracker in your browser.", "details": "Where to report a problem or read about known ones." },
+        "repository": { "summary": "Opens the source code in your browser.", "details": "The public repository of this app." },
+        "updates": { "summary": "Opens the page this edition is updated from.", "details": "The store listing for the store edition and the releases page for the other one. The page opens only when you press this; the About page itself contacts nothing." },
+        "diagnostics": { "summary": "Shares a diagnostic report.", "details": "Makes a report about the device and playback, without private data, and hands it to the share screen. It goes only where you send it." },
+        "related": { "name": "Related products", "summary": "The other programs of the family.", "details": "FastMediaSorter sorts and organizes media, and StreamsPlayer for Windows is this player on a desktop. Each name opens its site in your browser." },
+        "resources": { "summary": "The main components the app is built on.", "details": "The full list with licenses is in the notices file inside the package." }
+      }
+    },
+    "ru": {
+      "title": "Настройки",
+      "purpose": "Всё, что можно настроить в StreamsPlayer, на трёх страницах: «Основные», «Трансляция» и «О программе». Изменение действует сразу и сохраняется. Ничего сохранять не нужно, приложение не перезапускается.",
+      "orderNote": "У этих настроек нет определённого порядка. Ниже они сгруппированы по страницам.",
+      "groups": [
+        { "title": "Верхняя панель", "elements": ["help"] },
+        { "title": "Страницы", "elements": ["pages"] },
+        { "title": "Основные", "elements": ["theme", "language", "enable", "catalogRefresh"] },
+        { "title": "Картинки каналов", "elements": ["channelPreviews", "channelLogos"] },
+        { "title": "О программе", "elements": ["version", "license", "privacy", "docs", "portal", "support", "repository", "updates", "diagnostics", "related", "resources"] }
+      ],
+      "elements": {
+        "help": { "summary": "Открывает эту справку.", "details": "На странице «Трансляция» открывается страница о настройках вещания. F1 на аппаратной клавиатуре делает то же самое." },
+        "pages": { "name": "Список страниц", "summary": "Переход между страницами «Основные», «Трансляция» и «О программе».", "details": "На широком экране список стоит рядом со страницей. На узком он идёт первым: выберите страницу, а стрелка назад вернёт к списку. Экран открывается на той странице и в том месте, где вы его оставили." },
+        "theme": { "summary": "Светлая, тёмная или как в системе.", "details": "«Как в системе» следует за тёмной темой устройства, в том числе когда она меняется при открытом приложении. Изменение сразу действует на всех открытых экранах.", "undo": "Выберите другую тему." },
+        "language": { "summary": "Язык приложения.", "details": "Каждый язык назван по-своему. «Как в системе» следует за языком устройства. Изменение сразу действует на всех открытых экранах, без перезапуска.", "undo": "Выберите другой язык." },
+        "enable": { "summary": "Разрешает прямое вещание.", "details": "Разрешает прямое вещание звука и показывает его ярлыки. Пока оно выключено, страница «Трансляция» говорит об этом и предлагает вернуться сюда.", "undo": "Выключите снова." },
+        "catalogRefresh": { "summary": "Как список каналов остаётся актуальным.", "details": "«Предлагать при открытии» при каждом открытии списка каналов проверяет, опубликован ли более новый каталог, и предлагает его в строке над списком. «Только когда я попрошу» ничего не проверяет: список меняется только через «Обновить каталог» в меню. «Автоматически по Wi-Fi» скачивает более новый каталог сам, по Wi-Fi и не чаще раза в день. Проверка не скачивает файл и ничего не отправляет о вас.", "undo": "Выберите другое значение." },
+        "channelPreviews": { "summary": "Картинки-превью видеоканалов.", "details": "Показывает состояние набора - не скачан, скачивается с процентами, скачан, готов более свежий или не удалось скачать - и его размер. «Скачать» загружает набор в фоне с уведомлением о ходе, «Обновить» заменяет имеющуюся копию, а «Повторить» повторяет неудавшуюся загрузку. «Удалить» после подтверждения стирает набор с этого телефона, и список каналов перестаёт его показывать, когда вы в следующий раз окажетесь на списке. Ваши каналы не затрагиваются. После обновления каталога приложение снова предлагает удалённый набор.", "undo": "Нажмите «Скачать», чтобы загрузить набор снова." },
+        "channelLogos": { "summary": "Логотипы станций и каналов.", "details": "Работает как превью выше, только для логотипов. Канал без превью показывает свой логотип, а канал без того и другого сохраняет маленький значок.", "undo": "Нажмите «Скачать», чтобы загрузить набор снова." },
+        "version": { "name": "Версия", "summary": "Версия, которая у вас запущена.", "details": "Берётся из установленного пакета, поэтому её и нужно называть, когда сообщаете о проблеме." },
+        "license": { "summary": "Открывает лицензию в браузере.", "details": "StreamsPlayer - свободная программа под лицензией MIT." },
+        "privacy": { "summary": "Открывает политику конфиденциальности в браузере.", "details": "Что приложение хранит и отправляет и куда, на вашем языке, если политика на нём есть." },
+        "docs": { "summary": "Открывает список страниц справки.", "details": "Страницы о каждом экране приложения. Они входят в приложение, сеть для них не нужна." },
+        "portal": { "summary": "Открывает руководства в браузере.", "details": "Официальные страницы об обмене медиа и прямых трансляциях." },
+        "support": { "summary": "Открывает список обращений в браузере.", "details": "Здесь можно сообщить о проблеме или прочитать об известных." },
+        "repository": { "summary": "Открывает исходный код в браузере.", "details": "Открытый репозиторий этого приложения." },
+        "updates": { "summary": "Открывает страницу, с которой обновляется эта редакция.", "details": "Страница в магазине для редакции из магазина и страница выпусков для другой. Страница открывается только по нажатию; сама страница «О программе» ни к чему не обращается." },
+        "diagnostics": { "summary": "Отправляет диагностический отчёт.", "details": "Составляет отчёт об устройстве и воспроизведении, без личных данных, и передаёт его на экран отправки. Он уходит только туда, куда вы его отправите." },
+        "related": { "name": "Другие программы", "summary": "Другие программы семейства.", "details": "FastMediaSorter сортирует и упорядочивает медиа, а StreamsPlayer для Windows - этот же проигрыватель на компьютере. Каждое название открывает сайт программы в браузере." },
+        "resources": { "summary": "Основные компоненты, на которых построено приложение.", "details": "Полный список с лицензиями лежит в файле уведомлений внутри пакета." }
+      }
+    },
+    "uk": {
+      "title": "Налаштування",
+      "purpose": "Усе, що можна налаштувати у StreamsPlayer, на трьох сторінках: «Основні», «Трансляція» і «Про програму». Зміна діє одразу й зберігається. Нічого зберігати не потрібно, застосунок не перезапускається.",
+      "orderNote": "У цих налаштувань немає визначеного порядку. Нижче їх згруповано за сторінками.",
+      "groups": [
+        { "title": "Верхня панель", "elements": ["help"] },
+        { "title": "Сторінки", "elements": ["pages"] },
+        { "title": "Основні", "elements": ["theme", "language", "enable", "catalogRefresh"] },
+        { "title": "Зображення каналів", "elements": ["channelPreviews", "channelLogos"] },
+        { "title": "Про програму", "elements": ["version", "license", "privacy", "docs", "portal", "support", "repository", "updates", "diagnostics", "related", "resources"] }
+      ],
+      "elements": {
+        "help": { "summary": "Відкриває цю довідку.", "details": "На сторінці «Трансляція» відкривається сторінка про налаштування мовлення. F1 на апаратній клавіатурі робить те саме." },
+        "pages": { "name": "Список сторінок", "summary": "Перехід між сторінками «Основні», «Трансляція» і «Про програму».", "details": "На широкому екрані список стоїть поруч зі сторінкою. На вузькому він іде першим: виберіть сторінку, а стрілка назад поверне до списку. Екран відкривається на тій сторінці й у тому місці, де ви його залишили." },
+        "theme": { "summary": "Світла, темна або як у системі.", "details": "«Як у системі» стежить за темною темою пристрою, зокрема коли вона змінюється за відкритого застосунку. Зміна одразу діє на всіх відкритих екранах.", "undo": "Виберіть іншу тему." },
+        "language": { "summary": "Мова застосунку.", "details": "Кожну мову названо її власною назвою. «Як у системі» стежить за мовою пристрою. Зміна одразу діє на всіх відкритих екранах, без перезапуску.", "undo": "Виберіть іншу мову." },
+        "enable": { "summary": "Дозволяє пряме мовлення.", "details": "Дозволяє пряме мовлення звуку й показує його ярлики. Поки його вимкнено, сторінка «Трансляція» каже про це й пропонує повернутися сюди.", "undo": "Вимкніть знову." },
+        "catalogRefresh": { "summary": "Як список каналів лишається актуальним.", "details": "«Пропонувати під час відкриття» щоразу, коли ви відкриваєте список каналів, перевіряє, чи опубліковано новіший каталог, і пропонує його в рядку над списком. «Тільки коли я попрошу» нічого не перевіряє: список змінюється лише через «Оновити каталог» у меню. «Автоматично через Wi-Fi» завантажує новіший каталог сам, через Wi-Fi і не частіше ніж раз на день. Перевірка не завантажує файл і нічого не надсилає про вас.", "undo": "Виберіть інше значення." },
+        "channelPreviews": { "summary": "Зображення-прев'ю відеоканалів.", "details": "Показує стан набору - не завантажено, завантажується з відсотками, завантажено, готовий новіший або не вдалося завантажити - і його розмір. «Завантажити» запускає завантаження набору у фоні зі сповіщенням про перебіг, «Оновити» замінює наявну копію, а «Повторити» повторює невдале завантаження. «Видалити» після підтвердження стирає набір із цього телефона, і список каналів перестає його показувати, коли ви наступного разу опинитеся на списку. Ваші канали не зачіпаються. Після оновлення каталогу застосунок знову пропонує видалений набір.", "undo": "Натисніть «Завантажити», щоб отримати набір знову." },
+        "channelLogos": { "summary": "Логотипи станцій і каналів.", "details": "Працює як прев'ю вище, тільки для логотипів. Канал без прев'ю показує свій логотип, а канал без жодного з двох зберігає маленьку піктограму.", "undo": "Натисніть «Завантажити», щоб отримати набір знову." },
+        "version": { "name": "Версія", "summary": "Версія, яку у вас запущено.", "details": "Береться зі встановленого пакета, тож саме її треба називати, коли повідомляєте про проблему." },
+        "license": { "summary": "Відкриває ліцензію в браузері.", "details": "StreamsPlayer - вільна програма за ліцензією MIT." },
+        "privacy": { "summary": "Відкриває політику конфіденційності в браузері.", "details": "Що застосунок зберігає й надсилає і куди, вашою мовою, якщо політика нею є." },
+        "docs": { "summary": "Відкриває список сторінок довідки.", "details": "Сторінки про кожен екран застосунку. Вони входять до застосунку, мережа для них не потрібна." },
+        "portal": { "summary": "Відкриває посібники в браузері.", "details": "Офіційні сторінки про обмін медіа й прямі трансляції." },
+        "support": { "summary": "Відкриває список звернень у браузері.", "details": "Тут можна повідомити про проблему або прочитати про відомі." },
+        "repository": { "summary": "Відкриває вихідний код у браузері.", "details": "Відкритий репозиторій цього застосунку." },
+        "updates": { "summary": "Відкриває сторінку, з якої оновлюється ця редакція.", "details": "Сторінка в магазині для редакції з магазину й сторінка випусків для іншої. Сторінка відкривається лише після натискання; сама сторінка «Про програму» ні до чого не звертається." },
+        "diagnostics": { "summary": "Надсилає діагностичний звіт.", "details": "Складає звіт про пристрій і відтворення, без особистих даних, і передає його на екран надсилання. Він іде лише туди, куди ви його надішлете." },
+        "related": { "name": "Інші програми", "summary": "Інші програми родини.", "details": "FastMediaSorter сортує й упорядковує медіа, а StreamsPlayer для Windows - цей самий програвач на комп'ютері. Кожна назва відкриває сайт програми в браузері." },
+        "resources": { "summary": "Основні компоненти, на яких побудовано застосунок.", "details": "Повний список із ліцензіями лежить у файлі повідомлень усередині пакета." }
+      }
+    }
+  }
+}

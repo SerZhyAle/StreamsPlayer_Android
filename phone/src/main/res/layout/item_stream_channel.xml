@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardChannel"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:nextFocusRight="@+id/btnPin"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="2dp"
+    app:strokeWidth="1dp"
+    app:strokeColor="?attr/colorOutlineVariant">
+
+    <LinearLayout
+        android:id="@+id/channelContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="8dp">
+
+        <FrameLayout
+            android:id="@+id/channelArtworkFrame"
+            android:layout_width="@dimen/stream_channel_icon_size"
+            android:layout_height="@dimen/stream_channel_icon_size"
+            android:layout_marginEnd="@dimen/stream_channel_icon_gap">
+
+            <ImageView
+                android:id="@+id/ivChannelIcon"
+                android:layout_width="@dimen/stream_channel_icon_size"
+                android:layout_height="@dimen/stream_channel_icon_size"
+                android:contentDescription="@null"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_radio" />
+
+            <ImageView
+                android:id="@+id/ivPlayingIndicator"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="bottom|end"
+                android:src="@drawable/ic_play"
+                android:visibility="gone"
+                android:contentDescription="@string/playback_playing" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/channelDetails"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvChannelTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                tools:text="BBC World Service" />
+
+            <TextView
+                android:id="@+id/tvChannelSubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textSize="12sp"
+                android:textColor="?android:attr/textColorSecondary"
+                tools:text="News • English • United Kingdom" />
+
+            <TextView
+                android:id="@+id/tvMediaBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/badge_background"
+                android:paddingHorizontal="6dp"
+                android:paddingVertical="1dp"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                tools:text="RADIO" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/channelActions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end">
+
+        <ImageButton
+            android:id="@+id/btnPin"
+            android:nextFocusLeft="@id/cardChannel"
+            android:nextFocusRight="@+id/btnMoreActions"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/action_pin"
+            android:src="@drawable/ic_pin" />
+
+        <ImageButton
+            android:id="@+id/btnMoreActions"
+            android:nextFocusLeft="@id/btnPin"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/action_more"
+            android:src="@drawable/ic_more_vert" />
+        </LinearLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

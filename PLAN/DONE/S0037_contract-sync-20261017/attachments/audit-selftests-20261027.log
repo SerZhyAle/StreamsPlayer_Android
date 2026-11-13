@@ -1,0 +1,4 @@
+[coverage-selftest] exit 0 - coverage-selftest: PASS (24 cases)
+[rig-selftest] exit 0 - rig-selftest: PASS (87 fixture tests, live checks not run (no --serial))
+[coverage] exit 0 - coverage: PASS (12 capabilities, 110 cells)
+audit-selftests: PASS (3 steps, live checks not run)

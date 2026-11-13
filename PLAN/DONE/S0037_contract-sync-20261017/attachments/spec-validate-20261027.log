@@ -1,0 +1,12 @@
+  [OK] Schema         parsed 48 records
+  [OK] Uniqueness     all ids unique
+  [OK] Monotonicity   dense S0001..S0048
+  [OK] FS->Journal    all 22 prefixed entries have a record
+  [FAIL] Journal->FS    missing files for in-flight specs: S0031 [Draft] (PLAN/S0031_exchange-connection-diagnosis.md)
+  [OK] Naming         every file path matches ^PLAN/(DONE/)?S\d{4}_(?!spec_) (no _spec_ segment)
+  [OK] Priority       every record has priority in 0..100
+  [OK] Staleness      no active spec older than 30d
+  [OK] ArchiveSplit   split clean: 48 active, 0 archived
+
+Summary: 8 OK, 0 WARN, 1 FAIL
+[31;1mWrite-Error: [31;1mspec-catalog validate: 1 FAIL check(s) - fix the [FAIL] rows above before mutating the catalog.[0m

@@ -1,0 +1,14 @@
+{
+  "python.analysis.exclude": [
+    "**/node_modules",
+    "**/__pycache__",
+    "**/.*",
+    "**/build",
+    "**/python-packages",
+    "temp",
+    "DOWNLOADS",
+    ".gradle",
+    ".kotlin"
+  ],
+  "java.compile.nullAnalysis.mode": "automatic"
+}

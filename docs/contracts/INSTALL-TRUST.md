@@ -2,13 +2,9 @@
 
 | Field | Value |
 | --- | --- |
-| **Id** | `INSTALL-TRUST` |
-| **Version** | 1.1, active (registry, 2026-10-02) |
+| **Contracts reviewed** | `INSTALL-TRUST` 1.2 |
+| **Reviewed** | 2026-10-19, S0013/S0026 |
 | **Home** | shared contracts catalog, `install-trust/` |
-| **Owner** | shared |
-| **Role here** | adopter, conditional - only if a sideload download page ships |
+| **Role here** | conditional sideload-page adopter |
 
-What this repository owes:
-
-- Nothing until owner decision 4.3 (distribution of the first release) puts a sideload page in scope (S0010).
-  Then the page follows the contract and this product's registry row is added.
+Section 2 applies when a sideload download page is produced. The recorded first-store decision does not itself create such a page. No page or adoption claim is added by S0013; reassess with S0010/S0014 if that surface ships.

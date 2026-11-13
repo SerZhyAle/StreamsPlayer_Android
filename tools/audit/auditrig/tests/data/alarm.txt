@@ -1,0 +1,6 @@
+Pending alarm batches: 6
+    ELAPSED_WAKEUP #1: Alarm{802ef00 type 2 origWhen 22421808 whenElapsed 22421808 com.google.android.gms}
+    ELAPSED #2: Alarm{ed61d7e type 3 origWhen 22559000 whenElapsed 22559000 android}
+    ELAPSED #3: Alarm{d27fb2c type 3 origWhen 22744488 whenElapsed 22744488 android}
+    ELAPSED_WAKEUP #7: Alarm{9a1b2c3 type 2 origWhen 22999000 whenElapsed 22999000 com.sza.streamsplayer}
+    RTC #8: Alarm{4d5e6f7 type 1 origWhen 1761252000000 whenElapsed 23100000 com.sza.streamsplayer}

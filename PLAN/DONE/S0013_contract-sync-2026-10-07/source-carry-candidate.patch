@@ -1,0 +1,427 @@
+--- a/app_v2/src/main/java/com/sza/fastmediasorter/core/streams/FaviconAtlasSlicer.kt
++++ b/app_v2/src/main/java/com/sza/fastmediasorter/core/streams/FaviconAtlasSlicer.kt
+@@ -17,59 +17,31 @@
+ import java.io.File
+ 
+ /**
+- * S0668 / PHASE_04: turns `(atlasFile, faviconIndex)` into a 32 px tile [Bitmap] using the fixed-grid
+- * contract shared with the offline packer (see PHASE_01).
+- *
+- * S1821: the decoded sheet and the extracted tiles live in [SharedFaviconAtlas], a process-wide cache,
+- * not in this instance. Five owners construct a slicer of their own (Streams, the main panel, Browse,
+- * now-playing, and the launcher label use case, which built one PER CALL), and per-instance state gave
+- * each of them a private copy of the same sheet: the published atlas is 512x11488, which is 23,5 MB
+- * decoded, so four live screens cost 94 MB and one launcher screen with N stream shortcuts paid N full
+- * decodes of an 11 488 px PNG to crop one 4 KB tile. Sharing the state fixes both without touching a
+- * single call site.
+- *
+- * The sheet is released after [SharedFaviconAtlas.SHEET_IDLE_RELEASE_MS] of no tile requests, while the
+- * extracted tiles stay in a small byte-bounded cache. That is what keeps "one shared copy" from turning
+- * into "one copy alive for the whole process": a scroll burst decodes once and then pays nothing, and an
+- * idle app holds kilobytes of tiles instead of megabytes of sheet.
+- *
+- * The [atlasFileProvider] is re-read on every request, so a catalog import that replaced the file is
+- * picked up by the file-identity key even without an explicit [invalidate].
++ * Turns `(atlasFile, faviconIndex)` into a 32 px tile [Bitmap] using the fixed-grid
++ * contract shared with the offline packer.
+  */
+ class FaviconAtlasSlicer(
+-    private val atlasFileProvider: () -> File?
++    private val atlasFileProvider: () -> File?,
+ ) {
+ 
+-    /**
+-     * The pixel rect of tile [index] in the fixed grid. Pure (the single source of truth for the
+-     * index->rect math, mirrored by the offline packer in PHASE_01/PHASE_02). `col = index % COLS`,
+-     * `row = index / COLS`.
+-     */
++    /** The pixel rect of tile [index] in the fixed grid. */
+     fun rectFor(index: Int): Rect = rectOf(index)
+ 
+-    /**
+-     * True only when [index] is non-negative and its tile rect fits inside an `atlasWidth x
+-     * atlasHeight` atlas. A stale/oversized index (e.g. an old sidecar pointing past a shrunk atlas)
+-     * is out of bounds -> no thumbnail, never a crash.
+-     */
++    /** True only when [index] is non-negative and its tile rect fits inside `atlasWidth x atlasHeight`. */
+     fun isInBounds(index: Int, atlasWidth: Int, atlasHeight: Int): Boolean =
+         inBoundsOf(index, atlasWidth, atlasHeight)
+ 
+     /**
+-     * The 32 px tile bitmap for [index], or null when the atlas is absent or the index is out of
+-     * bounds. Runs off the main thread. The returned bitmap is the cached instance and is never
+-     * recycled by this class, so a caller must not recycle it either.
++     * The 32 px tile bitmap for [index], or null when the atlas is absent or the index is out of bounds.
+      */
+     suspend fun tileFor(index: Int): Bitmap? = withContext(Dispatchers.IO) {
+         SharedFaviconAtlas.tileFor(atlasFileProvider, index)
+     }
+ 
+-    /** Drops the shared sheet and every cached tile (post-import refresh). */
++    /** Drops the shared sheet and every cached tile. */
+     suspend fun invalidate() = SharedFaviconAtlas.invalidate()
+ 
+     companion object {
+-        // S0668: app-side half of the PHASE_01/PHASE_02 sprite-atlas contract. The offline packer must
+-        // emit indices for the SAME 32 px tile / 16-column grid, or the rects drift.
+         const val TILE = 32
+         const val COLS = 16
+ 
+@@ -82,31 +54,18 @@
+         }
+ 
+         internal fun inBoundsOf(index: Int, atlasWidth: Int, atlasHeight: Int): Boolean {
+-            val rect = rectOf(index)
+-            return index >= 0 && rect.right <= atlasWidth && rect.bottom <= atlasHeight
++            return index >= 0 &&
++                index % COLS < atlasWidth / TILE &&
++                index / COLS < atlasHeight / TILE
+         }
+     }
+ }
+ 
+-/**
+- * S1821: the one decoded atlas in the process, plus the tiles cut from it.
+- *
+- * Every mutation and every read of the sheet happens under [mutex], including the crop. Holding the
+- * lock across a 32x32 crop costs microseconds and removes the S1220 race outright, instead of catching
+- * the recycled-source exception after the fact: nothing can recycle the sheet while a crop is running.
+- */
+ private object SharedFaviconAtlas {
+-
+-    /** Roughly 256 tiles at 4 KB each - more than one screen of channels, still under a megabyte. */
+     private const val TILE_CACHE_BYTES = 1024 * 1024
+-
+-    /** How long the decoded sheet survives with no tile requests before it is released. */
+     const val SHEET_IDLE_RELEASE_MS = 5_000L
+ 
+     private val mutex = Mutex()
+-
+-    // Owns nothing but the release timer. Not GlobalScope (CLAUDE.md Rule 19) and not a caller's scope:
+-    // the sheet outlives any single screen, so the timer must not die with the screen that started it.
+     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+ 
+     private val tiles = object : LruCache<String, Bitmap>(TILE_CACHE_BYTES) {
+@@ -132,7 +91,6 @@
+         releaseJob?.cancel()
+         releaseJob = null
+         releaseSheet()
+-        // Tiles handed out are live in ImageViews, so they are dropped, never recycled.
+         tiles.evictAll()
+     }
+ 
+@@ -152,10 +110,8 @@
+     private fun cropOrNull(atlas: Bitmap, index: Int): Bitmap? {
+         val rect = FaviconAtlasSlicer.rectOf(index)
+         return try {
+-            // createBitmap copies the sub-region, so cropping does not mutate the cached sheet.
+             Bitmap.createBitmap(atlas, rect.left, rect.top, FaviconAtlasSlicer.TILE, FaviconAtlasSlicer.TILE)
+         } catch (e: IllegalArgumentException) {
+-            // A rect outside a re-downloaded, smaller sheet yields no tile rather than a crash.
+             Timber.i(e, "Favicon atlas region rejected for index=%d", index)
+             null
+         }
+@@ -190,7 +146,6 @@
+     private fun inBoundsOfAtlas(atlas: Bitmap, index: Int): Boolean =
+         FaviconAtlasSlicer.inBoundsOf(index, atlas.width, atlas.height)
+ 
+-    /** File identity, so a re-imported atlas at the same path invalidates itself without a call. */
+     private fun identityOf(file: File): String = "${file.path}|${file.lastModified()}|${file.length()}"
+ 
+     private fun tileKey(identity: String, index: Int): String = "$identity#$index"
+--- a/app_v2/src/main/java/com/sza/fastmediasorter/domain/usecase/streams/ImportStreamCatalogUseCase.kt
++++ b/app_v2/src/main/java/com/sza/fastmediasorter/domain/usecase/streams/ImportStreamCatalogUseCase.kt
+@@ -13,6 +13,7 @@
+ import kotlinx.coroutines.Dispatchers
+ import kotlinx.coroutines.currentCoroutineContext
+ import kotlinx.coroutines.ensureActive
++import kotlinx.coroutines.delay
+ import kotlinx.coroutines.withContext
+ import okhttp3.OkHttpClient
+ import okhttp3.Request
+@@ -170,11 +171,22 @@
+         val client = okHttpClient.newBuilder()
+             .callTimeout(CATALOG_CALL_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+             .build()
+-        client.newCall(request).execute().use { response ->
+-            if (!response.isSuccessful) error("HTTP ${response.code}")
+-            val stream = response.body?.byteStream() ?: error("empty response body")
+-            return extractCatalog(stream)
+-        }
++        for (attempt in 0..PUBLISH_RETRY_DELAYS_MS.size) {
++            currentCoroutineContext().ensureActive()
++            client.newCall(request).execute().use { response ->
++                if (response.code == 404 && attempt < PUBLISH_RETRY_DELAYS_MS.size) {
++                    null
++                } else {
++                    if (!response.isSuccessful) error("HTTP ${response.code}")
++                    val stream = response.body?.byteStream() ?: error("empty response body")
++                    return extractCatalog(stream)
++                }
++            }
++            // The response is closed before the cancellable wait. Retries belong to this explicit
++            // refresh only; a failed or cancelled fetch never reaches the catalog merge.
++            delay(PUBLISH_RETRY_DELAYS_MS[attempt])
++        }
++        error("catalog fetch exhausted its retry budget")
+     }
+ 
+     /**
+@@ -304,5 +316,6 @@
+         // di/LinkDownloadModule.kt; that client has had callTimeout(0) since S1139, so the claim had been
+         // false and pointed the wrong way.)
+         const val CATALOG_CALL_TIMEOUT_SECONDS = 180L
++        val PUBLISH_RETRY_DELAYS_MS = longArrayOf(3_000, 6_000, 12_000)
+     }
+ }
+--- a/app_v2/src/main/java/com/sza/fastmediasorter/domain/usecase/streams/ImportStreamPlaylistUseCase.kt
++++ b/app_v2/src/main/java/com/sza/fastmediasorter/domain/usecase/streams/ImportStreamPlaylistUseCase.kt
+@@ -4,8 +4,7 @@
+ import com.sza.fastmediasorter.data.local.db.StreamSourceEntity
+ import com.sza.fastmediasorter.data.repository.M3uPlaylistParser
+ import com.sza.fastmediasorter.data.repository.StreamSourceRepository
+-import com.sza.fastmediasorter.domain.stats.StatsEvent
+-import com.sza.fastmediasorter.domain.stats.StatsSink
++import com.sza.fastmediasorter.data.util.StreamUrlNormalizer
+ import kotlinx.coroutines.Dispatchers
+ import kotlinx.coroutines.currentCoroutineContext
+ import kotlinx.coroutines.ensureActive
+@@ -18,6 +17,7 @@
+ import timber.log.Timber
+ import java.io.ByteArrayOutputStream
+ import java.util.UUID
++import java.net.URI
+ import java.util.concurrent.TimeUnit
+ import javax.inject.Inject
+ 
+@@ -26,7 +26,6 @@
+     private val parser: M3uPlaylistParser,
+     private val classifier: StreamMediaKindClassifier,
+     private val repository: StreamSourceRepository,
+-    private val statsSink: StatsSink,
+ ) {
+     suspend operator fun invoke(listUrl: String): ImportResult = withContext(Dispatchers.IO) {
+         val body = try {
+@@ -43,6 +42,7 @@
+             Timber.w("Stream playlist import refused: JSON playlist carrier at %s", listUrl)
+             return@withContext ImportResult.UnsupportedFormat
+         }
++        if (parser.isHlsManifest(body)) return@withContext ImportResult.HlsManifest
+ 
+         val entries = try {
+             parser.parse(body)
+@@ -54,10 +54,19 @@
+         if (entries.isEmpty()) return@withContext ImportResult.Empty
+ 
+         val now = System.currentTimeMillis()
+-        val sources = entries.map { entry ->
++        val seenUrls = HashSet<String>()
++        var skipped = 0
++        val sources = entries.mapNotNull { entry ->
++            val url = StreamUrlNormalizer.normalize(entry.url)
++            val valid = classifier.isSupportedScheme(url) &&
++                runCatching { URI(url).host != null }.getOrDefault(false)
++            if (!valid || !seenUrls.add(url)) {
++                skipped++
++                return@mapNotNull null
++            }
+             StreamSourceEntity(
+                 id = UUID.randomUUID().toString(),
+-                url = entry.url,
++                url = url,
+                 title = entry.title,
+                 mediaKind = classifier.classify(entry.url),
+                 sourceOrigin = "IMPORTED",
+@@ -66,9 +75,7 @@
+             )
+         }
+         val inserted = repository.addAllIgnoringDuplicates(sources)
+-        // Counts the sources this import actually added (duplicates ignored), accumulated all-time.
+-        statsSink.record(StatsEvent.PlaylistImported(count = inserted.toLong()))
+-        ImportResult.Success(inserted)
++        ImportResult.Success(inserted, duplicate = sources.size - inserted, skipped = skipped)
+     }
+ 
+     /**
+@@ -132,8 +139,9 @@
+     }
+ 
+     sealed interface ImportResult {
+-        data class Success(val inserted: Int) : ImportResult
++        data class Success(val inserted: Int, val duplicate: Int = 0, val skipped: Int = 0) : ImportResult
+         data object Empty : ImportResult
++        data object HlsManifest : ImportResult
+         data object UnsupportedFormat : ImportResult
+         data class Failure(val reason: String) : ImportResult
+     }
+@@ -149,9 +157,8 @@
+         private val PLAYLIST_TYPE_MARKERS = listOf("mpegurl", "scpls", "x-ms-asf", "x-ms-wax", "x-ms-wvx")
+         private const val BYTE_ORDER_MARK = '\uFEFF'
+ 
+-        // Large IPTV lists run to a few MiB; 16 MiB leaves headroom while keeping a media file
+-        // pasted by mistake from filling the heap.
+-        const val MAX_PLAYLIST_BYTES = 16 * BYTES_PER_MIB
++        // USER-PLAYLIST section 8 item 1: bound the whole input before persistence.
++        const val MAX_PLAYLIST_BYTES = 32 * BYTES_PER_MIB
+ 
+         // Finite on purpose: a host that trickles bytes resets the read timeout on every chunk.
+         private const val PLAYLIST_CALL_TIMEOUT_SECONDS = 120L
+--- a/app_v2/src/main/java/com/sza/fastmediasorter/data/repository/M3uPlaylistParser.kt
++++ b/app_v2/src/main/java/com/sza/fastmediasorter/data/repository/M3uPlaylistParser.kt
+@@ -1,6 +1,7 @@
+ package com.sza.fastmediasorter.data.repository
+ 
+ import javax.inject.Inject
++import java.net.URI
+ 
+ /**
+  * Parses simple/extended `.m3u` playlists into bare stream entries. A line that begins with `#EXT-X-`
+@@ -11,8 +12,8 @@
+ class M3uPlaylistParser @Inject constructor() {
+ 
+     fun parse(text: String): List<ParsedStreamEntry> {
+-        val lines = text.lineSequence().map { it.trim() }
+-        if (lines.any { it.startsWith(HLS_TAG_PREFIX, ignoreCase = true) }) return emptyList()
++        val lines = text.removePrefix("\uFEFF").lineSequence().map { it.trim() }
++        if (isHlsManifest(text)) return emptyList()
+ 
+         val entries = mutableListOf<ParsedStreamEntry>()
+         var pendingTitle: String? = null
+@@ -31,6 +32,11 @@
+         return entries
+     }
+ 
++    internal fun isHlsManifest(text: String): Boolean =
++        text.removePrefix("\uFEFF").lineSequence().any {
++            it.trimStart().startsWith(HLS_TAG_PREFIX, ignoreCase = true)
++        }
++
+     /**
+      * USER-PLAYLIST 0.11 section 8 item 2: the title starts after the first comma outside double quotes,
+      * so `group-title="Rock, Pop",Name` is titled `Name`. Null when there is no such comma or it is blank.
+@@ -48,9 +54,7 @@
+     }
+ 
+     private fun hostOf(url: String): String {
+-        val afterScheme = url.substringAfter("://", url)
+-        val host = afterScheme.substringBefore('/').substringBefore('?').substringBefore('#')
+-        return host.takeIf { it.isNotEmpty() } ?: url
++        return runCatching { URI(url).host }.getOrNull()?.takeIf { it.isNotEmpty() } ?: url
+     }
+ 
+     data class ParsedStreamEntry(val url: String, val title: String)
+--- a/app_v2/src/main/java/com/sza/fastmediasorter/data/repository/StreamCollectionRepository.kt
++++ b/app_v2/src/main/java/com/sza/fastmediasorter/data/repository/StreamCollectionRepository.kt
+@@ -36,6 +36,7 @@
+      * the caller and not here.
+      */
+     suspend fun replaceAll(parsed: ParsedStreamCollections) {
++        if (!parsed.shouldReplace) return
+         val collections = parsed.collections.map { collection ->
+             StreamCollectionEntity(
+                 collectionId = collection.id,
+--- a/app_v2/src/main/java/com/sza/fastmediasorter/data/repository/StreamCollectionsJsonParser.kt
++++ b/app_v2/src/main/java/com/sza/fastmediasorter/data/repository/StreamCollectionsJsonParser.kt
+@@ -34,10 +34,11 @@
+     /** Outcome of one parse: what survived, and how much was dropped for the log. */
+     data class ParsedStreamCollections(
+         val collections: List<ParsedStreamCollection>,
+-        val droppedCollections: Int
++        val droppedCollections: Int,
++        val shouldReplace: Boolean = true
+     ) {
+         companion object {
+-            val EMPTY = ParsedStreamCollections(emptyList(), 0)
++            val EMPTY = ParsedStreamCollections(emptyList(), 0, shouldReplace = false)
+         }
+     }
+ 
+--- a/app_v2/src/main/java/com/sza/fastmediasorter/data/repository/StreamSourceRepository.kt
++++ b/app_v2/src/main/java/com/sza/fastmediasorter/data/repository/StreamSourceRepository.kt
+@@ -2,18 +2,20 @@
+ 
+ import androidx.room.withTransaction
+ import com.sza.fastmediasorter.core.di.ApplicationScope
+-import com.sza.fastmediasorter.data.local.db.AppDatabase
++import com.sza.fastmediasorter.data.local.db.StreamsDatabase
+ import com.sza.fastmediasorter.data.local.db.StreamQualityMemoryDao
+ import com.sza.fastmediasorter.data.local.db.StreamQualityMemoryEntity
+ import com.sza.fastmediasorter.data.local.db.StreamSourceDao
+ import com.sza.fastmediasorter.data.local.db.StreamSourceEntity
+ import com.sza.fastmediasorter.data.local.db.StreamUserStateDao
+ import com.sza.fastmediasorter.data.util.StreamChannelIdentity
++import com.sza.fastmediasorter.data.util.StreamUrlNormalizer
+ import kotlinx.coroutines.CoroutineScope
+ import kotlinx.coroutines.flow.Flow
+ import kotlinx.coroutines.flow.SharingStarted
+ import kotlinx.coroutines.flow.StateFlow
+ import kotlinx.coroutines.flow.map
++import kotlinx.coroutines.flow.first
+ import kotlinx.coroutines.flow.stateIn
+ import timber.log.Timber
+ import javax.inject.Inject
+@@ -25,7 +27,7 @@
+  */
+ @Singleton
+ class StreamSourceRepository @Inject constructor(
+-    private val db: AppDatabase,
++    private val db: StreamsDatabase,
+     private val dao: StreamSourceDao,
+     private val streamQualityMemoryDao: StreamQualityMemoryDao,
+     private val streamUserStateDao: StreamUserStateDao,
+@@ -74,9 +76,12 @@
+         // One transaction like the sibling mergeCatalog (S0732): a kill mid-import must not leave a
+         // half-inserted playlist that observeSources re-emits as an intermediate state.
+         db.withTransaction {
++            val existingUrls = dao.observeAll().first()
++                .mapTo(HashSet()) { StreamUrlNormalizer.normalize(it.url) }
+             var inserted = 0
+             for (source in sources) {
+-                if (dao.insertIgnore(source.withIdentity()) != -1L) inserted++
++                val key = StreamUrlNormalizer.normalize(source.url)
++                if (existingUrls.add(key) && dao.insertIgnore(source.withIdentity()) != -1L) inserted++
+             }
+             inserted
+         }
+@@ -189,8 +194,8 @@
+         }
+ 
+     /** S0660: in-place edit of a MANUAL channel's url/title/mediaKind (pin/sort/origin preserved). */
+-    suspend fun updateUserFields(id: String, url: String, title: String, mediaKind: String) =
+-        dao.updateUserFields(id, url, title, mediaKind, StreamChannelIdentity.of(url))
++    suspend fun updateUserFields(id: String, url: String, title: String, mediaKind: String, category: String? = null) =
++        dao.updateUserFields(id, url, title, mediaKind, StreamChannelIdentity.of(url), category)
+ 
+     /** S0581: find the stored stream behind a playback URL (null if it is not a saved list entry). */
+     suspend fun getByUrl(url: String): StreamSourceEntity? = dao.getByUrl(url)
+@@ -259,7 +264,29 @@
+         return byIdentity ?: dao.getById(key)
+     }
+ 
+-    suspend fun markPlayed(id: String, atMillis: Long) = dao.markPlayed(id, atMillis)
++    suspend fun markPlayed(id: String, atMillis: Long) =
++        db.withTransaction {
++            dao.markPlayed(id, atMillis)
++            val identity = dao.identityOf(id)
++            if (identity != null) {
++                streamUserStateDao.recordPlayed(identity, atMillis, atMillis)
++            }
++        }
++
++    /** S0012: observe recently played stream channels. */
++    fun observeRecentlyPlayed(limit: Int = 100): Flow<List<StreamSourceEntity>> =
++        dao.observeRecentlyPlayed(limit)
++
++    /** S0012: one-shot snapshot of recently played streams. */
++    suspend fun getRecentlyPlayed(limit: Int = 100): List<StreamSourceEntity> =
++        dao.getRecentlyPlayed(limit)
++
++    /** S0012: clear all recent play history across both projection and durable state. */
++    suspend fun clearRecentlyPlayed() =
++        db.withTransaction {
++            dao.clearRecentlyPlayed()
++            streamUserStateDao.clearRecentlyPlayed()
++        }
+ 
+     /** S0593: persist the last local play outcome ("OK"/"FAIL") for the streams-list status bullet. */
+     suspend fun recordPlayOutcome(id: String, outcome: String) {

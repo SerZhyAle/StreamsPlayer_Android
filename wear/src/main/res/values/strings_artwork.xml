@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- S0064: the Channel pictures screen of the watch - remove the downloaded pictures or fetch them again. -->
+<resources>
+    <string name="sp_channel_pictures">Channel pictures</string>
+    <string name="wear_pictures_previews_title">Channel previews</string>
+    <string name="wear_pictures_logos_title">Station logos</string>
+    <string name="wear_pictures_status_not_installed">Not downloaded</string>
+    <string name="wear_pictures_status_installed">Downloaded</string>
+    <string name="wear_pictures_status_downloading">Downloading..</string>
+    <string name="wear_pictures_status_failed">Download failed</string>
+    <string name="wear_pictures_size">Size: %1$d MB</string>
+    <string name="wear_pictures_action_download">Download</string>
+    <string name="wear_pictures_action_retry">Try again</string>
+    <string name="wear_pictures_action_remove">Remove</string>
+    <string name="wear_pictures_action_for">%1$s: %2$s</string>
+    <string name="wear_pictures_remove_title">Remove pictures?</string>
+    <string name="wear_pictures_remove_message_previews">Remove the downloaded channel previews from this watch? The watch will not fetch them again until you download them here.</string>
+    <string name="wear_pictures_remove_message_logos">Remove the downloaded station logos from this watch? The watch will not fetch them again until you download them here.</string>
+    <string name="wear_pictures_remove_size">This frees about %1$d MB.</string>
+</resources>

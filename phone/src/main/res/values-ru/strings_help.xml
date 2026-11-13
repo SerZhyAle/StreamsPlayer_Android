@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- S0035: in-app help (CONTEXT-HELP). "help" is the vocabulary name of app.help. -->
+    <string name="help">Справка</string>
+    <string name="help_with_key">Справка (F1)</string>
+    <string name="help_page_title">Справка</string>
+    <string name="help_unavailable">Справка для этого экрана недоступна</string>
+    <string name="help_open_on_site">Открыть на сайте</string>
+    <string name="help_external_link_title">Открыть в браузере?</string>
+    <string name="help_external_link_message">Эта справка работает без сети. Ссылка выходит за пределы приложения и откроется в браузере.</string>
+    <string name="help_external_link_open">Открыть</string>
+    <string name="help_watch_notification_name">справку по часам</string>
+</resources>

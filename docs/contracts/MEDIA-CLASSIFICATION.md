@@ -2,13 +2,9 @@
 
 | Field | Value |
 | --- | --- |
-| **Id** | `MEDIA-CLASSIFICATION` |
-| **Version** | 0.10, draft (registry, 2026-10-02) |
+| **Contracts reviewed** | `MEDIA-CLASSIFICATION` 0.13 |
+| **Reviewed** | 2026-10-29, S0057 (earlier: 2026-10-19, S0013/S0026) |
 | **Home** | shared contracts catalog, `media-classification/` |
-| **Owner** | FastMediaSorter Android |
-| **Role here** | consumer of the normalized media category enum |
+| **Role here** | not applicable: no primary-category boundary |
 
-What this repository owes:
-
-- Use the contract's category names; an unknown value degrades to the documented default, never to an error.
-- Implemented with the stream core (S0003).
+The accepted scope decision of 2026-10-17 and amendment 2026-10-18 explicitly exclude StreamsPlayer Android. AUDIO/VIDEO/RTSP routing belongs to STREAM-BANK document 03 section 4 and is not primary-category classification. The own registry row retains a dated not-applicable record with no implementation/read version. Re-adopt only when a feature actually reads those categories. 0.13 (2026-10-29, read in S0057) adds file types to rule 1 categories and states that StreamsPlayer (Windows) stream routing is `STREAM-BANK` rule 4, not adoption; the same reading holds here, so the scope stays out.

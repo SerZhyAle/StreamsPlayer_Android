@@ -1,0 +1,10 @@
+Command: .\gradlew.bat :phone:testStoreDebugUnitTest :phone:testNoLegalDebugUnitTest --rerun-tasks --console=plain
+Date: 2026-10-10
+Exit code: 0
+Build: BUILD SUCCESSFUL in 2m 56s (86 actionable tasks: 86 executed)
+
+Summary:
+- :phone:testStoreDebugUnitTest: 458 tests, 0 failures, 0 errors, 0 skipped
+- :phone:testNoLegalDebugUnitTest: 460 tests, 0 failures, 0 errors, 0 skipped
+- LiveStreamCatalogIntegrationTest: 1 test, 0 failures, 0 skipped
+- StreamFacetFoldingTest: 8 tests, 0 failures, 0 skipped (including "the tables are the same text as the publisher module")

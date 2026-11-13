@@ -1,0 +1,145 @@
+{
+  "help": "broadcast",
+  "surface": "BroadcastControlActivity",
+  "mark": "inline",
+  "elements": [
+    { "id": "help", "viewId": "btnHelp", "labelKey": "help" },
+    { "id": "listeners", "viewId": "tvListenerCount" },
+    { "id": "mode", "viewId": "cgBroadcastMode", "labelKey": "broadcast_entry_mode_label" },
+    { "id": "camera", "viewId": "cgLensSelection", "labelKey": "broadcast_entry_lens_label" },
+    { "id": "settings", "viewId": "btnBroadcastSettings", "labelKey": "broadcast_control_settings_button" },
+    { "id": "start", "viewId": "btnStartBroadcast", "labelKey": "broadcast_entry_start" },
+    { "id": "camera-toggle", "viewId": "btnToggleCamera" },
+    { "id": "mic-toggle", "viewId": "btnToggleMic" },
+    { "id": "switch-camera", "viewId": "btnSwitchCamera", "labelKey": "broadcast_control_switch_camera" },
+    { "id": "screen-off", "viewId": "btnScreenOff", "labelKey": "broadcast_control_screen_off" },
+    { "id": "to-watch", "viewId": "btnSendToWatch", "labelKey": "stream_action_send_to_watch" },
+    { "id": "stop", "viewId": "btnStopBroadcast", "labelKey": "broadcast_control_stop" },
+    { "id": "publish-state", "viewId": "tvPublishState" },
+    { "id": "link", "viewId": "ivShareQr" },
+    { "id": "copy", "viewId": "btnCopyUrl", "labelKey": "broadcast_share_copy" },
+    { "id": "export", "viewId": "btnExportFile", "labelKey": "broadcast_share_export_file" },
+    { "id": "send", "viewId": "btnShareSend", "labelKey": "broadcast_share_send_link" },
+    { "id": "guide", "viewId": "btnBroadcastHelp", "labelKey": "broadcast_share_help" }
+  ],
+  "related": [
+    { "help": "broadcast-settings" },
+    { "help": "settings" },
+    { "help": "catalog" },
+    { "help": "qr-scanner" },
+    { "url": "https://github.com/SerZhyAle/StreamsPlayer", "label": { "en": "StreamsPlayer for Windows", "ru": "StreamsPlayer для Windows", "uk": "StreamsPlayer для Windows" } }
+  ],
+  "locales": {
+    "en": {
+      "title": "Broadcast Control",
+      "purpose": "Turn this phone into a live station: it sends sound, or sound and picture from the camera, to other devices. You choose what to send, start it, and hand out the link or the QR code.",
+      "steps": [
+        "Choose what to send in Broadcast mode (3), and the camera (4) if the picture is part of it.",
+        "Check the settings (5) once: the title, the sound quality and whether the broadcast also goes through your exchange server.",
+        "Press Start broadcast (6). The first time, Android asks for the microphone, the camera and notifications.",
+        "Give listeners the QR code or the link (14): Copy Link (15), Export File (16) or Send to (17).",
+        "Watch the listener count (2). Stop Broadcast (12) ends it for everyone."
+      ],
+      "groups": [
+        { "title": "The top", "elements": ["help", "listeners"] },
+        { "title": "Before you start", "elements": ["mode", "camera", "settings", "start"] },
+        { "title": "While you are live", "elements": ["camera-toggle", "mic-toggle", "switch-camera", "screen-off", "to-watch", "stop", "publish-state"] },
+        { "title": "Handing out the broadcast", "elements": ["link", "copy", "export", "send", "guide"] }
+      ],
+      "elements": {
+        "help": { "summary": "Opens this page.", "details": "While you are live, the broadcast goes on with the page open.", "shortcut": "F1" },
+        "listeners": { "name": "Listener count", "summary": "How many devices are listening.", "details": "Counts the devices connected to this broadcast right now. It shows while you are live.", "undo": "Nothing to undo; the number follows the listeners." },
+        "mode": { "summary": "Audio only, Camera + audio or Camera only.", "details": "Audio only sends sound. Camera + audio sends sound and picture. Camera only sends the picture without sound. Changing the mode while you are live is allowed; listeners then reopen the stream by the updated link or QR code.", "undo": "Choose the mode you had." },
+        "camera": { "summary": "Which camera to use.", "details": "Back, Front or an external camera, whichever your phone has. It shows when the picture is part of the broadcast. If there is no camera, the screen says so.", "undo": "Choose another camera; you can also switch while live." },
+        "settings": { "summary": "Opens the broadcast settings.", "details": "Opens the Broadcast page of Settings: the title, the sound quality, the port, the microphone gain and the options for publishing through other places. Back returns here.", "undo": "Each setting can be put back to what it was." },
+        "start": { "summary": "Begins the broadcast.", "details": "Asks Android for the access it needs, then starts. A notification appears while the broadcast runs, so it can go on when you leave the screen. If the microphone, the camera, the notifications or the network are not available, the screen says what stopped it.", "undo": "Stop Broadcast ends it." },
+        "camera-toggle": { "name": "Camera ON / OFF", "summary": "Camera on or off.", "details": "Hides or shows the picture without ending the broadcast." },
+        "mic-toggle": { "name": "Microphone ON / OFF", "summary": "Microphone on or off.", "details": "Shown when sound and picture are sent together. Mutes the sound without ending the broadcast." },
+        "switch-camera": { "summary": "Back or front camera.", "details": "Changes the camera while you are live." },
+        "screen-off": { "summary": "Lets the screen go dark.", "details": "In an audio-only broadcast the screen may turn off while the broadcast keeps running. When the camera is part of the broadcast and the phone cannot keep it running with the screen off, the button is named Blank screen and covers the app with a black cover instead.", "undo": "Wake the phone with the power button, or press Back to remove the black cover." },
+        "to-watch": { "summary": "Sends the broadcast to your watch.", "details": "Shown while you are live and a paired watch can be reached. The app tells you whether the watch plays the broadcast at once or has saved it for you to open." },
+        "stop": { "summary": "Ends the broadcast.", "details": "Listeners lose the stream at once. The notification goes away.", "undo": "Start broadcast begins a new one." },
+        "publish-state": { "name": "Exchange server status", "summary": "Which exchange server the broadcast is on, and how it is doing there.", "details": "With an exchange server added, every broadcast is announced on it from its start. This line names the server and says whether the broadcast is being announced, is on the server, with the relay through the server running, or stays on your own network because the server could not take it; then a Why won't it connect? button explains what to check. Without a server the line says the broadcast is reachable on this network only, and a tap opens the Exchange server screen to add one." },
+        "link": { "name": "QR code and link", "summary": "The QR code and the link of this broadcast.", "details": "Another device reads the QR code or opens the link to listen. Tap the code to see it full screen. The link works while you are live." },
+        "copy": { "summary": "Copies the link.", "details": "Puts the link on the clipboard so you can paste it into a message." },
+        "export": { "summary": "Saves the broadcast to a file.", "details": "Writes a small file that another device opens to listen. Choose where to save it.", "undo": "Delete the file." },
+        "send": { "summary": "Sends the link through another app.", "details": "Opens the Android share sheet, so you pick the chat, mail or app that gets the link." },
+        "guide": { "summary": "A guide for your listeners.", "details": "Opens a web page in your browser that explains how to watch a broadcast; you can forward it to the people you invite. It needs a network." }
+      }
+    },
+    "ru": {
+      "title": "Управление вещанием",
+      "purpose": "Превратите телефон в живую станцию: он передаёт звук или звук и картинку с камеры на другие устройства. Вы выбираете, что передавать, запускаете и раздаёте ссылку или QR-код.",
+      "steps": [
+        "Выберите, что передавать, в разделе «Режим вещания» (3), и камеру (4), если в передаче есть картинка.",
+        "Один раз проверьте настройки (5): название, качество звука и то, пойдёт ли вещание ещё и через ваш сервер обмена.",
+        "Нажмите «Начать вещание» (6). В первый раз Android спросит про микрофон, камеру и уведомления.",
+        "Дайте слушателям QR-код или ссылку (14): «Копировать ссылку» (15), «Экспорт в файл» (16) или «Отправить» (17).",
+        "Следите за числом слушателей (2). «Остановить вещание» (12) завершает его для всех."
+      ],
+      "groups": [
+        { "title": "Верх экрана", "elements": ["help", "listeners"] },
+        { "title": "Перед запуском", "elements": ["mode", "camera", "settings", "start"] },
+        { "title": "Пока вы в эфире", "elements": ["camera-toggle", "mic-toggle", "switch-camera", "screen-off", "to-watch", "stop", "publish-state"] },
+        { "title": "Как раздать вещание", "elements": ["link", "copy", "export", "send", "guide"] }
+      ],
+      "elements": {
+        "help": { "summary": "Открывает эту страницу.", "details": "Пока вы в эфире, вещание продолжается и при открытой странице.", "shortcut": "F1" },
+        "listeners": { "name": "Число слушателей", "summary": "Сколько устройств слушает.", "details": "Считает устройства, подключённые к этому вещанию сейчас. Показывается, пока вы в эфире.", "undo": "Отменять нечего: число следует за слушателями." },
+        "mode": { "summary": "Только звук, Камера + звук или Только камера.", "details": "«Только звук» передаёт звук. «Камера + звук» передаёт звук и картинку. «Только камера» передаёт картинку без звука. Режим можно менять и в эфире; слушатели тогда открывают поток заново по обновлённой ссылке или QR-коду.", "undo": "Выберите прежний режим." },
+        "camera": { "summary": "Какую камеру использовать.", "details": "Основная, фронтальная или внешняя, смотря что есть в телефоне. Показывается, когда в передаче есть картинка. Если камеры нет, экран сообщает об этом.", "undo": "Выберите другую камеру; переключать можно и в эфире." },
+        "settings": { "summary": "Открывает настройки вещания.", "details": "Открывает страницу «Трансляция» в настройках: название, качество звука, порт, усиление микрофона и варианты публикации в других местах. «Назад» возвращает сюда.", "undo": "Любую настройку можно вернуть как было." },
+        "start": { "summary": "Начинает вещание.", "details": "Запрашивает у Android нужный доступ и запускает вещание. Пока оно идёт, показывается уведомление, поэтому вещание продолжается, когда вы уходите с экрана. Если недоступны микрофон, камера, уведомления или сеть, экран сообщает, что помешало.", "undo": "«Остановить вещание» завершает его." },
+        "camera-toggle": { "name": "Камера ВКЛ / ВЫКЛ", "summary": "Камера включена или выключена.", "details": "Скрывает или показывает картинку, не прекращая вещания." },
+        "mic-toggle": { "name": "Микрофон ВКЛ / ВЫКЛ", "summary": "Микрофон включён или выключен.", "details": "Показывается, когда звук и картинка идут вместе. Отключает звук, не прекращая вещания." },
+        "switch-camera": { "summary": "Основная или фронтальная камера.", "details": "Меняет камеру прямо в эфире." },
+        "screen-off": { "summary": "Позволяет экрану погаснуть.", "details": "В вещании только со звуком экран может погаснуть, а вещание продолжается. Если в передаче есть камера и телефон не может держать её включённой при погасшем экране, кнопка называется «Затемнить экран» и закрывает приложение чёрной шторкой.", "undo": "Разбудите телефон кнопкой питания или нажмите «Назад», чтобы убрать чёрную шторку." },
+        "to-watch": { "summary": "Передаёт вещание на часы.", "details": "Показывается, пока вы в эфире и парные часы доступны. Приложение сообщает, воспроизводят ли часы вещание сразу или сохранили его, чтобы вы открыли." },
+        "stop": { "summary": "Завершает вещание.", "details": "Слушатели сразу теряют поток. Уведомление исчезает.", "undo": "«Начать вещание» запускает новое." },
+        "publish-state": { "name": "Состояние на сервере обмена", "summary": "На каком сервере обмена вещание и как у него там дела.", "details": "Когда сервер обмена добавлен, каждое вещание объявляется на нём с самого начала. Эта строка называет сервер и сообщает, объявляется ли вещание, находится ли оно на сервере, идёт ли раздача потока через сервер или вещание остаётся в вашей сети, потому что сервер не смог его принять; тогда кнопка «Почему не подключается?» подсказывает, что проверить. Без сервера строка говорит, что вещание доступно только в этой сети, а нажатие открывает экран «Сервер обмена», чтобы добавить сервер." },
+        "link": { "name": "QR-код и ссылка", "summary": "QR-код и ссылка этого вещания.", "details": "Другое устройство считывает QR-код или открывает ссылку, чтобы слушать. Коснитесь кода, чтобы увидеть его на весь экран. Ссылка работает, пока вы в эфире." },
+        "copy": { "summary": "Копирует ссылку.", "details": "Кладёт ссылку в буфер обмена, чтобы вставить её в сообщение." },
+        "export": { "summary": "Сохраняет вещание в файл.", "details": "Записывает небольшой файл, который другое устройство открывает, чтобы слушать. Вы выбираете, куда сохранить.", "undo": "Удалите файл." },
+        "send": { "summary": "Отправляет ссылку через другое приложение.", "details": "Открывает системное окно «Поделиться»: вы выбираете чат, почту или приложение, куда уйдёт ссылка." },
+        "guide": { "summary": "Руководство для слушателей.", "details": "Открывает в браузере веб-страницу о том, как смотреть вещание; её можно переслать приглашённым. Нужна сеть." }
+      }
+    },
+    "uk": {
+      "title": "Управління мовленням",
+      "purpose": "Перетворіть телефон на живу станцію: він передає звук або звук і картинку з камери на інші пристрої. Ви вибираєте, що передавати, запускаєте й роздаєте посилання чи QR-код.",
+      "steps": [
+        "Виберіть, що передавати, у розділі «Режим мовлення» (3), і камеру (4), якщо в передачі є картинка.",
+        "Один раз перевірте налаштування (5): назву, якість звуку і те, чи піде мовлення ще й через ваш сервер обміну.",
+        "Натисніть «Почати мовлення» (6). Уперше Android запитає про мікрофон, камеру й сповіщення.",
+        "Дайте слухачам QR-код або посилання (14): «Копіювати посилання» (15), «Експорт у файл» (16) або «Надіслати» (17).",
+        "Стежте за кількістю слухачів (2). «Зупинити мовлення» (12) завершує його для всіх."
+      ],
+      "groups": [
+        { "title": "Верх екрана", "elements": ["help", "listeners"] },
+        { "title": "Перед запуском", "elements": ["mode", "camera", "settings", "start"] },
+        { "title": "Поки ви в ефірі", "elements": ["camera-toggle", "mic-toggle", "switch-camera", "screen-off", "to-watch", "stop", "publish-state"] },
+        { "title": "Як роздати мовлення", "elements": ["link", "copy", "export", "send", "guide"] }
+      ],
+      "elements": {
+        "help": { "summary": "Відкриває цю сторінку.", "details": "Поки ви в ефірі, мовлення триває й за відкритої сторінки.", "shortcut": "F1" },
+        "listeners": { "name": "Кількість слухачів", "summary": "Скільки пристроїв слухає.", "details": "Рахує пристрої, підключені до цього мовлення зараз. Показується, поки ви в ефірі.", "undo": "Скасовувати нічого: число йде за слухачами." },
+        "mode": { "summary": "Тільки звук, Камера + звук або Тільки камера.", "details": "«Тільки звук» передає звук. «Камера + звук» передає звук і картинку. «Тільки камера» передає картинку без звуку. Режим можна змінювати й в ефірі; слухачі тоді відкривають потік знову за оновленим посиланням чи QR-кодом.", "undo": "Виберіть попередній режим." },
+        "camera": { "summary": "Яку камеру використовувати.", "details": "Основна, фронтальна чи зовнішня, залежно від того, що є в телефоні. Показується, коли в передачі є картинка. Якщо камери немає, екран повідомляє про це.", "undo": "Виберіть іншу камеру; перемикати можна й в ефірі." },
+        "settings": { "summary": "Відкриває налаштування мовлення.", "details": "Відкриває сторінку «Трансляція» в налаштуваннях: назву, якість звуку, порт, посилення мікрофона та варіанти публікації в інших місцях. «Назад» повертає сюди.", "undo": "Будь-яке налаштування можна повернути як було." },
+        "start": { "summary": "Починає мовлення.", "details": "Запитує в Android потрібний доступ і запускає мовлення. Поки воно триває, показується сповіщення, тому мовлення продовжується, коли ви йдете з екрана. Якщо недоступні мікрофон, камера, сповіщення чи мережа, екран повідомляє, що завадило.", "undo": "«Зупинити мовлення» завершує його." },
+        "camera-toggle": { "name": "Камера УВІМК / ВИМК", "summary": "Камера ввімкнена або вимкнена.", "details": "Ховає або показує картинку, не припиняючи мовлення." },
+        "mic-toggle": { "name": "Мікрофон УВІМК / ВИМК", "summary": "Мікрофон ввімкнений або вимкнений.", "details": "Показується, коли звук і картинка йдуть разом. Вимикає звук, не припиняючи мовлення." },
+        "switch-camera": { "summary": "Основна чи фронтальна камера.", "details": "Змінює камеру просто в ефірі." },
+        "screen-off": { "summary": "Дозволяє екрану згаснути.", "details": "У мовленні лише зі звуком екран може згаснути, а мовлення триває. Якщо в передачі є камера і телефон не може тримати її ввімкненою за вимкненого екрана, кнопка називається «Затемнити екран» і закриває застосунок чорною шторкою.", "undo": "Розбудіть телефон кнопкою живлення або натисніть «Назад», щоб прибрати чорну шторку." },
+        "to-watch": { "summary": "Передає мовлення на годинник.", "details": "Показується, поки ви в ефірі й парний годинник доступний. Застосунок повідомляє, чи годинник відтворює мовлення одразу, чи зберіг його, щоб ви відкрили." },
+        "stop": { "summary": "Завершує мовлення.", "details": "Слухачі одразу втрачають потік. Сповіщення зникає.", "undo": "«Почати мовлення» запускає нове." },
+        "publish-state": { "name": "Стан на сервері обміну", "summary": "На якому сервері обміну мовлення і як у нього там справи.", "details": "Коли сервер обміну додано, кожне мовлення оголошується на ньому від самого початку. Цей рядок називає сервер і повідомляє, чи мовлення оголошується, чи воно на сервері, чи триває роздача потоку через сервер, чи мовлення лишається у вашій мережі, бо сервер не зміг його прийняти; тоді кнопка «Чому не підключається?» підказує, що перевірити. Без сервера рядок каже, що мовлення доступне лише в цій мережі, а дотик відкриває екран «Сервер обміну», щоб додати сервер." },
+        "link": { "name": "QR-код і посилання", "summary": "QR-код і посилання цього мовлення.", "details": "Інший пристрій зчитує QR-код або відкриває посилання, щоб слухати. Торкніться коду, щоб побачити його на весь екран. Посилання працює, поки ви в ефірі." },
+        "copy": { "summary": "Копіює посилання.", "details": "Кладе посилання в буфер обміну, щоб вставити його в повідомлення." },
+        "export": { "summary": "Зберігає мовлення у файл.", "details": "Записує невеликий файл, який інший пристрій відкриває, щоб слухати. Ви вибираєте, куди зберегти.", "undo": "Видаліть файл." },
+        "send": { "summary": "Надсилає посилання через інший застосунок.", "details": "Відкриває системне вікно «Поділитися»: ви вибираєте чат, пошту чи застосунок, куди піде посилання." },
+        "guide": { "summary": "Посібник для слухачів.", "details": "Відкриває в браузері вебсторінку про те, як дивитися мовлення; її можна переслати запрошеним. Потрібна мережа." }
+      }
+    }
+  }
+}

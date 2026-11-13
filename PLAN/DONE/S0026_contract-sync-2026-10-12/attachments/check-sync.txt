@@ -1,0 +1,11 @@
+pwsh -NoProfile -File tools/contracts/check-sync.ps1 -CatalogRoot P:\Contracts   (script reworked 2026-10-25: every block runs, every finding printed)
+FAIL: REPO-STAMP pointer does not name current version 0.13
+FAIL: HARNESS-PROFILE pointer does not name current version 0.13
+INFO: 18 of 20 pointer versions match domain headers
+FAIL: REPO-STAMP has stale or invalid version cell: 0.12
+FAIL: HARNESS-PROFILE has stale or invalid version cell: 0.12
+INFO: 15 own adoption rows read, 2 finding(s) above
+PASS: 3 required USER-PLAYLIST vectors match current catalog bytes
+PASS: 4 DEVICE-EXCHANGE vectors match current catalog bytes
+FAIL: 4 finding(s) in total
+exit=1

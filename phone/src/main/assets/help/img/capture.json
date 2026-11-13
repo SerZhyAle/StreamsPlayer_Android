@@ -1,0 +1,84 @@
+{
+  "versionName": "2.61.0282.350",
+  "date": "2026-10-29",
+  "pages": {
+    "broadcast": {
+      "versionName": "2.61.0282.350",
+      "date": "2026-10-29",
+      "inputs": [
+        "phone/src/main/res/layout/activity_broadcast_control.xml",
+        "phone/src/main/res/layout/fragment_settings_broadcast.xml",
+        "phone/src/main/res/layout/view_settings_toggle_row.xml",
+        "phone/src/main/res/layout/view_settings_dropdown_row.xml",
+        "phone/src/main/res/layout/view_settings_input_row.xml"
+      ],
+      "sha256": "f346f7cb30a54c730eba9d54e0973100e71097f9780e66bf6c2e33504f23b163"
+    },
+    "broadcast-settings": {
+      "versionName": "2.61.0282.350",
+      "date": "2026-10-29",
+      "inputs": [
+        "phone/src/main/res/layout/activity_broadcast_control.xml",
+        "phone/src/main/res/layout/fragment_settings_broadcast.xml",
+        "phone/src/main/res/layout/view_settings_toggle_row.xml",
+        "phone/src/main/res/layout/view_settings_dropdown_row.xml",
+        "phone/src/main/res/layout/view_settings_input_row.xml"
+      ],
+      "sha256": "55a4934cb87510dcecf12219878df706f5abdf4c0437c3975a885b232d420118"
+    },
+    "catalog": {
+      "versionName": "2.61.0282.350",
+      "date": "2026-10-29",
+      "inputs": [
+        "phone/src/main/res/layout/activity_main.xml",
+        "phone/src/main/res/layout/item_stream_channel.xml",
+        "phone/src/main/res/layout/item_stream_section.xml",
+        "phone/src/main/res/menu/main_menu.xml"
+      ],
+      "sha256": "de733b5397f707cd4fe0ca387c3a48389eda1a78f98225fce24b280bbe567b0e"
+    },
+    "edit-channel": {
+      "versionName": "2.61.0282.350",
+      "date": "2026-10-29",
+      "inputs": [
+        "phone/src/main/res/layout/dialog_edit_stream.xml",
+        "phone/src/main/res/layout/view_dialog_title_help.xml"
+      ],
+      "sha256": "1cbbe6ad95c481e8f14d6b9496bf7b79a90e451fd0a9b9b99f325ec14e283633"
+    },
+    "filter-and-sort": {
+      "versionName": "2.61.0282.350",
+      "date": "2026-10-29",
+      "inputs": [
+        "phone/src/main/res/layout/sheet_stream_filter.xml"
+      ],
+      "sha256": "7a3afce692ad260244e1cc05f4616eeea725b7adcadedf48d6166f5ee02e90a7"
+    },
+    "player": {
+      "versionName": "2.61.0282.350",
+      "date": "2026-10-29",
+      "inputs": [
+        "phone/src/main/res/layout/activity_fullscreen_player.xml",
+        "phone/src/main/res/layout/custom_stream_player_controls.xml"
+      ],
+      "sha256": "61a43b1d66d487c3104ffedb15a7f992c22dba9edcd4df93b5c3c99d5a74e294"
+    },
+    "qr-scanner": {
+      "versionName": "2.61.0282.350",
+      "date": "2026-10-29",
+      "inputs": [
+        "phone/src/main/res/layout/activity_qr_scanner.xml"
+      ],
+      "sha256": "9e8b97f44f7ed67118828fd9efcdd7d6a02b368abaa5303164f8638f2cc13cc9"
+    },
+    "widget-setup": {
+      "versionName": "2.61.0282.350",
+      "date": "2026-10-29",
+      "inputs": [
+        "phone/src/main/res/layout/activity_stream_launch_widget_config.xml",
+        "phone/src/main/res/layout/item_widget_config_channel.xml"
+      ],
+      "sha256": "07f1042f885da263077ce6385caee975dcbdffd33fa0cc7dc384493d018cf97b"
+    }
+  }
+}

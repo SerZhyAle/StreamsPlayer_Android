@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="broadcast_password_title">Broadcast password</string>
+    <string name="broadcast_password_message">Enter the broadcast password you were given with the link.</string>
+    <string name="broadcast_password_protected">This broadcast is protected by a password</string>
+    <string name="broadcast_password_hint">Password</string>
+    <string name="broadcast_password_connect">Connect</string>
+    <string name="broadcast_password_empty">Enter the password</string>
+    <string name="broadcast_auth_unsupported">This program does not support this broadcast\'s protection.</string>
+    <string name="broadcast_password_save_failed">The password could not be saved. Try again.</string>
+    <string name="broadcast_password_wrong">Wrong broadcast password. Try again.</string>
+    <string name="exchange_directory_disconnected">Connection lost. Reopen the list to reconnect.</string>
+    <string name="exchange_broadcast_mode">Mode: %1$s</string>
+    <string name="exchange_broadcast_play_label">Play %1$s</string>
+    <string name="exchange_broadcast_keep_label">Keep %1$s as a channel</string>
+</resources>

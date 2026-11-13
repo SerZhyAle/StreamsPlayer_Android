@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Layout for SettingsArtworkRow compound view (S0064): one downloadable channel-picture set - its title, state, size,
+  progress and the two actions that fit the state. The buttons are the shared command family (BUTTONS 2.0), content
+  width with the 48 dp target; neither is the destructive rank, because Remove only opens a confirmation.
+-->
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/sar_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorOnSurface"
+        android:textSize="@dimen/ui_option_caption_text" />
+
+    <TextView
+        android:id="@+id/sar_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ui_option_heading_gap"
+        android:textColor="@color/text_color_secondary"
+        android:textSize="@dimen/ui_option_explanation_text"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/sar_size"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text_color_secondary"
+        android:textSize="@dimen/ui_option_explanation_text"
+        android:visibility="gone" />
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/sar_progress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:max="100"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/sar_actions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:gravity="start"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/sar_action"
+            style="@style/Widget.StreamsPlayer.Button.Tonal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_normal"
+            android:visibility="gone" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/sar_remove"
+            style="@style/Widget.StreamsPlayer.Button.Outlined"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/channel_pictures_action_remove"
+            android:visibility="gone" />
+    </LinearLayout>
+</merge>

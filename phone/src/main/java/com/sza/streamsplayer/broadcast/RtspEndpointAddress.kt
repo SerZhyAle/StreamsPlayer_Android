@@ -1,0 +1,37 @@
+package com.sza.streamsplayer.broadcast
+
+import java.net.URI
+import java.net.URISyntaxException
+
+/**
+ * Moves the RTSP-Server library's endpoint onto the address [com.sza.streamsplayer.core.network.LanAddressResolver]
+ * chose. The library picks its own host: it skips loopback, but falls back to `0.0.0.0` when no
+ * interface qualifies and accepts a mobile-carrier interface, and LIVE-BROADCAST producer rule 1 forbids
+ * handing either out.
+ */
+internal object RtspEndpointAddress {
+
+    /** [publicPort], when given, replaces the library's port: S4258 puts an auth gate in front of the library. */
+    fun onLanHost(libraryEndpoint: String, lanHost: String, publicPort: Int? = null): String? {
+        val parsed = if (isPublishable(lanHost)) parseOrNull(libraryEndpoint) else null
+        return parsed
+            ?.takeIf { uri -> !uri.scheme.isNullOrBlank() && uri.port > 0 }
+            ?.let { uri ->
+                val port = publicPort ?: uri.port
+                "${uri.scheme}://$lanHost:$port${uri.rawPath?.takeIf(String::isNotEmpty) ?: "/"}"
+            }
+    }
+
+    // An endpoint the library formed badly is not publishable; the caller ends the session on null.
+    private fun parseOrNull(endpoint: String): URI? = try {
+        URI(endpoint)
+    } catch (_: URISyntaxException) {
+        null
+    }
+
+    private fun isPublishable(host: String): Boolean =
+        host.isNotBlank() && host != ANY_ADDRESS && !host.startsWith(LOOPBACK_PREFIX) && host != "localhost"
+
+    private const val ANY_ADDRESS = "0.0.0.0"
+    private const val LOOPBACK_PREFIX = "127."
+}

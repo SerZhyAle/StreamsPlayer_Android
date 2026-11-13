@@ -1,0 +1,120 @@
+package com.sza.streamsplayer.wear.domain.model
+
+import androidx.annotation.StringRes
+
+/** Sections of the watch home screen, declared in the fixed order the owner specified. */
+enum class HomeSectionId {
+    LAST_USED_RESOURCE,
+
+    /** S2499: a recently played channel, which wears the streams glyph rather than the history one. */
+    LAST_USED_STREAM,
+    RESOURCES,
+    PHONE,
+    LOCAL,
+    STREAMS,
+    APPS,
+
+    /** S2509: the watch's own broadcast, which the owner asked to reach from Home as well as Programs. */
+    BROADCAST,
+
+    /**
+     * S2551: watching the paired phone's camera on the wrist.
+     *
+     * Distinct from [BROADCAST], which goes the other way - that row opens the watch's own
+     * microphone for the phone to listen to. One label over two opposite directions would leave the
+     * owner to guess which device is the source.
+     */
+    PHONE_CAMERA,
+
+    /**
+     * S3116: the mini-program opened last, offered again in the slot after [APPS].
+     *
+     * Distinct from [BROADCAST] rather than replacing it: that row is what this one falls back to
+     * before any program has been opened, and what it becomes again whenever the broadcast was the
+     * last one, so both meanings stay nameable.
+     */
+    LAST_USED_APP,
+    FAVOURITES
+}
+
+/**
+ * One row of the home screen.
+ *
+ * [dynamicLabel] wins over [labelRes] for the last-used resource, which is shown under its own name
+ * rather than a generic caption. [iconId] does the same for the glyph, and only the last-used
+ * entries ever carry one - every other section keeps the fixed glyph its id names.
+ *
+ * S2499: a section carries either a [route] it can be navigated to as it stands, or a [targetRef] that
+ * has to be resolved into one first - never neither. Only the last-used row ever takes the second form,
+ * and only for a channel: a player address contains a number handed out by playback preparation, which
+ * has not run on a cold start, so it cannot be built ahead of the tap.
+ *
+ * S2751: [route] belongs to the dynamic last-used rows alone, which are built in the screen's own layer
+ * and so may carry a navigation address. A catalogued section leaves it null and is addressed by its
+ * [id]; a navigation string on a record the domain hands out is what put the route table below the
+ * screens in the first place.
+ */
+data class HomeSection(
+    val id: HomeSectionId,
+    @StringRes val labelRes: Int,
+    val route: String? = null,
+    val dynamicLabel: String? = null,
+    val iconId: String? = null,
+    val faviconIndex: Int? = null,
+    val targetRef: WearTileTargetRef? = null,
+    /**
+     * S3116: the mini-program this row stands for, carried only by [HomeSectionId.LAST_USED_APP].
+     *
+     * It is what addresses the row - the id alone cannot, because the program behind it changes -
+     * and it is also what tells the screen to draw the program's own glyph instead of a fixed one.
+     */
+    val appId: WearAppId? = null
+)
+
+/**
+ * Everything the catalog needs to decide visibility, reduced to plain values so the catalog stays
+ * free of repository dependencies and can be reasoned about without a coroutine in sight.
+ *
+ * S1974: the last-used shortcuts are deliberately absent. They are no longer catalog members, because
+ * a conditional member of the chunked list is exactly what used to shift every predefined section by
+ * one cell.
+ */
+data class HomeSectionVisibility(
+    val streamsEnabled: Boolean,
+    /**
+     * S3116: the program opened last, or null when there is none - which is the state the catalog
+     * draws the Broadcast row for.
+     *
+     * The program record rather than its id: it carries the caption the row needs, and taking it from
+     * the record the Apps screen already drew is also what filters it - a program this flavor does not
+     * offer is not in that catalog, so it can never arrive here.
+     */
+    val lastUsedApp: WearApp? = null,
+
+    /**
+     * S3178: the distribution answers the catalog filters its rows by, read from
+     * `WearRestrictedCapabilities` at the call site rather than from a flavor check here.
+     *
+     * Four booleans rather than the contract itself: this is a domain model that a test builds by
+     * hand, and every existing caller predates the store boundary. They default to the full product
+     * for that reason - the two production call sites both pass the real answers, and a default of
+     * `false` would silently empty the home screen of any future caller that forgot one.
+     */
+    val offersMediaAccess: Boolean = true,
+    val offersRemoteSources: Boolean = true,
+    val offersContentTransfer: Boolean = true,
+    val offersVoiceRecording: Boolean = true,
+
+    /**
+     * S4011: whether the paired phone can serve the phone-bound rows. Defaults to [PhoneCompanionState.PRESENT]
+     * so a caller that has no live answer - the tile, the face slot, a hand-built test - keeps the
+     * flavor-only visibility it had before.
+     */
+    val phoneCompanion: PhoneCompanionState = PhoneCompanionState.PRESENT,
+
+    /**
+     * S4011: whether at least one network source is registered on the watch. Such a source is reached
+     * without the phone, so Resources stays for it whatever [phoneCompanion] says.
+     */
+    val hasNetworkSources: Boolean = false
+)

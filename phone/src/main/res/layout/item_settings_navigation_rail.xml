@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  S0036: Navigation rail destination row (SETTINGS-NAVIGATION 2.0).
+  Ordinary touch target: 48 dp (UI-SIZING / SETTINGS-NAVIGATION section 2 rule 5).
+  Non-color selection cue: visible indicator bar and bold weight (section 2 rule 7).
+  S0049: a caption wraps and grows the row in every shipped locale, it is never clipped (section 2 rule 2).
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rail_item_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/ui_touch_target"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:background="@drawable/bg_settings_rail_item"
+    android:clickable="true"
+    android:focusable="true"
+    android:paddingEnd="12dp">
+
+    <!-- Non-color active indicator bar (4dp width, start-aligned) -->
+    <View
+        android:id="@+id/rail_item_indicator"
+        android:layout_width="4dp"
+        android:layout_height="24dp"
+        android:layout_gravity="center_vertical"
+        android:background="?attr/colorPrimary"
+        android:visibility="invisible" />
+
+    <!-- Leading glyph: 20dp touch baseline (dimens_ui.xml) -->
+    <ImageView
+        android:id="@+id/rail_item_icon"
+        android:layout_width="@dimen/ui_rail_glyph"
+        android:layout_height="@dimen/ui_rail_glyph"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="@dimen/ui_rail_glyph_gap"
+        android:contentDescription="@null"
+        android:importantForAccessibility="no"
+        app:tint="?attr/colorOnSurfaceVariant" />
+
+    <!-- Destination title -->
+    <TextView
+        android:id="@+id/rail_item_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="@dimen/ui_option_caption_text"
+        android:paddingVertical="@dimen/margin_normal"
+        android:textColor="?attr/colorOnSurface" />
+
+</LinearLayout>

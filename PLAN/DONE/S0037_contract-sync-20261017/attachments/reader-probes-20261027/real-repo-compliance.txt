@@ -1,0 +1,14 @@
+FAIL SZA-VER03 .sza-canon.json: declared channel 'play' has no committed manifest folder
+     fix: Manifests are committed source; submissions are generated from them.
+WARN SZA-CANON03 .sza-canon.json: adoption is stale: stamp digest sha256:b467aefe4ce6917cc75c2cca56a0dcc4b3a74e793ef056112f37dee6d12456fa vs canon sha256:bfa85c0bf9bdb08e8d1d1aa6f2d12904b3ea2a745e9ba05df30aea1014b8a071 (canon 2026.10.26.3; 10 days from canon.reconciledOn)
+     fix: Re-read the changed rule docs, reconcile, then update canon.version, canon.coreDigest and canon.reconciledOn through adopt-canon.
+WARN SZA-CTR02 PLAN/DONE/S0003_stream-core-port.md: names the contracts catalog by path - whoever clones this repo has no P: drive
+     fix: Cite the contract by id and section instead. Exactly one file - the agent-rules file - says where the catalog is.
+WARN SZA-SURF02 site/privacy-ru.html: SEO block missing: og:image
+     fix: og:image and twitter:card are what break link previews.
+WARN SZA-SURF02 site/privacy-uk.html: SEO block missing: og:image
+     fix: og:image and twitter:card are what break link previews.
+WARN SZA-SURF02 site/privacy.html: SEO block missing: og:image
+     fix: og:image and twitter:card are what break link previews.
+check-compliance: StreamsPlayer_mob - 1 error(s), 5 warning(s) (overlay B, canon 2026.10.26.3)
+[31;1mWrite-Error: [31;1mcheck-compliance: 1 error(s)[0m

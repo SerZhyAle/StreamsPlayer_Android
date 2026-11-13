@@ -1,0 +1,134 @@
+package com.sza.streamsplayer.wear.data.repository
+
+import android.content.Context
+import com.google.gson.Gson
+import com.sza.streamsplayer.wear.domain.model.foldWearStreamIdentity
+import io.mockk.every
+import io.mockk.mockk
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.runBlocking
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
+import org.junit.Rule
+import org.junit.Test
+import org.junit.rules.TemporaryFolder
+
+/**
+ * S2497: Tests for WearStreamPinsRepository checking pin, unpin, pending deltas, and persistence.
+ */
+class WearStreamPinsRepositoryTest {
+
+    @get:Rule
+    val temporaryFolder: TemporaryFolder = TemporaryFolder()
+
+    private fun repository(): WearStreamPinsRepository {
+        val context = mockk<Context>()
+        every { context.filesDir } returns temporaryFolder.root
+        val phonePinsRepo = mockk<WearPhonePinsRepository>()
+        every { phonePinsRepo.observe() } returns kotlinx.coroutines.flow.MutableStateFlow(emptySet())
+        return WearStreamPinsRepository(context, Gson(), phonePinsRepo)
+    }
+
+    @Test
+    fun `pin and unpin toggle pinned status and record deltas`() = runBlocking {
+        val repo = repository()
+
+        assertFalse(repo.isPinned("https://stream.example.com/live.m3u8"))
+        assertEquals(emptySet<String>(), repo.getWatchPins())
+
+        val isPinnedNow = repo.togglePin("https://stream.example.com/live.m3u8")
+        assertTrue(isPinnedNow)
+        assertTrue(repo.isPinned("https://stream.example.com/live.m3u8"))
+        assertEquals(1, repo.getWatchPins().size)
+
+        val deltas = repo.getPendingDelta()
+        assertEquals(1, deltas.size)
+        assertEquals(true, deltas.first().isPinned)
+
+        val unpinnedNow = repo.togglePin("https://stream.example.com/live.m3u8")
+        assertFalse(unpinnedNow)
+        assertFalse(repo.isPinned("https://stream.example.com/live.m3u8"))
+        assertEquals(0, repo.getWatchPins().size)
+
+        val deltasAfter = repo.getPendingDelta()
+        assertEquals(1, deltasAfter.size)
+        assertEquals(false, deltasAfter.first().isPinned)
+    }
+
+    @Test
+    fun `pins survive repository recreation`() = runBlocking {
+        val repo1 = repository()
+        repo1.setPin("https://stream.example.com/channel1", true)
+        repo1.setPin("https://stream.example.com/channel2", true)
+
+        val repo2 = repository()
+        assertTrue(repo2.isPinned("https://stream.example.com/channel1"))
+        assertTrue(repo2.isPinned("https://stream.example.com/channel2"))
+        assertEquals(2, repo2.getWatchPins().size)
+    }
+
+    @Test
+    fun `removeSentDelta removes deltas`() = runBlocking {
+        val repo = repository()
+        repo.setPin("https://stream.example.com/channel1", true)
+        val sent = repo.getPendingDelta()
+        assertEquals(1, sent.size)
+
+        repo.removeSentDelta(sent)
+        assertEquals(0, repo.getPendingDelta().size)
+    }
+
+    @Test
+    fun `a pin queued between read and removal survives`() = runBlocking {
+        val repo = repository()
+        repo.setPin("https://stream.example.com/channel1", true)
+        val sent = repo.getPendingDelta()
+
+        repo.setPin("https://stream.example.com/channel2", true)
+        repo.removeSentDelta(sent)
+
+        val left = repo.getPendingDelta()
+        assertEquals(1, left.size)
+        assertEquals(foldWearStreamIdentity("https://stream.example.com/channel2"), left.first().urlOrIdentity)
+    }
+
+    @Test
+    fun `unpin phone-only pinned stream queues unpin delta for phone`() = runBlocking {
+        val context = mockk<Context>()
+        every { context.filesDir } returns temporaryFolder.root
+        val phonePinsRepo = mockk<WearPhonePinsRepository>()
+        val foldedUrl = foldWearStreamIdentity("https://stream.example.com/phone_only")
+        val phonePinsFlow = kotlinx.coroutines.flow.MutableStateFlow(setOf(foldedUrl))
+        every { phonePinsRepo.observe() } returns phonePinsFlow
+
+        val repo = WearStreamPinsRepository(context, Gson(), phonePinsRepo)
+
+        assertTrue(repo.isPinned("https://stream.example.com/phone_only"))
+        assertFalse(repo.isPinnedOnWatch("https://stream.example.com/phone_only"))
+
+        val unpinnedNow = repo.togglePin("https://stream.example.com/phone_only")
+        assertFalse(unpinnedNow)
+
+        val deltas = repo.getPendingDelta()
+        assertEquals(1, deltas.size)
+        assertEquals(false, deltas.first().isPinned)
+        assertEquals(foldedUrl, deltas.first().urlOrIdentity)
+    }
+
+    @Test
+    fun `S3797 overlapping pin changes keep every pin and every delta`() = runBlocking {
+        val repo = repository()
+        val streams = (1..30).map { "https://stream.example.com/channel$it" }
+
+        streams.map { url ->
+            async(Dispatchers.Default) { repo.setPin(url, true) }
+        }.awaitAll()
+
+        assertEquals(streams.size, repo.getWatchPins().size)
+        assertEquals(streams.size, repo.getPendingDelta().size)
+        assertEquals(streams.size, repository().getWatchPins().size)
+    }
+}

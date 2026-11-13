@@ -1,0 +1,784 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/exchangeRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/colorBackground">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorSurface"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:navigationContentDescription="@string/action_close"
+            app:title="@string/exchange_server_title"
+            app:titleTextColor="?attr/colorOnSurface" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Progress Bar -->
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:visibility="gone"
+                android:indeterminate="true"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Error Banner -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardError"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:visibility="gone"
+                app:cardBackgroundColor="?attr/colorSurfaceVariant"
+                app:strokeColor="?attr/colorError"
+                app:strokeWidth="1dp"
+                app:cardCornerRadius="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <!-- S0039: an error about the server carries the exchange mark as its start drawable (set in code). -->
+                    <TextView
+                        android:id="@+id/tvError"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/margin_normal"
+                        android:textColor="?attr/colorOnError"
+                        android:textSize="14sp"
+                        tools:text="Error message" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnDiagnose"
+                        style="@style/Widget.StreamsPlayer.Button.Text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="@string/exchange_diagnose_button"
+                        android:contentDescription="@string/exchange_diagnose_button" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- S0049: the three topics of this screen are independent groups, expanded at first use, their state kept
+                 (COLLAPSIBLE-GROUP 1.1 sections 2.3 and 4.7; recorded in docs/design/UI_SIZE_PROFILE.md). -->
+            <com.sza.streamsplayer.ui.common.widget.CollapsibleSectionHeader
+                android:id="@+id/headerDrive"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:csh_title="@string/drive_title" />
+
+            <!-- S0029: broadcasts announced through Google Drive. Its own sign-in; the exchange account below is
+                 not touched by it. Shown in every exchange state, because Drive needs no server. -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardDrive"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="8dp"
+                app:strokeColor="?attr/colorOutline"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <TextView
+                        android:id="@+id/tvDriveSummary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/drive_summary"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tvDriveStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="14sp"
+                        tools:text="Signed in to Google Drive" />
+
+                    <TextView
+                        android:id="@+id/tvDriveMessage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:textColor="?attr/colorError"
+                        android:textSize="12sp"
+                        android:visibility="gone"
+                        tools:text="Google Drive is not reachable now." />
+
+                    <com.sza.streamsplayer.ui.common.widget.CommandFlowLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnDriveDiagnose"
+                            style="@style/Widget.StreamsPlayer.Button.Text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/exchange_diagnose_button"
+                            android:contentDescription="@string/exchange_diagnose_button"
+                            android:visibility="gone" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnDriveSignIn"
+                            style="@style/Widget.StreamsPlayer.Button.Outlined"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:contentDescription="@string/drive_action_sign_in"
+                            android:focusable="true"
+                            android:text="@string/drive_action_sign_in"
+                            android:textSize="12sp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnDriveSignOut"
+                            style="@style/Widget.StreamsPlayer.Button.Outlined"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:contentDescription="@string/drive_action_sign_out"
+                            android:focusable="true"
+                            android:text="@string/drive_action_sign_out"
+                            android:textSize="12sp"
+                            android:visibility="gone" />
+                    </com.sza.streamsplayer.ui.common.widget.CommandFlowLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layoutDriveDirectory"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/tvDriveDirectoryTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="4dp"
+                            android:text="@string/drive_directory_title"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvDriveEmpty"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:padding="16dp"
+                            android:text="@string/drive_empty"
+                            android:textColor="?attr/colorOnSurfaceVariant"
+                            android:textSize="14sp"
+                            android:visibility="gone" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvDriveDirectory"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="true"
+                            android:nestedScrollingEnabled="false" />
+                    </LinearLayout>
+
+                    <!-- S0030: the portal page that explains announcing through Google Drive -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnHelpDrive"
+                        style="@style/Widget.StreamsPlayer.Button.Text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:focusable="true"
+                        android:text="@string/portal_help_drive"
+                        android:textSize="12sp"
+                        app:icon="@drawable/ic_open_in_browse"
+                        app:iconGravity="textEnd" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.sza.streamsplayer.ui.common.widget.CollapsibleSectionHeader
+                android:id="@+id/headerAccount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ui_group_sibling_gap"
+                app:csh_title="@string/exchange_server_title" />
+
+            <LinearLayout
+                android:id="@+id/groupAccountBody"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/ui_group_body_inset"
+                android:paddingTop="@dimen/ui_group_body_inset">
+
+            <!-- SECTION 1: Sign-In Surface (Visible when NoAccount) -->
+            <LinearLayout
+                android:id="@+id/layoutSignIn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- S0039: EXCHANGE-MARK rule 8 (a), decorative beside the name, never tinted or mirrored. -->
+                <TextView
+                    android:id="@+id/tvSignInTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_exchange_mark_small"
+                    android:drawablePadding="@dimen/margin_normal"
+                    android:text="@string/exchange_sign_in_title"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="?attr/colorOnBackground"
+                    android:layout_marginBottom="12dp" />
+
+
+                <!-- Quick Join Action Buttons (BUTTONS 2.0 / S0036: content width, row wrapping) -->
+                <com.sza.streamsplayer.ui.common.widget.CommandFlowLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnPaste"
+                        style="@style/Widget.StreamsPlayer.Button.Outlined"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/exchange_action_paste"
+                        android:contentDescription="@string/exchange_action_paste"
+                        app:icon="@drawable/ic_copy"
+                        android:focusable="true" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnOpenFile"
+                        style="@style/Widget.StreamsPlayer.Button.Outlined"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/exchange_action_open_file"
+                        android:contentDescription="@string/exchange_action_open_file"
+                        app:icon="@drawable/ic_stream"
+                        android:focusable="true" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnScanQr"
+                        style="@style/Widget.StreamsPlayer.Button.Outlined"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/exchange_action_scan_qr"
+                        android:contentDescription="@string/exchange_action_scan_qr"
+                        app:icon="@drawable/ic_camera_capture"
+                        android:focusable="true" />
+                </com.sza.streamsplayer.ui.common.widget.CommandFlowLayout>
+                <!-- Unverified label hint (Scope 2 & 3: n is never the title) -->
+                <TextView
+                    android:id="@+id/tvLabelHint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:textSize="13sp"
+                    android:visibility="gone"
+                    tools:text="Label: Home Server (unverified hint)" />
+
+                <!-- Fingerprint from connection string hint -->
+                <TextView
+                    android:id="@+id/tvFingerprintHint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:textSize="12sp"
+                    android:visibility="gone"
+                    tools:text="Certificate fingerprint (from string): SHA256:..." />
+
+                <!-- Manual destination entry -->
+                <LinearLayout
+                    android:id="@+id/layoutDestinationFields"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:baselineAligned="false"
+                    android:layout_marginBottom="8dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilHost"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:layout_marginEnd="8dp"
+                        android:hint="@string/exchange_host_label">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etHost"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textUri|textNoSuggestions"
+                            android:focusable="true"
+                            android:imeOptions="actionNext"
+                            android:nextFocusDown="@id/etPort" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilPort"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="@string/exchange_port_label">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etPort"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:text="443"
+                            android:focusable="true"
+                            android:imeOptions="actionNext"
+                            android:nextFocusDown="@id/etLogin" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <!-- Login field -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilLogin"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:hint="@string/exchange_login_label">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etLogin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text|textNoSuggestions"
+                        android:focusable="true"
+                        android:imeOptions="actionNext"
+                        android:nextFocusDown="@id/etSecret" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Switch to Pairing Code (Scope 2 & contract 5.3) -->
+                <com.sza.streamsplayer.ui.common.widget.SettingsToggleRow
+                    android:id="@+id/switchPairingCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    app:str_title="@string/exchange_use_pairing_code" />
+
+                <TextView
+                    android:id="@+id/tvDestination"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:layout_marginBottom="8dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tvInvitationNotice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/exchange_invitation_sign_in_only"
+                    android:layout_marginBottom="8dp"
+                    android:visibility="gone" />
+
+                <!-- Password / Pairing code field (Scope 4: saveEnabled=false) -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilSecret"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:hint="@string/exchange_password_label"
+                    app:passwordToggleEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etSecret"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:saveEnabled="false"
+                        android:focusable="true"
+                        android:imeOptions="actionDone" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.sza.streamsplayer.ui.common.widget.CommandFlowLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <!-- Sign in button -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSignIn"
+                        style="@style/Widget.StreamsPlayer.Button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/exchange_action_sign_in"
+                        android:contentDescription="@string/exchange_action_sign_in"
+                        android:focusable="true" />
+
+                    <!-- S0030: the portal page about accounts and sign-in -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnHelpAccounts"
+                        style="@style/Widget.StreamsPlayer.Button.Text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:focusable="true"
+                        android:text="@string/portal_help_accounts"
+                        android:textSize="12sp"
+                        app:icon="@drawable/ic_open_in_browse"
+                        app:iconGravity="textEnd" />
+                </com.sza.streamsplayer.ui.common.widget.CommandFlowLayout>
+
+            </LinearLayout>
+
+            <!-- SECTION 2: Account Ready Surface (Visible when Account exists) -->
+            <LinearLayout
+                android:id="@+id/layoutAccountReady"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <com.sza.streamsplayer.ui.common.widget.SettingsToggleRow
+                    android:id="@+id/switchPlayCastImmediately"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:str_title="@string/cast_play_immediately" />
+
+                <!-- Account Status Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardAccount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    app:cardCornerRadius="12dp"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="?attr/colorOutline">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <!-- S0039: EXCHANGE-MARK rule 8 (a)(b), outside the status pill, decorative. -->
+                        <TextView
+                            android:id="@+id/tvAccountEndpoint"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/ic_exchange_mark_small"
+                            android:drawablePadding="@dimen/margin_normal"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="?attr/colorOnSurface"
+                            tools:text="exchange.local:443" />
+
+                        <TextView
+                            android:id="@+id/tvAccountLogin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:textColor="?attr/colorOnSurfaceVariant"
+                            android:layout_marginTop="2dp"
+                            tools:text="login: alice" />
+
+                        <TextView
+                            android:id="@+id/tvAccountStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="3dp"
+                            android:background="@drawable/bg_status_badge"
+                            android:text="@string/exchange_status_connected"
+                            android:textColor="@android:color/white"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvAccountPin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:textSize="12sp"
+                            android:textColor="?attr/colorOnSurfaceVariant"
+                            tools:text="PIN: SHA256:4a8b..." />
+
+                        <!-- Action buttons for account (Scope 7). S0049: content-width commands that wrap whole, the
+                             destructive one last and apart from the rest (BUTTONS 2.0 sections 4.1 and 4.2). -->
+                        <com.sza.streamsplayer.ui.common.widget.CommandFlowLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp">
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnConnectWatch"
+                                style="@style/Widget.StreamsPlayer.Button.Text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/exchange_watch_connect"
+                                app:icon="@drawable/ic_connect_device"
+                                app:iconGravity="textStart"
+                                android:focusable="true" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnSignInAgain"
+                                style="@style/Widget.StreamsPlayer.Button.Text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/exchange_action_sign_in_again"
+                                android:textSize="12sp"
+                                android:focusable="true" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnReplacePin"
+                                style="@style/Widget.StreamsPlayer.Button.Text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/exchange_action_replace_pin"
+                                android:textSize="12sp"
+                                android:focusable="true" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnChangeServer"
+                                style="@style/Widget.StreamsPlayer.Button.Text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/exchange_action_change_server"
+                                android:textSize="12sp"
+                                android:focusable="true" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnChangePassword"
+                                style="@style/Widget.StreamsPlayer.Button.Text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/exchange_change_password"
+                                android:focusable="true" />
+
+                            <!-- S0030: portal pages about accounts and about deleting one -->
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnHelpAccountsReady"
+                                style="@style/Widget.StreamsPlayer.Button.Text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:focusable="true"
+                                android:text="@string/portal_help_accounts"
+                                android:textSize="12sp"
+                                app:icon="@drawable/ic_open_in_browse"
+                                app:iconGravity="textEnd" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnHelpDeleteAccount"
+                                style="@style/Widget.StreamsPlayer.Button.Text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:focusable="true"
+                                android:text="@string/portal_help_account_deletion"
+                                android:textSize="12sp"
+                                app:icon="@drawable/ic_open_in_browse"
+                                app:iconGravity="textEnd" />
+                        </com.sza.streamsplayer.ui.common.widget.CommandFlowLayout>
+
+                        <TextView
+                            android:id="@+id/tvWatchPairingStatus"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:accessibilityLiveRegion="polite"
+                            android:visibility="gone" />
+
+                        <com.sza.streamsplayer.ui.common.widget.CommandFlowLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/ui_button_group_gap">
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnRemoveAccount"
+                                style="@style/Widget.StreamsPlayer.Button.Text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/exchange_action_remove_account"
+                                android:textColor="?attr/colorError"
+                                android:textSize="12sp"
+                                android:focusable="true" />
+                        </com.sza.streamsplayer.ui.common.widget.CommandFlowLayout>
+
+                        <!-- S0030: content.guest of ICON-SET, tinted with the text colour -->
+                        <TextView
+                            android:id="@+id/tvGuestNotice"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/ic_guest"
+                            android:drawablePadding="8dp"
+                            android:drawableTint="?attr/colorOnSurface"
+                            android:text="@string/exchange_guest_notice"
+                            android:visibility="gone" />
+
+                        <!-- S0021: DEVICE-EXCHANGE item DT - every broadcast is announced on this entry from its start,
+                             with no switch; removing the entry is the way to keep broadcasts on the own network. -->
+                        <TextView
+                            android:id="@+id/tvBroadcastsOnServer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:drawableStart="@drawable/ic_server_relay"
+                            android:drawablePadding="8dp"
+                            android:drawableTint="?attr/colorOnSurface"
+                            android:text="@string/exchange_broadcasts_on_server" />
+
+                        <!-- S0030: the portal page about going on air, which explains what the server sees -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnHelpBroadcastStart"
+                            style="@style/Widget.StreamsPlayer.Button.Text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:focusable="true"
+                            android:text="@string/portal_learn_more"
+                            android:textSize="12sp"
+                            app:icon="@drawable/ic_open_in_browse"
+                            app:iconGravity="textEnd" />
+
+                        <!-- S0032: the honest text of DEVICE-EXCHANGE 27 item DE, word for word -->
+                        <TextView
+                            android:id="@+id/tvServerHonest"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/exchange_server_honest_text"
+                            android:textColor="?attr/colorOnSurfaceVariant"
+                            android:textSize="13sp" />
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+            </LinearLayout>
+
+            <!-- SECTION 3: Directory View (Scope 6) -->
+            <LinearLayout
+                android:id="@+id/layoutDirectoryGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ui_group_sibling_gap"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <com.sza.streamsplayer.ui.common.widget.CollapsibleSectionHeader
+                    android:id="@+id/headerDirectory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:csh_title="@string/exchange_directory_title" />
+
+                <LinearLayout
+                    android:id="@+id/layoutDirectory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="@dimen/ui_group_body_inset"
+                    android:paddingTop="@dimen/ui_group_body_inset">
+
+                    <com.sza.streamsplayer.ui.common.widget.CommandFlowLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnKeepAll"
+                            style="@style/Widget.StreamsPlayer.Button.Outlined"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/exchange_action_keep_all"
+                            android:textSize="12sp"
+                            android:focusable="true" />
+
+                        <!-- S0030: the portal page about receiving a broadcast from this list -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnHelpBroadcastList"
+                            style="@style/Widget.StreamsPlayer.Button.Text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:focusable="true"
+                            android:text="@string/portal_help_broadcast_list"
+                            android:textSize="12sp"
+                            app:icon="@drawable/ic_open_in_browse"
+                            app:iconGravity="textEnd" />
+                    </com.sza.streamsplayer.ui.common.widget.CommandFlowLayout>
+
+                    <!-- Notice: SFTP shares not playable (Scope 6) -->
+                    <TextView
+                        android:id="@+id/tvSftpNotice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="?attr/colorSurfaceVariant"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:textSize="12sp"
+                        android:visibility="gone"
+                        android:text="@string/exchange_directory_sftp_shares_notice" />
+
+                    <!-- S0028: resources behind a PIN, one locked row each (DEVICE-EXCHANGE item AJ) -->
+                    <LinearLayout
+                        android:id="@+id/layoutLockedResources"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone" />
+
+                    <!-- Empty Directory message (Scope 6: state, not error) -->
+                    <TextView
+                        android:id="@+id/tvDirectoryEmpty"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="24dp"
+                        android:text="@string/exchange_directory_empty"
+                        android:textSize="14sp"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:visibility="gone" />
+
+                    <!-- Directory RecyclerView -->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvDirectory"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        android:focusable="true" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

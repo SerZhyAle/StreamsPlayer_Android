@@ -1,0 +1,45 @@
+Own-row update for DEVICE-EXCHANGE | StreamsPlayer Android, plus five dated section 3 exceptions.
+For the canon session under CLAUDE.md section 6. The catalog was NOT edited by this repository.
+
+File:   registry-sync.patch (beside this note), unified diff of _meta/REGISTRY.md, base = the catalog's file of
+        2026-10-25 (the own row is line 607; the exceptions go after this product's RULE-DELIVERY row of section 3).
+Apply:  from the catalog root, `patch -p1 --binary -i registry-sync.patch` (CRLF file). Verified 2026-10-25 on a
+        scratch copy: exit 0, result byte-identical to the proposed file; the catalog file was not touched.
+
+Why the row changes
+- `Implements` was `-` while `Reads` said `partial 1.7`. tools/contract-lag.ps1 (sza plugin 2026.1021.2) lists the
+  row as "unparsed" and drops it from every report. Run against a scratch copy of the catalog registry:
+    before: `DEVICE-EXCHANGE  partial 1.7` under "unparsed rows"            (rows: 15, unparsed 4)
+    after : `DEVICE-EXCHANGE  partial  synced 1.7  current 1.7  2026-10-25`   (rows: 15, partial 1, unparsed 3)
+- Role P/C: the synchronized version belongs in `Implements` (REGISTRY section 2). `partial 1.7` because the
+  broadcaster, the watch and the account list are scoped, partial implementations (S0021, S0022, S0027, S0028) and the
+  server corpora, joint runs and sealed content are not exercised; every gap is a section 3 row, none is silent.
+- `Reads` stays `partial 1.7`: the client reads 1.7 shapes (unknown members skipped, `protection` kept locked) but no
+  server transcript was replayed.
+- `Verified` 2026-10-25: forced rerun of the exchange suites and the vendored vectors, commands and exit codes in
+  PLAN/DONE/S0026_contract-sync-2026-10-12.md (Last Audit).
+- No conformance is upgraded. Nothing here claims the negative-access run of item AL, a joint run, or a physical
+  device.
+
+Why the five exceptions (each: reason, evidence, impact, compensating behaviour, owner, remediation, until 2026-12-31)
+1. Item AJ / section 9 point 10: the directory draws no row for a protected resource, only one aggregate notice.
+2. Items DS, DT, DU: per-broadcast switch `publishToExchange` (off by default) against item DT's "no separate
+   switch" - and canon invariant 11 asks for an explicit opt-in for a relay or tunnel. The two disagree; this is a
+   question for the owner (and, if the opt-in stays, a proposal beside the contract), not something to settle in code.
+3. Item DV: no `verifiers` on broadcast-start / broadcast-update (S0021 already says so).
+4. Server corpora (item BS, rung 2): none replayed.
+5. Section 27 and vectors/e2e-v1.json: no sealing layer (S0032 is a Draft).
+
+Other pending proposals touching the same row
+- temp/S0022/registry-proposal.diff (S0022): same base row as this patch. THIS patch supersedes its DEVICE-EXCHANGE
+  hunk; its watch evidence (shared exchange-core, Keystore identity, standalone Wear run) is carried into the new
+  note, so applying only this one loses nothing. Do not apply both.
+- PLAN/DONE/S0020_exchange-receiver-playback-and-cast/registry-evidence.patch (S0020): its DEVICE-EXCHANGE hunk has a base
+  row that no longer matches the catalog (2026-10-11 text), so it cannot apply; the emulator observations it records
+  are carried into the new note. Its LIVE-BROADCAST hunk is independent of this patch.
+
+Not in this patch, found while running contract-lag (outside this spec's one contract)
+- LIVE-BROADCAST, STREAM-BANK and RULE-DELIVERY rows of this product have the same shape (`-` in Implements and
+  `partial <v>` in Reads) and are still "unparsed"; each is normalized by the round that next touches it.
+- REPO-STAMP and HARNESS-PROFILE are `behind` 0.12 against the catalog's 0.13 (RULE-ADOPTION family, S0037 / the
+  adopt-canon re-sync). tools/contracts/check-sync.ps1 fails on exactly this and stops there.

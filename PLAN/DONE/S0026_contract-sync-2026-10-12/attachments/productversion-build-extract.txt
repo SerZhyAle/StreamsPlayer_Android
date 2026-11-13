@@ -1,0 +1,21 @@
+.\gradlew.bat :exchange-core:test :phone:testStoreDebugUnitTest :phone:testNoLegalDebugUnitTest :wear:testStoreDebugUnitTest :wear:testNoLegalDebugUnitTest :phone:assembleStoreDebug :wear:assembleStoreDebug --console=plain   (2026-10-25, under the Build.Main lock)
+> Task :exchange-core:test
+> Task :phone:hiltJavaCompileStoreDebug
+> Task :phone:hiltJavaCompileNoLegalDebug
+> Task :phone:assembleStoreDebug
+> Task :wear:hiltJavaCompileStoreDebug
+> Task :phone:testStoreDebugUnitTest
+> Task :wear:testStoreDebugUnitTest
+> Task :wear:assembleStoreDebug
+> Task :wear:testNoLegalDebugUnitTest
+> Task :phone:testNoLegalDebugUnitTest
+BUILD SUCCESSFUL in 4m 45s
+196 actionable tasks: 110 executed, 86 up-to-date
+GRADLE_EXIT=0
+--- JUnit result XML of that run ---
+exchange-core\build\test-results\test: tests=17 failures=0 errors=0 skipped=0
+phone\build\test-results\testStoreDebugUnitTest: tests=1054 failures=0 errors=0 skipped=0
+phone\build\test-results\testNoLegalDebugUnitTest: tests=1056 failures=0 errors=0 skipped=0
+wear\build\test-results\testStoreDebugUnitTest: tests=266 failures=0 errors=0 skipped=0
+wear\build\test-results\testNoLegalDebugUnitTest: tests=266 failures=0 errors=0 skipped=0
+new test: DeviceExchangeFakeServerTest."hello carries the product version bound to the client and no literal" - present in both phone flavors, passed

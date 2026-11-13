@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Consumed by SettingsToggleRow.kt. All public attrs use the str_ prefix. -->
+    <declare-styleable name="SettingsToggleRow">
+        <attr name="str_title" format="string|reference" />
+        <attr name="str_subtitle" format="string|reference" />
+        <attr name="str_showHelp" format="boolean" />
+        <attr name="str_helpTitle" format="string|reference" />
+        <attr name="str_helpMessage" format="string|reference" />
+        <attr name="str_checked" format="boolean" />
+        <attr name="str_icon" format="reference" />
+        <attr name="str_titleTextSize" format="dimension" />
+        <attr name="str_subtitleTextSize" format="dimension" />
+    </declare-styleable>
+
+    <!-- Consumed by SettingsDropdownRow.kt. All public attrs use the sdr_ prefix. -->
+    <declare-styleable name="SettingsDropdownRow">
+        <attr name="sdr_title" format="string|reference" />
+        <attr name="sdr_subtitle" format="string|reference" />
+        <attr name="sdr_showHelp" format="boolean" />
+        <attr name="sdr_helpTitle" format="string|reference" />
+        <attr name="sdr_helpMessage" format="string|reference" />
+        <attr name="sdr_entries" format="reference" />
+        <attr name="sdr_inline" format="boolean" />
+        <attr name="sdr_fieldWidth" format="dimension|reference" />
+        <attr name="sdr_fieldMaxWidth" format="dimension|reference" />
+        <attr name="sdr_valueAsText" format="boolean" />
+    </declare-styleable>
+
+    <!-- Consumed by SettingsInputRow.kt. All public attrs use the sir_ prefix. -->
+    <declare-styleable name="SettingsInputRow">
+        <attr name="sir_title" format="string|reference" />
+        <attr name="sir_hint" format="string|reference" />
+        <attr name="sir_inputType" format="integer" />
+        <attr name="sir_showHelp" format="boolean" />
+        <attr name="sir_helpTitle" format="string|reference" />
+        <attr name="sir_helpMessage" format="string|reference" />
+        <attr name="sir_endIconMode">
+            <enum name="none" value="0" />
+            <enum name="clear_text" value="1" />
+            <enum name="password_toggle" value="2" />
+        </attr>
+        <attr name="sir_fieldMaxWidth" format="dimension|reference" />
+        <attr name="sir_inline" format="boolean" />
+        <attr name="sir_entries" format="reference" />
+        <attr name="sir_maxLength" format="integer" />
+    </declare-styleable>
+
+    <!-- Consumed by SettingsValueRowGroup.kt. -->
+    <declare-styleable name="SettingsValueRowGroup_Layout">
+        <attr name="layout_excludeFromLabelColumn" format="boolean" />
+    </declare-styleable>
+
+    <!-- Consumed by DestructiveDialogFocus.kt -->
+    <attr name="dialogDestructive" format="boolean" />
+
+    <!-- Consumed by CollapsibleSectionHeader.kt. All public attrs use the csh_ prefix. -->
+    <declare-styleable name="CollapsibleSectionHeader">
+        <attr name="csh_title" format="string|reference" />
+        <attr name="csh_summary" format="string|reference" />
+        <attr name="csh_expanded" format="boolean" />
+        <attr name="csh_showHelp" format="boolean" />
+        <attr name="csh_helpTitle" format="string|reference" />
+        <attr name="csh_helpMessage" format="string|reference" />
+        <attr name="csh_virtual" format="boolean" />
+        <attr name="csh_chevronTint" format="color|reference" />
+        <attr name="csh_titleTextColor" format="color|reference" />
+        <attr name="csh_prefixTextColor" format="color|reference" />
+        <attr name="csh_titleTextSize" format="dimension" />
+        <attr name="csh_titleBold" format="boolean" />
+        <attr name="csh_headerBackground" format="reference|color" />
+        <attr name="csh_headerPaddingHorizontal" format="dimension" />
+        <attr name="csh_headerPaddingVertical" format="dimension" />
+        <attr name="csh_prefixPaddingEnd" format="dimension" />
+        <!-- Optional leading category icon (decorative). Hidden when unset. -->
+        <attr name="csh_icon" format="reference" />
+    </declare-styleable>
+</resources>

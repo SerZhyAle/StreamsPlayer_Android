@@ -1,0 +1,36 @@
+--- a/app_v2/src/main/java/com/sza/fastmediasorter/ui/player/AudioPlaybackService.kt
++++ b/app_v2/src/main/java/com/sza/fastmediasorter/ui/player/AudioPlaybackService.kt
+@@ -128,6 +128,11 @@
+         val p = player
+         if (p == null || (!p.isPlaying && p.playbackState != Player.STATE_BUFFERING && p.playbackState != Player.STATE_READY)) {
+             Timber.d("AudioPlaybackService: auto-stop - no new track loaded within timeout")
++            p?.run {
++                playWhenReady = false
++                stop()
++                clearMediaItems()
++            }
+             stopSelf()
+         }
+     }
+@@ -778,6 +783,9 @@
+             streamRetryPolicy.onRetryDue(SystemClock.elapsedRealtime()) is StreamServiceRetryDecision.GiveUp -> {
+                 Timber.w("AudioPlaybackService: stream unreachable - stopping service instead of retrying")
+                 AudioNowPlayingSnapshotStore.clear(this)
++                currentPlayer.playWhenReady = false
++                currentPlayer.stop()
++                currentPlayer.clearMediaItems()
+                 stopSelf()
+             }
+             else -> {
+--- a/app_v2/src/main/java/com/sza/fastmediasorter/ui/streams/helpers/StreamInlineAudioManager.kt
++++ b/app_v2/src/main/java/com/sza/fastmediasorter/ui/streams/helpers/StreamInlineAudioManager.kt
+@@ -343,7 +343,8 @@
+         successReported = true
+         hasSuccessfulPlayback = true
+         renderTitle()
+-        currentSource?.let(callbacks.onSuccess)
++        // Service playback records its own success; only the local player reports it here.
++        if (!usingService) currentSource?.let(callbacks.onSuccess)
+     }
+ 
+     private fun scheduleToleranceTimeout() {

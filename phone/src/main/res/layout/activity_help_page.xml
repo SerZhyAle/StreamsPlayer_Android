@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- S0035: one toolbar above a full-size WebView; no layout-land variant, it reflows on rotation. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/helpPageRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/helpToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorSurface"
+        app:menu="@menu/menu_help_page"
+        app:navigationContentDescription="@string/action_close"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:title="@string/help_page_title"
+        app:titleTextColor="?attr/colorOnSurface" />
+
+    <WebView
+        android:id="@+id/helpWebView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:focusable="true" />
+
+</LinearLayout>

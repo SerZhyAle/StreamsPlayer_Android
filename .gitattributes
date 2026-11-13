@@ -13,6 +13,9 @@
 *.gradle text eol=lf
 *.toml text eol=lf
 *.sh text eol=lf
+*.jsonl text eol=lf
+# The Gradle wrapper script has no extension and must keep LF to run under sh.
+gradlew text eol=lf
 
 # Keep CRLF for Windows-specific scripts
 *.bat text eol=crlf
@@ -39,5 +42,16 @@
 *.woff2 binary
 *.pdf binary
 
-# Provenance hashes cover the catalog bytes, including their line endings.
-app_v2/src/test/resources/letterbox-fill/letterbox-fill-vectors.json binary
+# Provenance hashes cover the catalog bytes, including their line endings. A conformance-vector file that a
+# later ticket ports from FastMediaSorter keeps its bytes, so the SHA-256 of its port ledger row stays valid.
+phone/src/test/resources/**/*-vectors.json binary
+wear/src/test/resources/**/*-vectors.json binary
+
+# The vendored family kit is served byte for byte; its sha256 is recorded in site/assets/PROVENANCE.txt.
+site/assets/sza-kit.css -text
+
+# EXCHANGE-MARK rule 6 (S0039): the vendored vectors of the exchange server's mark keep the catalog's bytes, so
+# Find-ExchangeMark.ps1 finds them by hash.
+phone/src/main/res/drawable/ic_exchange_*.xml binary
+wear/src/main/res/drawable/ic_exchange_*.xml binary
+phone/src/main/assets/help/img/exchange-mark-*.svg binary

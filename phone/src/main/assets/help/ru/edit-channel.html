@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ru" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="light dark">
+<title>Справка - Добавить канал</title>
+<link rel="stylesheet" href="../help.css">
+</head>
+<body class="help">
+<main class="container">
+<nav class="help-crumbs" aria-label="Оглавление справки">
+<a href="index.html">Оглавление справки</a><span class="sep" aria-hidden="true">/</span><span>Добавить канал</span>
+</nav>
+<header class="hero">
+<h1>Добавить канал</h1>
+</header>
+<h2>Для чего этот экран</h2>
+<p class="lead">Добавьте в список одну радиостанцию, видеопоток или камеру по адресу. Эта же форма меняет канал, добавленный раньше.</p>
+<figure class="shot">
+<img class="on-light" src="../img/edit-channel-ru-light.jpg" alt="Снимок экрана: Добавить канал">
+<img class="on-dark" src="../img/edit-channel-ru-dark.jpg" alt="Снимок экрана: Добавить канал">
+<figcaption>Демонстрационные данные. Номера совпадают с элементами в списке ниже.</figcaption>
+</figure>
+<h2>Порядок действий</h2>
+<ol class="order">
+<li>Введите или вставьте адрес <a class="ref" href="#address">1</a>. Он начинается с http, https или rtsp и содержит имя сервера.</li>
+<li>Дайте каналу название <a class="ref" href="#title">2</a> или оставьте поле пустым: тогда названием станет адрес.</li>
+<li>Укажите, какой это поток <a class="ref" href="#kind">3</a>, чтобы он открывался в нужном плеере.</li>
+<li>Добавьте категорию <a class="ref" href="#category">4</a>, если хотите потом находить канал по ней.</li>
+<li>Нажмите «Сохранить» <a class="ref" href="#save">5</a>. Канал появится в списке, а форма закроется.</li>
+</ol>
+<h2>Элементы</h2>
+<div class="elements">
+<details class="el" id="address">
+<summary><span class="mk">1</span><span><span class="name">URL трансляции (http, https, rtsp)</span><span class="one">Где находится поток.</span></span></summary>
+<div class="full">
+<p>Адрес, который начинается с http, https или rtsp. Если в нём нет имени сервера, форма скажет об этом и останется открытой. Адрес с логином и паролем работает, но при попытке поделиться таким каналом приложение сначала попросит подтверждение.</p>
+<dl class="facts">
+<dt>Отмена</dt><dd>Пока вы не нажали «Сохранить», ничего не сохраняется.</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="title">
+<summary><span class="mk">2</span><span><span class="name">Название канала</span><span class="one">Как канал называется в вашем списке.</span></span></summary>
+<div class="full">
+<p>Любой текст. Если оставить поле пустым, названием будет адрес. Позже название можно изменить через «Редактировать».</p>
+</div>
+</details>
+<details class="el" id="kind">
+<summary><span class="mk">3</span><span><span class="name">Тип медиа</span><span class="one">Радио, видео или RTSP.</span></span></summary>
+<div class="full">
+<p>Радио (аудио) играет в панели радио и продолжает играть в фоне. Видео (HLS, DASH, MP4) и RTSP открываются в полноэкранном плеере. Выбирайте по тому, что несёт поток, а не по тому, откуда он идёт.</p>
+</div>
+</details>
+<details class="el" id="category">
+<summary><span class="mk">4</span><span><span class="name">Категория (необязательно)</span><span class="one">Необязательная метка для вашей сортировки.</span></span></summary>
+<div class="full">
+<p>Свободный текст. Категория появится среди категорий в «Фильтре и сортировке».</p>
+</div>
+</details>
+<details class="el" id="save">
+<summary><span class="mk">5</span><span><span class="name">Сохранить</span><span class="one">Добавляет канал или сохраняет изменения.</span></span></summary>
+<div class="full">
+<p>Сначала проверяет адрес. Если всё в порядке, канал добавляется и форма закрывается.</p>
+<dl class="facts">
+<dt>Отмена</dt><dd>Удалите канал в его листе действий или отредактируйте снова.</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="help">
+<summary><span class="mk">6</span><span><span class="name">Справка</span><span class="one">Открывает эту страницу.</span></span></summary>
+<div class="full">
+<p>Форма остаётся открытой под страницей вместе с тем, что вы ввели; «Назад» возвращает к ней.</p>
+<dl class="facts">
+<dt>Сочетание клавиш</dt><dd><kbd>F1</kbd></dd>
+</dl>
+</div>
+</details>
+</div>
+<h2>Связанное</h2>
+<ul class="related">
+<li><a href="catalog.html"><b>StreamsPlayer</b><span class="pill">Экран</span></a></li>
+<li><a href="player.html"><b>Видеоплеер</b><span class="pill">Экран</span></a></li>
+<li><a href="index.html"><b>Оглавление справки</b></a></li>
+</ul>
+<footer class="help-foot">
+<span>StreamsPlayer 2.61.0282.350, 2026-10-29</span>
+<a href="index.html">Оглавление справки</a>
+<a href="https://github.com/SerZhyAle/StreamsPlayer_Android/issues">Задать вопрос или сообщить о проблеме</a>
+</footer>
+</main>
+</body>
+</html>

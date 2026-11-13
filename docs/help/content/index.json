@@ -1,0 +1,17 @@
+{
+  "help": "index",
+  "locales": {
+    "en": {
+      "title": "Help",
+      "purpose": "Each screen of StreamsPlayer has a page here, with a picture and a plain description of every part. Pick a screen below, or press the question mark in the top bar of the screen you are on."
+    },
+    "ru": {
+      "title": "Справка",
+      "purpose": "У каждого экрана StreamsPlayer здесь есть страница с картинкой и понятным описанием каждой части. Выберите экран ниже или нажмите знак вопроса в верхней панели экрана, на котором вы находитесь."
+    },
+    "uk": {
+      "title": "Довідка",
+      "purpose": "Кожен екран StreamsPlayer має тут сторінку з картинкою і зрозумілим описом кожної частини. Виберіть екран нижче або натисніть знак питання у верхній панелі екрана, на якому ви перебуваєте."
+    }
+  }
+}

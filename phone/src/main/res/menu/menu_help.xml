@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- S0035: the "?" of a top app bar (CONTEXT-HELP rule 2), the app.help glyph. Added after the
+         actions a bar already has, so it stands right before the overflow and displaces nothing. -->
+    <item
+        android:id="@+id/menu_help"
+        android:icon="@drawable/ic_help_outline"
+        android:title="@string/help"
+        app:showAsAction="always" />
+</menu>

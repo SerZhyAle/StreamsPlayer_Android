@@ -1,0 +1,45 @@
+OK stamp carrier [absent] (String)
+OK stamp carrier [1] (String)
+OK stamp carrier [1.0] (String)
+OK stamp carrier [1.999999999999999999999] (String)
+OK stamp carrier [2.0] (String)
+OK stamp carrier [999999999999999999.0] (String)
+OK stamp carrier [0.9] (String)
+OK stamp carrier [bad] (String)
+OK stamp carrier [01.0] (String)
+OK stamp carrier [1.0.1] (String)
+OK stamp carrier [] (String)
+OK stamp carrier [] (null)
+OK stamp carrier [1] (Int32)
+OK stamp non-object null
+OK stamp non-object []
+OK stamp non-object false
+OK stamp non-object "text"
+OK profile carrier [absent] (String)
+OK profile carrier [1] (String)
+OK profile carrier [1.0] (String)
+OK profile carrier [1.999999999999999999999] (String)
+OK profile carrier [2.0] (String)
+OK profile carrier [999999999999999999.0] (String)
+OK profile carrier [0.9] (String)
+OK profile carrier [bad] (String)
+OK profile carrier [01.0] (String)
+OK profile carrier [1.0.1] (String)
+OK profile carrier [] (String)
+OK profile carrier [] (null)
+OK profile carrier [1] (Int32)
+OK profile non-object null
+OK profile non-object []
+OK profile non-object false
+OK profile non-object "text"
+OK unknown role and unknown key
+OK maximal stamp
+OK delivery age old
+OK delivery age reconciled
+OK delivery age unknown
+OK catalog observed verdict replay
+OK registry original expired=False
+OK registry original expired=True
+OK registry reordered expired=False
+OK registry reordered expired=True
+contract-reader-tests: PASS (run=44 skipped=0)

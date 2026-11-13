@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  S0036: Complete About Destination View (SETTINGS-NAVIGATION 2.0 section 3 rule 3).
+  Supplies: concise description, running version, license, privacy, help, portal,
+  support, user-initiated diagnostic bundle export, repository access, and resources index.
+  S0049: download and update page, related products as links, external-navigation markers on web links.
+-->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- App Brand Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_marginBottom="12dp">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_notification_app_logo"
+                android:contentDescription="@string/app_name" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="12dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/about_app_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_name"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="?attr/colorOnSurface" />
+
+                <TextView
+                    android:id="@+id/about_text_version"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Concise Description -->
+        <TextView
+            android:id="@+id/about_text_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about_description"
+            android:textSize="14sp"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:layout_marginBottom="16dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?attr/colorOutlineVariant"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Command Flow Layout of resource actions (BUTTONS 2.0 / SETTINGS-NAVIGATION 2.0) -->
+        <com.sza.streamsplayer.ui.common.widget.CommandFlowLayout
+            android:id="@+id/about_actions_flow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/about_btn_license"
+                style="@style/Widget.StreamsPlayer.Button.Tonal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/about_license_mit"
+                app:icon="@drawable/ic_open_in_browse"
+                app:iconGravity="textEnd" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/about_btn_privacy"
+                style="@style/Widget.StreamsPlayer.Button.Tonal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/about_privacy_policy"
+                app:icon="@drawable/ic_open_in_browse"
+                app:iconGravity="textEnd" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/about_btn_help"
+                style="@style/Widget.StreamsPlayer.Button.Tonal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/about_help"
+                app:icon="@drawable/ic_help_outline" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/about_btn_portal"
+                style="@style/Widget.StreamsPlayer.Button.Tonal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/about_portal"
+                app:icon="@drawable/ic_open_in_browse"
+                app:iconGravity="textEnd" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/about_btn_support"
+                style="@style/Widget.StreamsPlayer.Button.Tonal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/about_support"
+                app:icon="@drawable/ic_open_in_browse"
+                app:iconGravity="textEnd" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/about_btn_repository"
+                style="@style/Widget.StreamsPlayer.Button.Tonal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/about_repository"
+                app:icon="@drawable/ic_open_in_browse"
+                app:iconGravity="textEnd" />
+
+            <!-- S0049: the official download and update page of this edition (Distribution.updatesUrl). -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/about_btn_updates"
+                style="@style/Widget.StreamsPlayer.Button.Tonal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/about_download_updates"
+                android:visibility="gone"
+                app:icon="@drawable/ic_open_in_browse"
+                app:iconGravity="textEnd" />
+
+            <!-- The report leaves through the system share sheet, so the glyph is action.share. -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/about_btn_export_diagnostics"
+                style="@style/Widget.StreamsPlayer.Button.Filled"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/about_export_diagnostics"
+                app:icon="@drawable/ic_share" />
+
+        </com.sza.streamsplayer.ui.common.widget.CommandFlowLayout>
+
+        <!-- Diagnostic Summary Note -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about_export_diagnostics_summary"
+            android:textSize="12sp"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Related Products Section (section 3 rule 4) -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about_related_products"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:textColor="?attr/colorOnSurface"
+            android:layout_marginBottom="4dp" />
+
+        <!-- S0049: each related product is a link to its SITE-FAMILY-MAP address, its purpose label below it. -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/about_btn_related_fms"
+            style="@style/Widget.StreamsPlayer.Button.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/about_related_fms_name"
+            app:icon="@drawable/ic_open_in_browse"
+            app:iconGravity="textEnd" />
+
+        <TextView
+            android:id="@+id/about_text_fms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about_fms_desc"
+            android:textSize="12sp"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:layout_marginBottom="8dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/about_btn_related_windows"
+            style="@style/Widget.StreamsPlayer.Button.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/about_related_windows_name"
+            app:icon="@drawable/ic_open_in_browse"
+            app:iconGravity="textEnd" />
+
+        <TextView
+            android:id="@+id/about_text_streamsplayer_win"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about_streamsplayer_win_desc"
+            android:textSize="12sp"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Resource and Component Index (section 3 rule 3) -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about_resources_index"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:textColor="?attr/colorOnSurface"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:id="@+id/about_text_resources"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about_resources_summary"
+            android:textSize="12sp"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:layout_marginBottom="16dp" />
+
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,75 @@
+{
+  "help": "edit-channel",
+  "surface": "dialog_edit_stream",
+  "elements": [
+    { "id": "address", "viewId": "etStreamUrl", "labelKey": "channel_url_hint" },
+    { "id": "title", "viewId": "etStreamTitle", "labelKey": "channel_title_hint" },
+    { "id": "kind", "viewId": "spinnerMediaKind", "labelKey": "channel_media_kind" },
+    { "id": "category", "viewId": "etStreamCategory", "labelKey": "channel_category_hint" },
+    { "id": "save", "descKeys": ["action_save"], "labelKey": "action_save" },
+    { "id": "help", "viewId": "btnDialogHelp", "labelKey": "help" }
+  ],
+  "related": [
+    { "help": "catalog" },
+    { "help": "player" }
+  ],
+  "locales": {
+    "en": {
+      "title": "Add channel",
+      "purpose": "Put one radio station, video stream or camera into your list by its address. The same form edits a channel you added earlier.",
+      "steps": [
+        "Type or paste the address (1). It starts with http, https or rtsp and names a server.",
+        "Give the channel a title (2), or leave it empty to use the address as the title.",
+        "Tell the app what kind of stream it is (3), so it opens in the right player.",
+        "Add a category (4) if you want to find the channel by it later.",
+        "Press Save (5). The channel appears in your list and the form closes."
+      ],
+      "elements": {
+        "address": { "summary": "Where the stream is.", "details": "An address that starts with http, https or rtsp. Without a server name in it the form says so and stays open. An address with a login and password in it works, but sharing such a channel later asks you to confirm first.", "undo": "Nothing is saved until you press Save." },
+        "title": { "summary": "How the channel is named in your list.", "details": "Any text. If you leave it empty, the address is used as the title. You can change it later with Edit." },
+        "kind": { "summary": "Radio, video or RTSP.", "details": "Radio (audio) plays in the radio bar and keeps playing in the background. Video (HLS, DASH, MP4) and RTSP open the full screen player. Choose by what the stream carries, not by where it comes from." },
+        "category": { "summary": "An optional label for your own sorting.", "details": "Free text. The category shows up among the categories in Filter & Sort." },
+        "save": { "summary": "Adds the channel or stores your changes.", "details": "Checks the address first. If it is fine, the channel is added and the form closes.", "undo": "Delete the channel from its actions sheet, or edit it again." },
+        "help": { "summary": "Opens this page.", "details": "The form stays open under the page, with what you typed; Back returns to it.", "shortcut": "F1" }
+      }
+    },
+    "ru": {
+      "title": "Добавить канал",
+      "purpose": "Добавьте в список одну радиостанцию, видеопоток или камеру по адресу. Эта же форма меняет канал, добавленный раньше.",
+      "steps": [
+        "Введите или вставьте адрес (1). Он начинается с http, https или rtsp и содержит имя сервера.",
+        "Дайте каналу название (2) или оставьте поле пустым: тогда названием станет адрес.",
+        "Укажите, какой это поток (3), чтобы он открывался в нужном плеере.",
+        "Добавьте категорию (4), если хотите потом находить канал по ней.",
+        "Нажмите «Сохранить» (5). Канал появится в списке, а форма закроется."
+      ],
+      "elements": {
+        "address": { "summary": "Где находится поток.", "details": "Адрес, который начинается с http, https или rtsp. Если в нём нет имени сервера, форма скажет об этом и останется открытой. Адрес с логином и паролем работает, но при попытке поделиться таким каналом приложение сначала попросит подтверждение.", "undo": "Пока вы не нажали «Сохранить», ничего не сохраняется." },
+        "title": { "summary": "Как канал называется в вашем списке.", "details": "Любой текст. Если оставить поле пустым, названием будет адрес. Позже название можно изменить через «Редактировать»." },
+        "kind": { "summary": "Радио, видео или RTSP.", "details": "Радио (аудио) играет в панели радио и продолжает играть в фоне. Видео (HLS, DASH, MP4) и RTSP открываются в полноэкранном плеере. Выбирайте по тому, что несёт поток, а не по тому, откуда он идёт." },
+        "category": { "summary": "Необязательная метка для вашей сортировки.", "details": "Свободный текст. Категория появится среди категорий в «Фильтре и сортировке»." },
+        "save": { "summary": "Добавляет канал или сохраняет изменения.", "details": "Сначала проверяет адрес. Если всё в порядке, канал добавляется и форма закрывается.", "undo": "Удалите канал в его листе действий или отредактируйте снова." },
+        "help": { "summary": "Открывает эту страницу.", "details": "Форма остаётся открытой под страницей вместе с тем, что вы ввели; «Назад» возвращает к ней.", "shortcut": "F1" }
+      }
+    },
+    "uk": {
+      "title": "Додати канал",
+      "purpose": "Додайте до списку одну радіостанцію, відеопотік або камеру за адресою. Ця сама форма змінює канал, доданий раніше.",
+      "steps": [
+        "Введіть або вставте адресу (1). Вона починається з http, https або rtsp і містить ім'я сервера.",
+        "Дайте каналу назву (2) або залиште поле порожнім: тоді назвою стане адреса.",
+        "Вкажіть, який це потік (3), щоб він відкривався в потрібному програвачі.",
+        "Додайте категорію (4), якщо хочете потім знаходити канал за нею.",
+        "Натисніть «Зберегти» (5). Канал з'явиться в списку, а форма закриється."
+      ],
+      "elements": {
+        "address": { "summary": "Де розташований потік.", "details": "Адреса, що починається з http, https або rtsp. Якщо в ній немає імені сервера, форма скаже про це й лишиться відкритою. Адреса з логіном і паролем працює, але під час спроби поділитися таким каналом застосунок спершу попросить підтвердження.", "undo": "Поки ви не натиснули «Зберегти», нічого не зберігається." },
+        "title": { "summary": "Як канал називається у вашому списку.", "details": "Будь-який текст. Якщо залишити поле порожнім, назвою буде адреса. Пізніше назву можна змінити через «Редагувати»." },
+        "kind": { "summary": "Радіо, відео або RTSP.", "details": "Радіо (аудіо) грає на панелі радіо й продовжує грати у фоні. Відео (HLS, DASH, MP4) і RTSP відкриваються в повноекранному програвачі. Вибирайте за тим, що несе потік, а не за тим, звідки він іде." },
+        "category": { "summary": "Необов'язкова позначка для вашого сортування.", "details": "Довільний текст. Категорія з'явиться серед категорій у «Фільтрі і сортуванні»." },
+        "save": { "summary": "Додає канал або зберігає зміни.", "details": "Спершу перевіряє адресу. Якщо все гаразд, канал додається, а форма закривається.", "undo": "Видаліть канал в його аркуші дій або відредагуйте знову." },
+        "help": { "summary": "Відкриває цю сторінку.", "details": "Форма лишається відкритою під сторінкою разом із тим, що ви ввели; «Назад» повертає до неї.", "shortcut": "F1" }
+      }
+    }
+  }
+}

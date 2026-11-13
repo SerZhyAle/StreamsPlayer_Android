@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="broadcast_password_title">Пароль трансляції</string>
+    <string name="broadcast_password_message">Введіть пароль трансляції, який вам передали разом із посиланням.</string>
+    <string name="broadcast_password_protected">Трансляцію захищено паролем</string>
+    <string name="broadcast_password_hint">Пароль</string>
+    <string name="broadcast_password_connect">Підключити</string>
+    <string name="broadcast_password_empty">Введіть пароль</string>
+    <string name="broadcast_auth_unsupported">Ця програма не підтримує захист цієї трансляції.</string>
+    <string name="broadcast_password_save_failed">Не вдалося зберегти пароль. Спробуйте ще раз.</string>
+    <string name="broadcast_password_wrong">Неправильний пароль трансляції. Спробуйте ще раз.</string>
+    <string name="exchange_directory_disconnected">З’єднання втрачено. Відкрийте список знову.</string>
+    <string name="exchange_broadcast_mode">Режим: %1$s</string>
+    <string name="exchange_broadcast_play_label">Відтворити %1$s</string>
+    <string name="exchange_broadcast_keep_label">Зберегти %1$s як канал</string>
+</resources>

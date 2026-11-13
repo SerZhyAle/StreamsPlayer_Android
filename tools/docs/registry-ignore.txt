@@ -1,0 +1,10 @@
+# Files inside the maintained area that are deliberately no document of the registry (DOC-INTERNAL-QUALITY rule 2).
+#
+# One glob per line, then ` # ` and a reason of at least four words. `*` stays inside a folder, `**` crosses folders.
+# A line that matches no file fails assert-doc-registry, so the list cannot outlive what it excuses.
+
+PLAN/**.md                                    # the ticket store, whose registry is its own journal PLAN/spec-catalog.jsonl
+.claude/commands/*.md                         # slash commands the sza plugin's harness registers, owned by the canon
+phone/src/test/resources/device-exchange/*.md # vendored catalog tables, test inputs compared byte for byte by check-sync
+wear/src/test/resources/device-exchange/*.md  # vendored catalog tables, test inputs compared byte for byte by check-sync
+tools/audit/fixtures/coverage/*.md            # fixtures of the audit coverage gate self-test, not documents anyone reads

@@ -1,0 +1,4 @@
+Name:	ndroid.systemui
+Pid:	845
+VmRSS:	  156452 kB
+Threads:	75

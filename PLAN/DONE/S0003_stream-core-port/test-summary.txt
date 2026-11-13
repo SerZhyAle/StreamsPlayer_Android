@@ -1,0 +1,6 @@
+Store: suites=67, tests=458, failures=0, errors=0, skipped=0
+NoLegal: suites=67, tests=460, failures=0, errors=0, skipped=0
+StreamFacetFoldingTest: 8 tests, 0 failures, 0 skipped
+LiveStreamCatalogIntegrationTest: 1 test, 0 failures, 0 skipped
+Facet parity: python PLAN/S0003_stream-core-port/check-facet-parity.py exit 0 (all 5 tables match publisher)
+Port ledger: 698 rows, drift check exit 0 (695 in step, 3 decided)

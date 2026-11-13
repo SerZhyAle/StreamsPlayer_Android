@@ -36,12 +36,26 @@ google-services.json
 play-service-account*.json
 .env
 .env.*
+# The globs above are for secrets files; they must not hide product source (RoomSecretStore.kt, UiSizeTokens.kt) or the
+# self-signed test identity of BroadcastTunnelTlsTest (password "changeit", PROVENANCE.txt beside it), which a fresh
+# clone needs to compile and test (S0046 A7).
+!**/src/**/*.kt
+!exchange-core/src/test/resources/device-exchange/tunnel-test.p12
 
 # Scratch and agent working files
 temp/
 tmp/
+DOWNLOADS/
+/build_*.log
+*.m4s.tmp
+
+# IDE compiler output beside the sources (VS Code Kotlin/Java)
+/*/bin/
+/build-logic/*/bin/
 
 # OS noise
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# PLAN/ is tracked and public (CLAUDE.md section 4 item 6; S0046 input D1, owner 2026-11-13: everything public, as DeviceInfo).

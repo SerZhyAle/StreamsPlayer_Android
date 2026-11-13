@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- S0038: Own on the watch - personal channels together with the live broadcasts of the account's other devices. -->
+<resources>
+    <string name="wear_own_section_live">В эфире на моих устройствах</string>
+    <string name="wear_own_section_saved">Сохранённые потоки</string>
+    <string name="wear_own_device_unnamed">Устройство без названия</string>
+    <string name="wear_own_live_untitled">Прямая трансляция</string>
+    <string name="wear_own_kind_audio">Звук</string>
+    <string name="wear_own_kind_video">Видео</string>
+    <string name="wear_own_presence_online">В сети</string>
+    <string name="wear_own_presence_offline">Не в сети</string>
+    <string name="wear_own_presence_unknown">Состояние неизвестно</string>
+    <string name="wear_own_live_saved_badge">Сохранено</string>
+    <string name="wear_own_live_row_video">Видео смотрят на телефоне</string>
+    <string name="wear_own_live_row_protected">Трансляция с паролем - откройте её на телефоне</string>
+    <string name="wear_own_live_row_format">Нельзя воспроизвести на часах</string>
+    <string name="wear_own_live_save">Сохранить</string>
+    <string name="wear_own_live_save_desc">Сохранить «%1$s» как канал</string>
+    <string name="wear_own_live_empty">Сейчас другие устройства ничего не транслируют.</string>
+    <string name="wear_own_saved_empty">Здесь появятся потоки, отправленные с телефона, и трансляции, которые вы сохраните.</string>
+    <string name="wear_own_filtered_empty">Ничего не найдено по поиску.</string>
+    <string name="wear_own_refresh">Обновить</string>
+    <string name="wear_own_retry">Повторить</string>
+    <string name="wear_own_status_loading">Ищем трансляции..</string>
+    <string name="wear_own_status_updated">Обновлено в %1$s</string>
+    <string name="wear_own_status_stale">Последний известный список, обновлён в %1$s</string>
+    <string name="wear_own_status_stale_unknown">Последний известный список</string>
+    <string name="wear_own_status_unreachable">Не удаётся связаться с сервером обмена.</string>
+    <string name="wear_own_status_no_server">Трансляции с ваших других устройств появятся здесь после подключения часов к серверу обмена: на телефоне откройте Сервер обмена и выберите Подключить часы.</string>
+    <string name="wear_own_status_sign_in">Часы нужно снова подключить к серверу обмена: на телефоне откройте Сервер обмена и выберите Подключить часы.</string>
+    <string name="wear_own_notice_ended">Трансляция завершена</string>
+    <string name="wear_own_notice_unconfirmed">Не удалось подтвердить, что трансляция идёт. Обновите список и повторите.</string>
+    <string name="wear_own_notice_video">Часы воспроизводят звуковые трансляции. Откройте эту на телефоне.</string>
+    <string name="wear_own_notice_protected">Для этой трансляции нужен пароль. Откройте её на телефоне.</string>
+    <string name="wear_own_notice_format">Эту трансляцию нельзя воспроизвести на часах.</string>
+    <string name="wear_own_notice_open_failed">Не удалось открыть трансляцию. Повторите.</string>
+    <string name="wear_own_notice_saved">Трансляция сохранена</string>
+    <string name="wear_own_notice_save_failed">Не удалось сохранить трансляцию. Повторите.</string>
+    <string name="wear_own_notice_needs_server">Подключите часы к серверу обмена, чтобы находить трансляции с ваших других устройств.</string>
+    <string name="wear_own_notice_sign_in">Снова подключите часы к серверу обмена, чтобы обновить список.</string>
+</resources>

@@ -1,0 +1,10 @@
+# Accepted debt of tools/help/assert-help-map.ps1 (CHECK-BASELINE 0.11, a set baseline).
+#
+# One surface id per line, then `# <ticket>: <reason>`. A surface listed here has no help-map row yet and is not
+# charged as UNMAPPED. A line `shot:<help-id>` accepts that help id's pictures as stale (rung 2) and is not
+# charged as STALE-SHOT. The set may only fall: a line is deleted when its surface gets a row (the gate reports a
+# line whose surface is mapped, or no longer exists, as STALE-BASELINE). Adding a line is an edit made on
+# purpose, with a reason; the gate prints every accepted line on every run, and the diff of this file is the
+# journal of that act.
+#
+# No surface is accepted as unmapped: the exchange screens carry their rows (S0027 and S0035 slice 5).

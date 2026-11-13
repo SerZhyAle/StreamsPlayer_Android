@@ -1,0 +1,132 @@
+package com.sza.streamsplayer.data.wear
+
+import android.annotation.SuppressLint
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import com.sza.streamsplayer.R
+import com.sza.streamsplayer.core.notification.NotificationIcons
+import com.sza.streamsplayer.core.notification.NotificationIds
+import com.sza.streamsplayer.MainActivity
+import dagger.hilt.android.qualifiers.ApplicationContext
+import timber.log.Timber
+import javax.inject.Inject
+import javax.inject.Singleton
+
+/**
+ * S2004: announces a file the watch asked this phone to show, when the phone was not in front.
+ *
+ * A notification rather than a launch: the request arrives in a background
+ * `WearableListenerService`, and a background process has not been allowed to start an activity since
+ * Android 10 (strategic ADR-3). The mirror of this decision is `WearLogReportReceiver`, which answers
+ * the same platform limit the same way and is the shape followed here.
+ */
+@Singleton
+class OpenOnPhoneNotifier @Inject constructor(
+    @ApplicationContext private val context: Context
+) {
+
+    /**
+     * Posts the notice for [target] and reports whether the user will actually see it.
+     *
+     * A boolean rather than `Unit` because the watch has to be able to say why nothing happened: a
+     * phone with notifications switched off answers the request and still shows nothing, and telling
+     * the user to bring the phone closer would send them after the wrong fix (strategic 11
+     * criterion 9). [token] is not read - it only keeps two pending opens of different files from
+     * collapsing onto one `PendingIntent`.
+     */
+    // S3155: the notify() below is already guarded twice - a POST_NOTIFICATIONS check earlier in this
+    // function, and the runCatching that absorbs a grant revoked between that check and the post, as
+    // its own comment records. Lint accepts neither form, so it reports MissingPermission on the one
+    // call in the file that cannot throw out of here.
+    @SuppressLint("MissingPermission")
+    fun notifyPendingOpen(
+        token: String,
+        displayName: String,
+        target: Uri,
+        mediaKind: String? = null,
+        browser: Boolean = false,
+        openIntent: Intent? = null
+    ): Boolean {
+        val manager = NotificationManagerCompat.from(context)
+        if (!manager.areNotificationsEnabled()) {
+            Timber.i("Open on phone: POST_NOTIFICATIONS not granted, nothing was shown")
+            return false
+        }
+        ensureChannel()
+        val notification = NotificationCompat.Builder(context, CHANNEL_ID)
+            .setSmallIcon(NotificationIcons.STATUS_BAR)
+            .setContentTitle(context.getString(R.string.open_on_phone_notification_title))
+            .setContentText(context.getString(R.string.open_on_phone_notification_text, displayName))
+            .setContentIntent(openPendingIntent(token, target, displayName, mediaKind, browser, openIntent))
+            .setAutoCancel(true)
+            .build()
+        return runCatching { manager.notify(NotificationIds.WEAR_OPEN_ON_PHONE, notification) }
+            .onFailure {
+                // Revoked between the check above and the post; the watch is told the same thing it
+                // would have been told had the check itself failed.
+                Timber.i(it, "Open on phone: notification suppressed - POST_NOTIFICATIONS not granted")
+            }
+            .isSuccess
+    }
+
+    /**
+     * The dispatcher rather than a viewer: it reads the type off the URI and forwards to the surface
+     * that renders that family, so this class never has to know which one a file belongs to.
+     */
+    private fun openPendingIntent(
+        token: String,
+        target: Uri,
+        displayName: String,
+        mediaKind: String?,
+        browser: Boolean,
+        openIntent: Intent?
+    ): PendingIntent {
+        // S0030: a portal page opens in the browser; a file or a stream goes to the dispatcher of this app.
+        // S0035: a help page of the watch is an activity of this app; the caller built the intent.
+        val view = if (openIntent != null) {
+            Intent(openIntent).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        } else if (browser) {
+            Intent(Intent.ACTION_VIEW, target).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        } else Intent(context, MainActivity::class.java).apply {
+            action = Intent.ACTION_VIEW
+            data = target
+            putExtra("stream_name", displayName)
+            putExtra("stream_kind", mediaKind)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+        return PendingIntent.getActivity(
+            context,
+            // The request code separates one file's pending open from another's; without it the
+            // second request would reuse the first intent and open the wrong file.
+            token.hashCode(),
+            view,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
+    }
+
+    private fun ensureChannel() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
+        val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        if (manager.getNotificationChannel(CHANNEL_ID) != null) return
+        manager.createNotificationChannel(
+            NotificationChannel(
+                CHANNEL_ID,
+                context.getString(R.string.open_on_phone_channel_name),
+                // DEFAULT rather than LOW: the user is holding the watch and waiting for the phone to
+                // react, so a silent entry in the shade would read as the action having failed.
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+        )
+    }
+
+    private companion object {
+        const val CHANNEL_ID = "wear_open_on_phone"
+    }
+}

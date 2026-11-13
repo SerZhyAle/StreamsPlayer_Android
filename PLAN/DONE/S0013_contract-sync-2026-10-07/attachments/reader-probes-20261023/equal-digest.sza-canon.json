@@ -1,0 +1,49 @@
+{
+  "$comment": "Overlay B (Android), new repo adopted 2026-10-02. Nothing builds or ships yet: no tags (tagRegex null), no channel declared (play is declared in S0010 together with owner decision 4.7: a declared store channel makes the compliance gate SZA-SURF01 require a hosted privacy page, and the zero-data carve-out is not honest for a product with microphone and camera broadcast), no site (owner decision 4.7 open), ledger shape chosen in S0010. Shapes: flavor - two variants, store and noLegal, of one codebase; wear and watchface are sibling modules of the same build, not editions.",
+  "canon": {
+    "version": "2026.10.02.2",
+    "coreDigest": "sha256:410463a9ccdfd75af7a233fc91656c200fe05f047cf7617d7fc53d32e7b81afa",
+    "adoptedOn": "invalid",
+    "reconciledOn": "invalid",
+    "model": "reference",
+    "contribRecord": "contrib/streamsplayer_mob.md"
+  },
+  "role": "product",
+  "overlay": [
+    "B"
+  ],
+  "shapes": [
+    "flavor"
+  ],
+  "editions": [],
+  "versionShape": {
+    "tagRegex": "^v\\d+\\.\\d+\\.\\d+\\.\\d+$",
+    "editionTagPrefixes": []
+  },
+  "ledgerShape": 1,
+  "ledgerFile": null,
+  "docRegistryShape": null,
+  "docRegistryFile": null,
+  "channels": [
+    "github"
+  ],
+  "site": {
+    "kind": "none",
+    "root": null,
+    "pages": []
+  },
+  "privacy": {
+    "page": "docs/PRIVACY_POLICY.md",
+    "carveOut": null,
+    "sensitiveAccess": true
+  },
+  "byteIdenticalPairs": [],
+  "vendorAllow": [],
+  "exemptions": [
+    {
+      "id": "SZA-CTR02",
+      "path": "docs/BOOTSTRAP_HANDOFF.md",
+      "reason": "Origin record of 2026-10-02: written by the FastMediaSorter session of its ticket S4053 and amended by that session the same day (file written 13:02, broadcast scope and section 6a, on the owner's instruction - recorded in the history of FastMediaSorter S4053), before this repository's first commit fb96544. Not edited from this repository's sessions. It names the catalog path because it predates this repository's rules; every living file cites contracts by id and CLAUDE.md is the one file that names the catalog."
+    }
+  ]
+}

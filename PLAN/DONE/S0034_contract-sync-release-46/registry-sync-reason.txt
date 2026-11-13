@@ -1,0 +1,36 @@
+Own-row update for DEVICE-EXCHANGE | StreamsPlayer Android, and resolution of Exception 4 (server corpora replay).
+For the canon session under CLAUDE.md section 6. The catalog was NOT edited by this repository.
+
+File:   registry-sync.patch (beside this note), unified diff of _meta/REGISTRY.md, base = catalog's file of
+        2026-10-25 (own row is line 607; section 3 exceptions after RULE-DELIVERY, line 698).
+Apply:  from the catalog root, `patch -p1 --binary -i registry-sync.patch` (or `git apply registry-sync.patch`).
+        Verified 2026-10-25 on a scratch copy of the catalog registry: exit 0, applies cleanly with zero rejects.
+
+Why the row changes:
+- `Implements` was `-` while `Reads` said `partial 1.7`. `tools/contract-lag.ps1` dropped the row as unparsed.
+  Normalized to `partial 1.7` per S0026/S0034.
+- Role P/C: StreamsPlayer Android acts as receiver and broadcaster (`product` `streamsplayer-android`, the watch
+  `streamsplayer-wear`, item BI).
+- Server Corpora Replay (S0034):
+  `server-records-v1.json` (6 test cases), `server-frames-v2.json` (all transcripts: directory, broadcasts, connect,
+  subscribe, refusals), and `fmsw-224/frames-v2.json` (all transcripts) are vendored into
+  `phone/src/test/resources/device-exchange/` and replayed by `DeviceExchangeServerRecordsReplayTest.kt` and
+  `DeviceExchangeServerFramesReplayTest.kt`. All 11 tests pass with zero failures. Byte-for-byte identity against
+  the catalog is verified by `tools/contracts/check-sync.ps1` (7 exchange vectors checked).
+- Exception 4 of Section 3 (server corpora replay) is CLOSED.
+- Joint Run Evidence (S0034):
+  Checklists for Joint Run #1 (FMS_A S4213) and the final run (FMS_A S4244) are recorded in
+  `PLAN/DONE/S0034_contract-sync-release-46/joint-run-checklist.md`. Handshake and delay reports per `LIVE-BROADCAST` §6
+  are recorded in `PLAN/DONE/S0034_contract-sync-release-46/handshake-reports.md`.
+  Live two-network stand is marked `BlockExternal` on owner credentials (FMS_A questionnaire B1.1), matching
+  FastMediaSorter Android S4213/S4244 and StreamsPlayer Windows SP-0228.
+- Pre-release Sweep:
+  `tools/release/pre-release-sweep.ps1` now includes check 4 (`ContractPointers`), asserting all 20 pointer
+  versions match catalog domain headers. Passes on current tree and fails on stale pointers.
+
+Section 3 Exceptions:
+- Exception 1 (Item AJ / protected resource notice): Open until S0028.
+- Exception 2 (Items DS, DT, DU / publish switch): Open until S0021 / owner decision.
+- Exception 3 (Item DV / verifiers member): Open until S0028.
+- Exception 4 (Server corpora replay): CLOSED by S0034.
+- Exception 5 (Section 27 / e2e sealing): Open until S0032.

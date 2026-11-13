@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ru" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="light dark">
+<title>Справка - Видеоплеер</title>
+<link rel="stylesheet" href="../help.css">
+</head>
+<body class="help">
+<main class="container">
+<nav class="help-crumbs" aria-label="Оглавление справки">
+<a href="index.html">Оглавление справки</a><span class="sep" aria-hidden="true">/</span><span>Видеоплеер</span>
+</nav>
+<header class="hero">
+<h1>Видеоплеер</h1>
+</header>
+<h2>Для чего этот экран</h2>
+<p class="lead">Смотрите видеопоток или камеру на весь экран. Кнопки появляются, когда вы касаетесь картинки, и через несколько секунд прячутся сами.</p>
+<figure class="shot">
+<img class="on-light" src="../img/player-ru-light.jpg" alt="Снимок экрана: Видеоплеер">
+<img class="on-dark" src="../img/player-ru-dark.jpg" alt="Снимок экрана: Видеоплеер">
+<figcaption>Демонстрационные данные. Номера совпадают с элементами в списке ниже.</figcaption>
+</figure>
+<h2>Порядок действий</h2>
+<ol class="order">
+<li>Коснитесь картинки, чтобы показать кнопки.</li>
+<li>Нажмите «Воспроизвести» или «Пауза» <a class="ref" href="#play">7</a>, чтобы остановить и снова запустить поток.</li>
+<li>Переходите к соседнему видеоканалу кнопками «Предыдущий» <a class="ref" href="#previous">6</a> и «Следующий» <a class="ref" href="#next">8</a>.</li>
+<li>Откройте «Аудио и субтитры» <a class="ref" href="#tracks">4</a>, чтобы выбрать язык или включить субтитры.</li>
+<li>«Картинка в картинке» <a class="ref" href="#pip">5</a> продолжает показ в маленьком окне, пока вы пользуетесь другим приложением. «Закрыть» <a class="ref" href="#close">1</a> возвращает к списку каналов.</li>
+</ol>
+<h2>Элементы</h2>
+<div class="elements">
+<details class="el" id="close">
+<summary><span class="mk">1</span><span><span class="name">Закрыть</span><span class="one">Выходит из плеера.</span></span></summary>
+<div class="full">
+<p>Останавливает поток и возвращает на экран, откуда вы пришли. Кнопка «Назад» телефона делает то же.</p>
+<dl class="facts">
+<dt>Отмена</dt><dd>Откройте канал снова из списка.</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="title">
+<summary><span class="mk">2</span><span><span class="name">Название канала</span><span class="one">Название канала.</span></span></summary>
+<div class="full">
+<p>То же название, что и в списке каналов.</p>
+</div>
+</details>
+<details class="el" id="help">
+<summary><span class="mk">3</span><span><span class="name">Справка</span><span class="one">Открывает эту страницу.</span></span></summary>
+<div class="full">
+<p>Пока страница открыта, поток стоит на паузе. «Назад» возвращает к картинке; нажмите «Воспроизвести», чтобы продолжить.</p>
+<dl class="facts">
+<dt>Сочетание клавиш</dt><dd><kbd>F1</kbd></dd>
+</dl>
+</div>
+</details>
+<details class="el" id="tracks">
+<summary><span class="mk">4</span><span><span class="name">Аудио и субтитры</span><span class="one">Выбирает язык звука и субтитры.</span></span></summary>
+<div class="full">
+<p>Перечисляет звуковые дорожки и дорожки субтитров, которые есть в потоке, и пункт «Откл» для субтитров. Если дорожка одна, выбирать нечего. Выбор запоминается для этого канала.</p>
+<dl class="facts">
+<dt>Отмена</dt><dd>Выберите прежнюю дорожку или «Откл».</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="pip">
+<summary><span class="mk">5</span><span><span class="name">Картинка в картинке</span><span class="one">Переносит картинку в маленькое окно.</span></span></summary>
+<div class="full">
+<p>Окно остаётся поверх других приложений, пока вы занимаетесь другим. Если телефон этого не умеет, приложение сообщает об этом.</p>
+<dl class="facts">
+<dt>Отмена</dt><dd>Откройте маленькое окно, чтобы вернуться на весь экран.</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="previous">
+<summary><span class="mk">6</span><span><span class="name">Предыдущий канал</span><span class="one">Канал перед этим.</span></span></summary>
+<div class="full">
+<p>Идёт по вашим видеоканалам. На первом канале кнопка неактивна.</p>
+</div>
+</details>
+<details class="el" id="play">
+<summary><span class="mk">7</span><span><span class="name">Воспроизвести</span><span class="one">Ставит поток на паузу и возобновляет.</span></span></summary>
+<div class="full">
+<p>Останавливает картинку и звук; та же кнопка возобновляет их.</p>
+</div>
+</details>
+<details class="el" id="next">
+<summary><span class="mk">8</span><span><span class="name">Следующий канал</span><span class="one">Канал после этого.</span></span></summary>
+<div class="full">
+<p>Идёт по вашим видеоканалам. На последнем канале кнопка неактивна.</p>
+</div>
+</details>
+<details class="el" id="waiting">
+<summary><span class="mk">9</span><span><span class="name">Буферизация и восстановление соединения</span><span class="one">Показывает, что идёт соединение с потоком.</span></span></summary>
+<div class="full">
+<p>Индикатор со словами «Буферизация» или «Восстановление соединения» появляется, пока приложение ждёт данные или пробует поток снова. Приложение повторяет попытки само; если поток молчит, вернитесь и попробуйте другой канал.</p>
+</div>
+</details>
+</div>
+<h2>Связанное</h2>
+<ul class="related">
+<li><a href="catalog.html"><b>StreamsPlayer</b><span class="pill">Экран</span></a></li>
+<li><a href="edit-channel.html"><b>Добавить канал</b><span class="pill">Экран</span></a></li>
+<li><a href="index.html"><b>Оглавление справки</b></a></li>
+</ul>
+<footer class="help-foot">
+<span>StreamsPlayer 2.61.0282.350, 2026-10-29</span>
+<a href="index.html">Оглавление справки</a>
+<a href="https://github.com/SerZhyAle/StreamsPlayer_Android/issues">Задать вопрос или сообщить о проблеме</a>
+</footer>
+</main>
+</body>
+</html>

@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="uk" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="light dark">
+<title>Довідка - StreamsPlayer</title>
+<link rel="stylesheet" href="../help.css">
+</head>
+<body class="help">
+<main class="container">
+<nav class="help-crumbs" aria-label="Зміст довідки">
+<a href="index.html">Зміст довідки</a><span class="sep" aria-hidden="true">/</span><span>StreamsPlayer</span>
+</nav>
+<header class="hero hero-inline">
+<img class="mark-inline" src="../img/exchange-mark-small.svg" width="28" height="28" alt="Media Exchange Server">
+<h1>StreamsPlayer</h1>
+</header>
+<h2>Для чого цей екран</h2>
+<p class="lead">Головний екран: ваш список радіостанцій, відеопотоків і камер. Знайдіть канал, запустіть одним дотиком, тримайте улюблені вгорі та додавайте свої.</p>
+<figure class="shot">
+<img class="on-light" src="../img/catalog-uk-light.jpg" alt="Знімок екрана: StreamsPlayer">
+<img class="on-dark" src="../img/catalog-uk-dark.jpg" alt="Знімок екрана: StreamsPlayer">
+<figcaption>Демонстраційні дані. Номери збігаються з елементами в списку нижче.</figcaption>
+</figure>
+<h2>Порядок дій</h2>
+<ol class="order">
+<li>Знайдіть канал: введіть назву в полі пошуку <a class="ref" href="#search">1</a> або звузьте список кнопками типів <a class="ref" href="#kinds">2</a>.</li>
+<li>Коли список довгий, відкрийте «Фільтр і сортування» <a class="ref" href="#filter">5</a>: там колекція, категорія, мова й країна.</li>
+<li>Торкніться каналу <a class="ref" href="#channels">16</a>, щоб відтворити його. Радіо грає тут-таки, і з'являється панель радіо <a class="ref" href="#radio-bar">19</a>; відео відкривається на весь екран.</li>
+<li>Закріплюйте канали, до яких повертаєтеся <a class="ref" href="#pin">17</a>: вони лишаються вгорі списку.</li>
+<li>Додайте свою адресу кнопкою «Додати канал» <a class="ref" href="#add-channel">9</a> або цілий список через «Імпорт списку відтворення» <a class="ref" href="#import-playlist">11</a>.</li>
+</ol>
+<h2>Елементи</h2>
+<div class="elements">
+<h3>Пошук і фільтри</h3>
+<details class="el" id="search">
+<summary><span class="mk">1</span><span><span class="name">Пошук каналів..</span><span class="one">Звужує список під час введення.</span></span></summary>
+<div class="full">
+<p>Шукає за назвою каналу. У списку лишаються лише відповідні канали, а задані фільтри продовжують діяти.</p>
+<dl class="facts">
+<dt>Скасування</dt><dd>Очистьте поле, і список знову буде повним.</dd>
+<dt>Сполучення клавіш</dt><dd><kbd>Ctrl</kbd> + <kbd>F</kbd></dd>
+</dl>
+</div>
+</details>
+<details class="el" id="kinds">
+<summary><span class="mk">2</span><span><span class="name">Усі, Радіо, Відео, Мої, Нещодавні</span><span class="one">Усі, Радіо, Відео, Мої або Нещодавні.</span></span></summary>
+<div class="full">
+<p>Один дотик показує лише цей тип: радіостанції, відеопотоки, ваші власні канали або ті, що ви нещодавно запускали. «Усі» показує все. «Мої» спочатку перелічують прямі трансляції ваших інших пристроїв за пристроями, а потім збережені вами потоки.</p>
+<dl class="facts">
+<dt>Скасування</dt><dd>Виберіть «Усі».</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="clear-filters">
+<summary><span class="mk">3</span><span><span class="name">Скинути фільтри</span><span class="one">З'являється, коли ввімкнено фільтр або пошук.</span></span></summary>
+<div class="full">
+<p>Рядок над списком називає те, що зараз звужує список. Ця кнопка одразу прибирає фільтри й текст пошуку.</p>
+<dl class="facts">
+<dt>Скасування</dt><dd>Задайте фільтри знову у «Фільтрі і сортуванні».</dd>
+</dl>
+</div>
+</details>
+<h3>Верхня панель</h3>
+<details class="el" id="mode">
+<summary><span class="mk">4</span><span><span class="name">Сітка / Список</span><span class="one">Перемикає список між сіткою і списком.</span></span></summary>
+<div class="full">
+<p>На значку показано вигляд, який ви отримаєте. Вибір запам'ятовується.</p>
+<dl class="facts">
+<dt>Скасування</dt><dd>Торкніться значка ще раз.</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="filter">
+<summary><span class="mk">5</span><span><span class="name">Фільтр і сортування</span><span class="one">Відкриває аркуш фільтра й сортування.</span></span></summary>
+<div class="full">
+<p>Звузьте список за колекцією, категорією, мовою й країною, залиште лише закріплені канали та виберіть порядок.</p>
+</div>
+</details>
+<details class="el" id="broadcast">
+<summary><span class="mk">6</span><span><span class="name">Управління мовленням</span><span class="one">Відкриває «Управління мовленням».</span></span></summary>
+<div class="full">
+<p>Перетворіть телефон на живу станцію: звук або ще й камера. Цей екран описано на окремій сторінці.</p>
+</div>
+</details>
+<details class="el" id="help">
+<summary><span class="mk">7</span><span><span class="name">Довідка</span><span class="one">Відкриває цю сторінку.</span></span></summary>
+<div class="full">
+<p>Ця кнопка є на кожному екрані, наприкінці верхньої панелі. Вона пояснює екран, на який ви дивитеся, не виводячи із застосунку й без мережі.</p>
+<dl class="facts">
+<dt>Сполучення клавіш</dt><dd><kbd>F1</kbd></dd>
+</dl>
+</div>
+</details>
+<details class="el" id="menu">
+<summary><span class="mk">8</span><span><span class="name">Ще</span><span class="one">Містить пункти нижче.</span></span></summary>
+<div class="full">
+<p>Три крапки відкривають меню з пунктами від «Додати канал» до «Сервер обміну».</p>
+</div>
+</details>
+<h3>Пункти меню</h3>
+<details class="el" id="add-channel">
+<summary><span class="mk">9</span><span><span class="name">Додати канал</span><span class="one">Додає одну адресу вручну.</span></span></summary>
+<div class="full">
+<p>Відкриває коротку форму: адреса, назва, тип потоку і категорія. Змінювати й видаляти можна канали, додані вручну.</p>
+</div>
+</details>
+<details class="el" id="recent">
+<summary><span class="mk">10</span><span><span class="name">Нещодавні канали</span><span class="one">Канали, які ви нещодавно запускали.</span></span></summary>
+<div class="full">
+<p>Відкриває список нещодавніх каналів. Торкніться каналу, щоб відтворити його; «Очистити нещодавні» спорожнює список.</p>
+<dl class="facts">
+<dt>Скасування</dt><dd>Очищення не можна скасувати.</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="import-playlist">
+<summary><span class="mk">11</span><span><span class="name">Імпорт списку відтворення (.m3u)</span><span class="one">Приносить канали зі списку відтворення за адресою.</span></span></summary>
+<div class="full">
+<p>Вставте адресу списку .m3u або .m3u8 і натисніть «Імпортувати». Канали з нього додадуться до вашого списку; наявні не дублюються.</p>
+</div>
+</details>
+<details class="el" id="import-broadcast">
+<summary><span class="mk">12</span><span><span class="name">Імпорт трансляції</span><span class="one">Додає пряму трансляцію чужого пристрою.</span></span></summary>
+<div class="full">
+<p>Вставте посилання або опис трансляції, виберіть файл .fmsbcast чи .json або відскануйте QR-код, який показує мовець. Трансляція з'явиться в списку як канал.</p>
+</div>
+</details>
+<details class="el" id="refresh">
+<summary><span class="mk">13</span><span><span class="name">Оновити каталог</span><span class="one">Завантажує актуальний каталог каналів.</span></span></summary>
+<div class="full">
+<p>Оновлює готовий список станцій. Ваші канали й закріплення зберігаються. Після оновлення застосунок пропонує завантажити обкладинки каналів. У розділі «Мої» той самий пункт оновлює прямі трансляції ваших інших пристроїв.</p>
+</div>
+</details>
+<details class="el" id="portal">
+<summary><span class="mk">14</span><span><span class="name">Обмін медіа та трансляції</span><span class="one">Відкриває посібники в браузері.</span></span></summary>
+<div class="full">
+<p>Короткий список тем про обмін медіа та прямі трансляції. Кожна тема відкриває вебсторінку, тому потрібна мережа.</p>
+</div>
+</details>
+<details class="el" id="exchange">
+<summary><span class="mk">15</span><span><span class="name">Сервер обміну</span><span class="one">Відкриває екран сервера обміну.</span></span></summary>
+<div class="full">
+<p>Тут ви входите на свій сервер обміну й бачите трансляції своїх інших пристроїв.</p>
+</div>
+</details>
+<details class="el" id="settings">
+<summary><span class="mk">23</span><span><span class="name">Налаштування</span><span class="one">Відкриває налаштування.</span></span></summary>
+<div class="full">
+<p>Тема, мова, налаштування мовлення й усе про цей застосунок.</p>
+</div>
+</details>
+<h3>Канали</h3>
+<details class="el" id="catalog-offer">
+<summary><span class="mk">24</span><span><span class="name">Оновити список каналів?</span><span class="one">Пропонує список каналів, опублікований після вашого останнього оновлення.</span></span></summary>
+<div class="full">
+<p>Коли ви відкриваєте список, застосунок перевіряє, чи опубліковано новіший каталог каналів, і цей рядок з'являється над списком, лише якщо він є; на новому телефоні він пропонує перший список. «Оновити» завантажує його так само, як «Оновити каталог» у меню. «Закрити» прибирає рядок, і той самий список більше не пропонується, а опублікований пізніше - пропонується. «Налаштування &gt; Основні &gt; Оновлення списку каналів» визначає, чи перевіряє застосунок узагалі і чи оновлює він список сам через Wi-Fi.</p>
+<dl class="facts">
+<dt>Скасування</dt><dd>«Оновити каталог» у меню оновлює список будь-коли.</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="channels">
+<summary><span class="mk">16</span><span><span class="name">Список каналів</span><span class="one">Ваші канали, закріплені вгорі.</span></span></summary>
+<div class="full">
+<p>Торкніться рядка, щоб відтворити канал. У рядку видно назву, тип потоку і те, чи грає канал зараз. Зображення в рядку - прев'ю для відеоканалу, інакше логотип станції, інакше її маленький значок, інакше знак типу потоку. У сітці прев'ю або логотип займають всю ширину картки. Після оновлення каталогу застосунок пропонує завантажити прев'ю й логотипи, показуючи їхній розмір; «Пізніше» залишає все як є, і під час наступного оновлення запитання повториться. У розділі «Мої» рядок прямої трансляції показує пристрій і те, чи він у мережі; торкніться його, щоб слухати або дивитися, а «Зберегти» залишає його каналом. Довгий список прокручується; пошук і фільтри роблять його коротшим.</p>
+</div>
+</details>
+<details class="el" id="pin">
+<summary><span class="mk">17</span><span><span class="name">Закріпити</span><span class="one">Тримає канал угорі списку.</span></span></summary>
+<div class="full">
+<p>Закріплений канал стоїть вище за решту в тому порядку, в якому ви закріплювали. Тією самою кнопкою його можна відкріпити.</p>
+<dl class="facts">
+<dt>Скасування</dt><dd>Торкніться шпильки ще раз.</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="channel-actions">
+<summary><span class="mk">18</span><span><span class="name">Ще</span><span class="one">Відкриває дії для одного каналу.</span></span></summary>
+<div class="full">
+<p>Відтворити, закріпити чи відкріпити, поділитися адресою, скопіювати адресу, а для доданих вами каналів ще й редагувати та видаляти. З апаратною клавіатурою те саме роблять клавіша Menu або Shift+F10.</p>
+<dl class="facts">
+<dt>Сполучення клавіш</dt><dd><kbd>Shift</kbd> + <kbd>F10</kbd></dd>
+</dl>
+</div>
+</details>
+<h3>Мої</h3>
+<details class="el" id="own-status">
+<summary><span class="mk">21</span><span><span class="name">Стан розділу «Мої»</span><span class="one">Показує, чи актуальний список ваших інших пристроїв.</span></span></summary>
+<div class="full">
+<p>У розділі «Мої» цей рядок показує, коли список прямих трансляцій востаннє оновлювався, що це останній відомий список або чому його не можна показати. Кнопка поруч називається «Повторити», «Налаштувати» або «Увійти» - яка підходить.</p>
+</div>
+</details>
+<details class="el" id="own-refresh">
+<summary><span class="mk">22</span><span><span class="name">Оновити</span><span class="one">Запитує в сервера обміну поточні трансляції.</span></span></summary>
+<div class="full">
+<p>Завантажує прямі трансляції ваших інших пристроїв заново. Збережені потоки і те, що грає, лишаються як є, а загальний каталог каналів не завантажується.</p>
+</div>
+</details>
+<h3>Панель радіо</h3>
+<details class="el" id="radio-bar">
+<summary><span class="mk">19</span><span><span class="name">Панель радіо</span><span class="one">Керує радіо, що грає.</span></span></summary>
+<div class="full">
+<p>Показує станцію й має кнопки відтворення, паузи та закриття. Радіо продовжує грати, коли ви виходите із застосунку; закриття панелі зупиняє його.</p>
+<dl class="facts">
+<dt>Скасування</dt><dd>Торкніться радіоканалу в списку, щоб запустити його знову.</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="sleep-timer">
+<summary><span class="mk">20</span><span><span class="name">Таймер сну</span><span class="one">Зупиняє радіо за вибраний час.</span></span></summary>
+<div class="full">
+<p>Відкриває аркуш із готовими значеннями від 15 до 60 хвилин і власним часом. Поки таймер іде, на кнопці видно хвилини, що лишилися. «Скасувати таймер» вимикає його.</p>
+<dl class="facts">
+<dt>Скасування</dt><dd>Відкрийте аркуш і виберіть «Скасувати таймер».</dd>
+</dl>
+</div>
+</details>
+</div>
+<h2>Пов'язане</h2>
+<ul class="related">
+<li><a href="filter-and-sort.html"><b>Фільтр і сортування</b><span class="pill">Екран</span></a></li>
+<li><a href="edit-channel.html"><b>Додати канал</b><span class="pill">Екран</span></a></li>
+<li><a href="player.html"><b>Відеопрогравач</b><span class="pill">Екран</span></a></li>
+<li><a href="broadcast.html"><b>Управління мовленням</b><span class="pill">Екран</span></a></li>
+<li><a href="qr-scanner.html"><b>Сканувати QR-код</b><span class="pill">Екран</span></a></li>
+<li><a href="exchange.html"><b>Сервер обміну</b><span class="pill">Екран</span></a></li>
+<li><a href="settings.html"><b>Налаштування</b><span class="pill">Екран</span></a></li>
+<li><a href="https://github.com/SerZhyAle/StreamsPlayer"><b>StreamsPlayer для Windows</b><span class="pill gold">Посилання</span></a></li>
+<li><a href="index.html"><b>Зміст довідки</b></a></li>
+</ul>
+<footer class="help-foot">
+<span>StreamsPlayer 2.61.0282.350, 2026-10-29</span>
+<a href="index.html">Зміст довідки</a>
+<a href="https://github.com/SerZhyAle/StreamsPlayer_Android/issues">Поставити запитання або повідомити про проблему</a>
+</footer>
+</main>
+</body>
+</html>

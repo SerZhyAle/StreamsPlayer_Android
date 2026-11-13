@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://serzhyale.github.io/StreamsPlayer_Android/privacy.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://serzhyale.github.io/StreamsPlayer_Android/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://serzhyale.github.io/StreamsPlayer_Android/privacy-ru.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://serzhyale.github.io/StreamsPlayer_Android/privacy-uk.html"/>
+  </url>
+  <url>
+    <loc>https://serzhyale.github.io/StreamsPlayer_Android/privacy-ru.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://serzhyale.github.io/StreamsPlayer_Android/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://serzhyale.github.io/StreamsPlayer_Android/privacy-ru.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://serzhyale.github.io/StreamsPlayer_Android/privacy-uk.html"/>
+  </url>
+  <url>
+    <loc>https://serzhyale.github.io/StreamsPlayer_Android/privacy-uk.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://serzhyale.github.io/StreamsPlayer_Android/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://serzhyale.github.io/StreamsPlayer_Android/privacy-ru.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://serzhyale.github.io/StreamsPlayer_Android/privacy-uk.html"/>
+  </url>
+</urlset>

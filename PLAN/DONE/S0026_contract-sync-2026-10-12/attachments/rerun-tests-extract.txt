@@ -1,0 +1,18 @@
+S0026 forced rerun, 2026-10-25, run from P:\ANDROID\StreamsPlayer_mob under the Build.Main lock
+.\gradlew.bat :exchange-core:test --rerun :phone:testStoreDebugUnitTest --rerun --tests "com.sza.streamsplayer.data.exchange.*" --tests "com.sza.streamsplayer.domain.model.ExchangeConnectionString*" --tests "com.sza.streamsplayer.ui.exchange.*" :phone:testNoLegalDebugUnitTest --rerun --tests "com.sza.streamsplayer.data.exchange.*" --tests "com.sza.streamsplayer.domain.model.ExchangeConnectionString*" --tests "com.sza.streamsplayer.ui.exchange.*" --console=plain
+--- Gradle log, test tasks and verdict (temp/S0026/rerun-tests.log) ---
+> Task :exchange-core:test
+> Task :phone:testStoreDebugUnitTest
+> Task :phone:testNoLegalDebugUnitTest
+BUILD SUCCESSFUL in 1m 13s
+GRADLE_EXIT=0
+--- JUnit result XML of that run ---
+exchange-core\build\test-results\test: classes=4 tests=17 failures=0 errors=0 skipped=0
+phone\build\test-results\testStoreDebugUnitTest: classes=38 tests=495 failures=0 errors=0 skipped=0
+phone\build\test-results\testNoLegalDebugUnitTest: classes=38 tests=495 failures=0 errors=0 skipped=0
+ExchangeConnectionStringVectorsTest [testStoreDebugUnitTest] tests=221 failures=0 errors=0 skipped=0
+ExchangeConnectionStringVectorsTest [testNoLegalDebugUnitTest] tests=221 failures=0 errors=0 skipped=0
+DeviceExchangeRecordVectorsTest [testStoreDebugUnitTest] tests=7 failures=0 errors=0 skipped=0
+DeviceExchangeRecordVectorsTest [testNoLegalDebugUnitTest] tests=7 failures=0 errors=0 skipped=0
+DeviceExchangeProtectionVectorsTest [testStoreDebugUnitTest] tests=3 failures=0 errors=0 skipped=0
+DeviceExchangeProtectionVectorsTest [testNoLegalDebugUnitTest] tests=3 failures=0 errors=0 skipped=0

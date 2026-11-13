@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Privacy Policy - StreamsPlayer</title>
+  <meta name="description" content="What StreamsPlayer for Android, Wear OS and its watch face store, send and ask permission for. The developer receives none of your data.">
+  <meta name="theme-color" content="#0a0f0a">
+  <link rel="canonical" href="https://serzhyale.github.io/StreamsPlayer_Android/privacy.html">
+    <link rel="alternate" hreflang="en" href="https://serzhyale.github.io/StreamsPlayer_Android/privacy.html">
+    <link rel="alternate" hreflang="ru" href="https://serzhyale.github.io/StreamsPlayer_Android/privacy-ru.html">
+    <link rel="alternate" hreflang="uk" href="https://serzhyale.github.io/StreamsPlayer_Android/privacy-uk.html">
+  <link rel="alternate" hreflang="x-default" href="https://serzhyale.github.io/StreamsPlayer_Android/privacy.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="StreamsPlayer">
+  <meta property="og:title" content="Privacy Policy - StreamsPlayer">
+  <meta property="og:description" content="What StreamsPlayer for Android, Wear OS and its watch face store, send and ask permission for. The developer receives none of your data.">
+  <meta property="og:url" content="https://serzhyale.github.io/StreamsPlayer_Android/privacy.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Privacy Policy - StreamsPlayer">
+  <meta name="twitter:description" content="What StreamsPlayer for Android, Wear OS and its watch face store, send and ask permission for. The developer receives none of your data.">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Privacy Policy - StreamsPlayer","description":"What StreamsPlayer for Android, Wear OS and its watch face store, send and ask permission for. The developer receives none of your data.","url":"https://serzhyale.github.io/StreamsPlayer_Android/privacy.html","inLanguage":"en","publisher":{"@type":"Person","name":"Serhii Zhyhunenko","url":"https://sza.od.ua"}}</script>
+  <!-- PAGE-STYLE section 7: theme and the touch profile are resolved before the first stylesheet, so nothing flashes.
+       sza-theme holds exactly dark or light and is shared with every page of this origin. -->
+  <script>
+(function(){try{
+  var h=document.documentElement,t=localStorage.getItem('sza-theme');
+  if(t!=='dark'&&t!=='light')t=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';
+  h.setAttribute('data-theme',t);
+  h.setAttribute('data-ui-profile',matchMedia('(pointer: coarse)').matches?'touch':'pointer');
+}catch(e){}})();
+  </script>
+  <link rel="stylesheet" href="assets/sza-kit.css">
+  <link rel="stylesheet" href="assets/policy.css">
+</head>
+<body>
+<div class="bg-blobs"><div class="blob blob-1"></div><div class="blob blob-2"></div><div class="blob blob-3"></div></div>
+<header class="site-header">
+  <span class="brand">StreamsPlayer<span class="dot">.</span></span>
+  <div class="seg" role="group" aria-label="Language">
+      <button type="button" data-lang="ru" aria-pressed="false">RU</button>
+      <button type="button" data-lang="en" aria-pressed="true">EN</button>
+      <button type="button" data-lang="ua" aria-pressed="false">UA</button>
+  </div>
+  <button type="button" class="theme-btn" id="themeBtn" aria-label="Switch to light theme"><span class="gi gi-theme" aria-hidden="true"></span><span>Theme</span></button>
+</header>
+<main class="container section" id="main">
+  <noscript><p class="lang-links"><a href="privacy.html" hreflang="en">English</a> &middot; <a href="privacy-ru.html" hreflang="ru">Русский</a> &middot; <a href="privacy-uk.html" hreflang="uk">Українська</a></p></noscript>
+  <article class="policy-card">
+<h1 id="privacy-policy-for-streamsplayer">Privacy Policy for StreamsPlayer</h1>
+<p><strong>Last updated: November 10, 2026</strong></p>
+<p>StreamsPlayer is a player for internet radio, live video (HLS, DASH) and RTSP streams that can also broadcast live
+from the microphone and the camera. It is an Android app for phones, an app for Wear OS watches and a watch face,
+published by Serhii Zhyhunenko (SerZhyAle). This policy covers all three packages and says which one it means
+where they differ.</p>
+<p>In short:</p>
+<ul>
+<li><strong>The developer receives none of your data.</strong> The developer runs no server, keeps no accounts and the app
+contains no analytics, crash reporting, advertising or tracking code.</li>
+<li><strong>Everything optional is off until you turn it on:</strong> the exchange server, Google Drive, and publishing a
+broadcast through a server.</li>
+<li><strong>What leaves your device goes to a place you chose:</strong> the stream you play, the server you named, your own
+Google account, the listeners you gave an address to.</li>
+</ul>
+<h2 id="what-the-app-does-not-do">1. What the app does not do</h2>
+<ul>
+<li>It has no telemetry: no analytics, no crash reporting, no advertising, no advertising identifier and no
+third-party tracking library. The libraries it is built from are listed in section 10.</li>
+<li>It creates no account. An account on an exchange server is made elsewhere (section 9); this app only signs in.</li>
+<li>It writes no log file in the version you install, and sends no diagnostics anywhere.</li>
+<li>It does not ask for your contacts, your location, your photos or files, or your phone number (section 4 lists
+every permission).</li>
+<li>It does not record broadcasts and keeps no copy of what it plays or sends.</li>
+</ul>
+<h2 id="what-stays-on-your-device">2. What stays on your device</h2>
+<ul>
+<li>Your favorites, pins, collections, your own channels, settings and playback state are stored in the app's private
+storage. The app is excluded from Android backup (<code>allowBackup=&quot;false&quot;</code>), so they are not copied to your Google
+account or to another device by Android.</li>
+<li>Exchange sign-in tokens, and the passwords you save for protected broadcasts, are encrypted with a key that never
+leaves Android Keystore (AES-256-GCM). The password you type to sign in is wiped from memory right after it is
+used and is never written to disk or to a log.</li>
+<li>The channel catalog and the channel pictures you downloaded are stored on the device.</li>
+<li>Removing the app, or clearing its storage in Android settings, deletes all of this.</li>
+</ul>
+<h2 id="what-leaves-your-device-and-where-it-goes">3. What leaves your device, and where it goes</h2>
+<p>Each line is one thing the app can send, to whom, and when.</p>
+<ul>
+<li><strong>The streams you play.</strong> When you play a channel, the app connects to the server of that stream, the address you
+or the catalog gave it. That server sees your IP address and the usual request details. Some stream addresses use
+plain HTTP or RTSP, which are not encrypted; the app opens the address you ask for. The developer is not a party
+to these connections.</li>
+<li><strong>The channel catalog.</strong> When you choose <strong>Refresh catalog</strong> in the menu or <strong>Update</strong> on the offer of a new
+channel list, and on the watch also when its channel list first loads, the app downloads the catalog file from
+GitHub (github.com). GitHub sees your IP address and the request, as for any download. Nothing about you is sent
+with it.</li>
+<li><strong>Checking for a new channel list.</strong> On the phone, when you open the channel list, the app asks GitHub
+(github.com) whether a newer catalog file is published there: a short request that downloads no file. Only when one
+is, the list offers it. In <strong>Settings &gt; General</strong>, <strong>Updating the channel list</strong> set to <strong>Only when I ask</strong> turns
+this check off; <strong>Automatically on Wi-Fi</strong> downloads a newer catalog without asking, on Wi-Fi and at most once a
+day. GitHub sees your IP address and the request. Nothing about you is sent with it.</li>
+<li><strong>Channel pictures.</strong> On the phone, only when you accept the offer that follows a catalog update; on the watch, when
+its channel list first loads and after <strong>Refresh catalog</strong>. The app downloads the pictures, and a small file that says
+which ones are current, from GitHub (github.com). GitHub sees your IP address and the request, as for any download.
+Nothing about you is sent with it.</li>
+<li><strong>A live broadcast on your network.</strong> While you broadcast, listeners connect straight to your phone or watch at the
+address it shows. This connection does not pass through any server and is not encrypted: anyone on that network
+who has the address can listen. It starts only when you start a broadcast and stops when you stop it.</li>
+<li><strong>The exchange server (optional).</strong> Section 5.</li>
+<li><strong>Google Drive (optional).</strong> Section 7.</li>
+<li><strong>Between your phone and your watch.</strong> The two devices exchange your pins and channels, playback and broadcast
+commands, and the exchange pairing (section 8) over the Wear OS Data Layer, which is part of Google Play services
+on your own devices.</li>
+<li><strong>QR codes.</strong> The scanner reads the camera picture on the device only; the decoded text goes back to the form
+that asked for it. It never opens a link or connects by itself.</li>
+</ul>
+<h2 id="permissions">4. Permissions</h2>
+<p>The app asks only for the permissions below. This table is generated from the merged manifests of the store release
+of the phone app, the Wear OS app and the watch face, and a check fails when the manifests and the table differ.
+Android asks you at the moment of use for the microphone, the camera and notifications; you can refuse or withdraw
+any of them in Android settings.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Permission</th>
+<th>Where</th>
+<th>What it is for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>android.permission.ACCESS_NETWORK_STATE</code></td>
+<td>Phone, Watch</td>
+<td>Notices when the network connection changes, so playback can reconnect and return to the live point by itself.</td>
+</tr>
+<tr>
+<td><code>android.permission.CAMERA</code></td>
+<td>Phone</td>
+<td>Camera broadcast and the QR code scanner (phone only). Used only after you start a camera broadcast or open the scanner; scanner pictures are processed on the device and never stored or sent.</td>
+</tr>
+<tr>
+<td><code>android.permission.CHANGE_NETWORK_STATE</code></td>
+<td>Watch</td>
+<td>Lets the watch hold its own Wi-Fi or mobile connection while the audio player or a broadcast is on screen.</td>
+</tr>
+<tr>
+<td><code>android.permission.FOREGROUND_SERVICE</code></td>
+<td>Phone, Watch</td>
+<td>Lets playback and the broadcasts you start keep running, with a notification you can see.</td>
+</tr>
+<tr>
+<td><code>android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK</code></td>
+<td>Phone, Watch</td>
+<td>Android requires it to mark the running playback service as media playback.</td>
+</tr>
+<tr>
+<td><code>android.permission.FOREGROUND_SERVICE_MICROPHONE</code></td>
+<td>Phone, Watch</td>
+<td>Android requires it to mark the running broadcast service as one that uses the microphone; it runs only while you broadcast sound.</td>
+</tr>
+<tr>
+<td><code>android.permission.INTERNET</code></td>
+<td>Phone, Watch</td>
+<td>Plays the streams you choose and connects to the services you set up yourself: your exchange server and, on the phone, Google Drive and the channel catalog on GitHub.</td>
+</tr>
+<tr>
+<td><code>android.permission.POST_NOTIFICATIONS</code></td>
+<td>Phone, Watch</td>
+<td>Shows playback controls and the on-air status of a broadcast in the notification shade.</td>
+</tr>
+<tr>
+<td><code>android.permission.RECORD_AUDIO</code></td>
+<td>Phone, Watch</td>
+<td>Microphone broadcast on the phone or the watch. Used only after you start a broadcast.</td>
+</tr>
+<tr>
+<td><code>android.permission.WAKE_LOCK</code></td>
+<td>Phone, Watch</td>
+<td>Keeps playback or a broadcast running while the screen is off.</td>
+</tr>
+</tbody>
+</table></div>
+<p>The watch face asks for no permissions.</p>
+<h2 id="the-exchange-server-optional">5. The exchange server (optional)</h2>
+<p>An exchange server connects your own devices when they cannot reach each other directly, so a broadcast from one
+device can be found and played on another. It is a program that you run yourself, or that a person you know runs for
+you. The developer of this app runs no exchange server and offers none to the public. Nothing here is on until you
+sign in to a server.</p>
+<ul>
+<li><strong>What the app sends.</strong> At sign-in: your login and password, this device's name, a random device identifier and
+the public part of the device's encryption key. While connected: that the device is online, and, for each broadcast
+the phone starts, its title, its mode (sound or camera) and the addresses a listener can try. For the relay through
+the server, its content as well - encrypted on your device first (section 6). Listening to a broadcast sends the
+server the request to join it.</li>
+<li><strong>How it is protected.</strong> The connection to the server is encrypted (TLS). The first time a server shows a
+certificate the app asks you, and a certificate that later changes is refused. Your password is used only for the
+sign-in itself: it goes to the server you named over that encrypted connection to prove who you are, and the app
+does not keep it. Afterwards the app uses a token that stays in Android Keystore. <strong>Change password</strong> sends the old
+and the new password the same way.</li>
+<li><strong>Adding a server is the choice.</strong> Without an exchange server a broadcast stays on your own network. Once you add
+one, every broadcast of the phone is announced on it from its start, and the broadcast screen names the server and
+the state of the broadcast there. Removing the server keeps broadcasts on your network again. A guest of a server
+announces nothing.</li>
+<li><strong>Broadcasts of other people.</strong> Opening a shared broadcast connects to the addresses its link names, which can be
+another person's exchange server. That path sends no password and no token, and needs no account. The accepted
+certificate is kept locally for that broadcast, and a changed one is refused.</li>
+<li><strong>Casts to your own device.</strong> A broadcast sent from another device of your account asks before it plays. Playing
+such casts without asking is an optional setting, off by default, and works only while the app is open.</li>
+<li><strong>What the server keeps.</strong> That is decided by whoever runs the server. The server program of this app family keeps
+the account, its devices and the records of published broadcasts until the account is deleted, passes broadcast
+content on without storing it, and writes a log whose retention its operator sets and which holds no password,
+token or content. Broadcast identifiers work as access keys and are never written to this app's logs.</li>
+<li><strong>The developer</strong> receives none of this.</li>
+</ul>
+<h2 id="encryption-what-the-exchange-server-can-and-cannot-see">6. Encryption: what the exchange server can and cannot see</h2>
+<p>The text below is the one every program of this family gives, in these words:</p>
+<blockquote>
+<p>The exchange server connects your devices, so it knows the names of your account, devices, folders and
+broadcasts, sees which devices are online, and how much is sent and when. It cannot open what goes through it:
+folders and their files, broadcasts and the clipboard are encrypted on your device and opened only on your other
+devices or by the people you gave access to. To look inside, whoever runs the server would have to add a device
+of their own to your account, and it would appear in your list of devices.</p>
+</blockquote>
+<p>For this app that means:</p>
+<ul>
+<li><strong>Encrypted on your device, unreadable to the server:</strong> the sound and the picture of a broadcast you publish
+through the server, including a broadcast sent by your watch. Only your other devices of the account, and the
+people you gave the link, can open it.</li>
+<li><strong>Visible to the server, because without it the server connects nothing:</strong> your login, each device's name and
+presence, a broadcast's title and mode, who connects to whom and when, the addresses clients connect from, and the
+size and timing of what is sent.</li>
+<li><strong>No clear fallback.</strong> If a server does not support encryption, the app does not publish a broadcast through it.</li>
+<li><strong>Not covered:</strong> the connection on your own network (section 3), which does not use the server, and the streams
+you play from other people's servers.</li>
+</ul>
+<h2 id="google-drive-optional">7. Google Drive (optional)</h2>
+<p>Announcing a broadcast via Google Drive is optional and <strong>off by default</strong>. It starts only when you sign in with your
+own Google account on the Exchange screen and turn on <strong>Announce via Google Drive</strong> for a broadcast; the choice is
+remembered separately for sound and for the camera.</p>
+<ul>
+<li><strong>One narrow permission.</strong> The app asks Google for a single permission, <code>https://www.googleapis.com/auth/drive.appdata</code>,
+a non-sensitive one. It reaches only the hidden app folder that Google keeps for this app family in your Drive.
+The app cannot see, list, read or change any other file in your Drive.</li>
+<li><strong>Your own account only.</strong> The folder is read and written by your own devices signed in to the same Google
+account. Other people are reached through an exchange server or a link, never through your Drive.</li>
+<li><strong>What an announcement holds.</strong> A small text file with the broadcast's title and mode, this phone's name and a
+random identifier, the start time, the addresses a listener can try (your local network address and, if you also
+publish through your exchange server, that server's addresses) and a lifetime stamp. A second small file names
+this phone to your other devices. <strong>Never the sound or the picture</strong> - the stream does not go through Google
+Drive.</li>
+<li><strong>The words of the family:</strong> &quot;Via Google Drive, files and the clipboard are kept in your own Google account, like
+your other files on Google Drive; no exchange server takes part.&quot; This app uses Google Drive for announcements
+only. The announcement is not encrypted by this app.</li>
+<li><strong>When it is removed.</strong> The files are deleted when the broadcast stops. If the phone cannot delete them (for
+example, it lost the network), other devices read the announcement as ended after about 90 seconds, and the phone
+deletes the leftovers the next time it announces.</li>
+<li><strong>What is read.</strong> While the broadcast list is open, the app reads the announcement and device-name files that
+your other devices wrote to the same folder and shows them in the list under &quot;via Google Drive&quot;. Files of a
+broadcast that has ended are not shown.</li>
+<li><strong>What stays on the phone.</strong> The access token is held by Google Play services; the app does not store it, log it or
+send it anywhere except to Google's Drive service. The e-mail address of the account is not read. The app keeps only
+that you signed in and a random identifier of this phone for the announcement files.</li>
+<li><strong>Signing out.</strong> <strong>Sign out of Google Drive</strong> stops the app from using Drive and does not touch your exchange
+account. You can also withdraw the access in your Google account settings.</li>
+<li><strong>Your storage.</strong> The files take a few kilobytes of your Google storage while a broadcast runs. The developer
+receives none of this data.</li>
+<li><strong>Limited use.</strong> The use of information received from Google APIs adheres to the
+<a rel="noopener" href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>,
+including the Limited Use requirements. It is used only for the announcements above, is not transferred to
+anyone, is not used for advertising and is not used to train any model.</li>
+</ul>
+<h2 id="your-watch">8. Your watch</h2>
+<ul>
+<li>The watch app works without the phone. A watch connects to an exchange account only when you choose <strong>Connect
+watch</strong> on the phone's Exchange screen.</li>
+<li>Connecting sends the watch the server address, certificate trust information, the login and a short-lived one-time
+pairing code over the Wear OS Data Layer. The watch creates its own random device identity and stores its own
+encrypted token. Neither the phone's password nor either device's token is transferred. The phone remembers the
+watch it connected so that it can remove it later.</li>
+<li>The watch broadcasts sound only. When the watch is connected to an account, every broadcast is announced on that
+exchange server from its start, over the watch's own Wi-Fi or mobile connection; to keep broadcasts on your own
+network only, sign out on the phone.</li>
+<li>The watch's connection to the server stays open while a broadcast runs, and otherwise only while an audio player or
+broadcast screen is visible and the display is on.</li>
+<li>Signing out on the phone asks the watch to erase its local account and revoke its device identity. If the watch
+is unavailable, the phone revokes it on the server and shows that the cleanup on the watch is still pending.</li>
+<li>The watch face shows the time. It asks for no permission and stores or sends nothing.</li>
+</ul>
+<h2 id="accounts-and-deleting-them">9. Accounts and deleting them</h2>
+<ul>
+<li><strong>This app creates no account.</strong> It never registers one. An account on an exchange server is made in another
+program of the family or by the person who runs the server; this app signs in to it.</li>
+<li><strong>Sign out on this device</strong> revokes this device on the server, forgets the token and removes the entry from the app
+(and signs out the watch you connected). The channels you kept stay on the device. The account itself and your
+other devices stay.</li>
+<li><strong>To delete the account itself,</strong> use the program where it was made, or ask the person who runs the server: only the
+operator of a server can delete an account on it. The portal page &quot;How to delete an account&quot; describes both ways, in
+English, Russian and Ukrainian; the app opens it from the Exchange screen.</li>
+<li><strong>What may remain after that:</strong> the server's log for the retention period its operator set, copies of broadcasts
+already delivered to people who were listening, and the announcement files in your own Google Drive, which you can
+delete there.</li>
+<li><strong>Everything the app keeps on your device</strong> is removed by uninstalling it or clearing its storage.</li>
+</ul>
+<h2 id="components-from-others">10. Components from others</h2>
+<ul>
+<li><strong>Google Play services</strong> is part of Android on your device. The app uses its Wear OS Data Layer to talk to your
+watch and, only if you sign in for Drive announcements, its Authorization API. Google's own terms apply to those
+parts. If you have allowed Android to share usage and diagnostics data, Google Play can show the developer
+anonymous crash and performance statistics; that is a Google facility, not code in this app, and it carries no
+content.</li>
+<li><strong>Open source libraries</strong> do the playback (AndroidX Media3 and ExoPlayer), networking (OkHttp), the on-device
+broadcast server (NanoHTTPD and RootEncoder), camera access (CameraX), QR decoding (ZXing), cryptography (Bouncy
+Castle), the local database (Room), dependency injection (Hilt), and background downloads (WorkManager). None of them
+sends data anywhere on its own.
+The full list with licenses is in <code>THIRD-PARTY-NOTICES.txt</code> inside the app package.</li>
+<li>The app carries no advertising, analytics or tracking library, and the version catalog it is built from has none.</li>
+</ul>
+<h2 id="children">11. Children</h2>
+<p>StreamsPlayer opens streams that other people publish and that the app does not curate, so it is not directed at
+children. It knowingly collects no information from anyone, children included.</p>
+<h2 id="this-website">12. This website</h2>
+<p>This policy is also published as static pages on GitHub Pages. The pages load no script, font, image or tracker from
+any other site, run no analytics and keep no data about visitors; GitHub, as the host, receives every page request
+under its own <a rel="noopener" href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement">privacy statement</a>.
+The pages keep two values in your browser: the theme and the language you picked. They never leave the browser.</p>
+<h2 id="open-source">13. Open source</h2>
+<p>StreamsPlayer is open source software released under the MIT License. The full source code and build instructions
+are publicly available at <a rel="noopener" href="https://github.com/SerZhyAle/StreamsPlayer_Android">GitHub</a>.</p>
+<h2 id="changes-to-this-policy">14. Changes to this policy</h2>
+<p>When the app changes what it stores or sends, this page changes in the same release, and the &quot;Last updated&quot; date at
+the top moves. The text on this page is the text of the version of the app that is currently published.</p>
+<h2 id="contact">15. Contact</h2>
+<p>For questions, feedback, or support requests:</p>
+<ul>
+<li><strong>E-mail:</strong> sza@ukr.net</li>
+<li><strong>Issue tracker:</strong> <a rel="noopener" href="https://github.com/SerZhyAle/StreamsPlayer_Android/issues">https://github.com/SerZhyAle/StreamsPlayer_Android/issues</a></li>
+<li><strong>Developer / publisher:</strong> Serhii Zhyhunenko (SerZhyAle)</li>
+</ul>
+  </article>
+</main>
+<footer class="site-footer"><div class="container">
+  <div class="tools-grid">
+      <a href="https://serzhyale.github.io/FastMediaSorter_mob_v2/" rel="noopener"><b>Fast Media Sorter &amp; Organizer</b><span>Android media sorter</span></a>
+      <a href="https://serzhyale.github.io/FastMediaSorter_Lite/" rel="noopener"><b>Fast Media Sorter &amp; Sharing for Windows</b><span>Windows media and file manager</span></a>
+      <a href="https://serzhyale.github.io/CyrFlip/" rel="noopener"><b>CyrFlip</b><span>Windows layout fixer</span></a>
+      <a href="https://serzhyale.github.io/doc-html-translate/" rel="noopener"><b>doc-html-translate</b><span>Windows ebook converter</span></a>
+      <a href="https://serzhyale.github.io/FileDO/" rel="noopener"><b>FileDO</b><span>Windows storage CLI</span></a>
+      <a href="https://serzhyale.github.io/StreamsPlayer/" rel="noopener"><b>STREAMS Player</b><span>Windows stream player</span></a>
+      <a href="https://serzhyale.github.io/OneClickRunner/" rel="noopener"><b>OneClickRunner</b><span>Windows tray launcher</span></a>
+      <a href="https://serzhyale.github.io/universal-agent-kit/" rel="noopener"><b>Universal Agent Kit</b><span>AI-dev methodology</span></a>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 <a href="https://sza.od.ua" rel="noopener">Serhii Zhyhunenko</a></span>
+    <span><a href="https://sza.od.ua" rel="noopener">sza.od.ua</a> &middot; <a href="https://github.com/SerZhyAle" rel="noopener">GitHub</a> &middot; <a href="mailto:sza@ukr.net">sza@ukr.net</a></span>
+  </div>
+</div></footer>
+<button type="button" class="to-top" id="toTop" aria-label="Back to top"><span class="gi gi-top" aria-hidden="true"></span></button>
+<script>
+(function(){
+  var h=document.documentElement,urls={ru:'privacy-ru.html',en:'privacy.html',ua:'privacy-uk.html'};
+  var tb=document.getElementById('themeBtn'),labels={light:'Switch to dark theme',dark:'Switch to light theme'};
+  function sync(){tb.setAttribute('aria-label',labels[h.getAttribute('data-theme')==='light'?'light':'dark'])}
+  sync();
+  tb.addEventListener('click',function(){
+    var n=h.getAttribute('data-theme')==='light'?'dark':'light';
+    h.setAttribute('data-theme',n);
+    try{localStorage.setItem('sza-theme',n)}catch(e){}
+    sync();
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('.seg button[data-lang]'),function(b){
+    b.addEventListener('click',function(){
+      var k=b.getAttribute('data-lang');
+      try{localStorage.setItem('sza-lang',k)}catch(e){}
+      location.href=urls[k];
+    });
+  });
+  var top=document.getElementById('toTop');
+  addEventListener('scroll',function(){top.classList.toggle('show',scrollY>600)},{passive:true});
+  top.addEventListener('click',function(){scrollTo({top:0})});
+})();
+</script>
+</body>
+</html>

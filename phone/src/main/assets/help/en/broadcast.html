@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="light dark">
+<title>Help - Broadcast Control</title>
+<link rel="stylesheet" href="../help.css">
+</head>
+<body class="help">
+<main class="container">
+<nav class="help-crumbs" aria-label="Help index">
+<a href="index.html">Help index</a><span class="sep" aria-hidden="true">/</span><span>Broadcast Control</span>
+</nav>
+<header class="hero hero-inline">
+<img class="mark-inline" src="../img/exchange-mark-small.svg" width="28" height="28" alt="Media Exchange Server">
+<h1>Broadcast Control</h1>
+</header>
+<h2>What this is for</h2>
+<p class="lead">Turn this phone into a live station: it sends sound, or sound and picture from the camera, to other devices. You choose what to send, start it, and hand out the link or the QR code.</p>
+<figure class="shot">
+<img class="on-light" src="../img/broadcast-en-light.jpg" alt="Screenshot: Broadcast Control">
+<img class="on-dark" src="../img/broadcast-en-dark.jpg" alt="Screenshot: Broadcast Control">
+<figcaption>Demo content. The numbers match the elements listed below.</figcaption>
+</figure>
+<h2>In this order</h2>
+<ol class="order">
+<li>Choose what to send in Broadcast mode <a class="ref" href="#mode">3</a>, and the camera <a class="ref" href="#camera">4</a> if the picture is part of it.</li>
+<li>Check the settings <a class="ref" href="#settings">5</a> once: the title, the sound quality and whether the broadcast also goes through your exchange server.</li>
+<li>Press Start broadcast <a class="ref" href="#start">6</a>. The first time, Android asks for the microphone, the camera and notifications.</li>
+<li>Give listeners the QR code or the link <a class="ref" href="#link">14</a>: Copy Link <a class="ref" href="#copy">15</a>, Export File <a class="ref" href="#export">16</a> or Send to <a class="ref" href="#send">17</a>.</li>
+<li>Watch the listener count <a class="ref" href="#listeners">2</a>. Stop Broadcast <a class="ref" href="#stop">12</a> ends it for everyone.</li>
+</ol>
+<h2>The elements</h2>
+<div class="elements">
+<h3>The top</h3>
+<details class="el" id="help">
+<summary><span class="mk">1</span><span><span class="name">Help</span><span class="one">Opens this page.</span></span></summary>
+<div class="full">
+<p>While you are live, the broadcast goes on with the page open.</p>
+<dl class="facts">
+<dt>Shortcut</dt><dd><kbd>F1</kbd></dd>
+</dl>
+</div>
+</details>
+<details class="el" id="listeners">
+<summary><span class="mk">2</span><span><span class="name">Listener count</span><span class="one">How many devices are listening.</span></span></summary>
+<div class="full">
+<p>Counts the devices connected to this broadcast right now. It shows while you are live.</p>
+<dl class="facts">
+<dt>Undo</dt><dd>Nothing to undo; the number follows the listeners.</dd>
+</dl>
+</div>
+</details>
+<h3>Before you start</h3>
+<details class="el" id="mode">
+<summary><span class="mk">3</span><span><span class="name">Broadcast mode</span><span class="one">Audio only, Camera + audio or Camera only.</span></span></summary>
+<div class="full">
+<p>Audio only sends sound. Camera + audio sends sound and picture. Camera only sends the picture without sound. Changing the mode while you are live is allowed; listeners then reopen the stream by the updated link or QR code.</p>
+<dl class="facts">
+<dt>Undo</dt><dd>Choose the mode you had.</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="camera">
+<summary><span class="mk">4</span><span><span class="name">Camera</span><span class="one">Which camera to use.</span></span></summary>
+<div class="full">
+<p>Back, Front or an external camera, whichever your phone has. It shows when the picture is part of the broadcast. If there is no camera, the screen says so.</p>
+<dl class="facts">
+<dt>Undo</dt><dd>Choose another camera; you can also switch while live.</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="settings">
+<summary><span class="mk">5</span><span><span class="name">Broadcast settings</span><span class="one">Opens the broadcast settings.</span></span></summary>
+<div class="full">
+<p>Opens the Broadcast page of Settings: the title, the sound quality, the port, the microphone gain and the options for publishing through other places. Back returns here.</p>
+<dl class="facts">
+<dt>Undo</dt><dd>Each setting can be put back to what it was.</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="start">
+<summary><span class="mk">6</span><span><span class="name">Start broadcast</span><span class="one">Begins the broadcast.</span></span></summary>
+<div class="full">
+<p>Asks Android for the access it needs, then starts. A notification appears while the broadcast runs, so it can go on when you leave the screen. If the microphone, the camera, the notifications or the network are not available, the screen says what stopped it.</p>
+<dl class="facts">
+<dt>Undo</dt><dd>Stop Broadcast ends it.</dd>
+</dl>
+</div>
+</details>
+<h3>While you are live</h3>
+<details class="el" id="camera-toggle">
+<summary><span class="mk">7</span><span><span class="name">Camera ON / OFF</span><span class="one">Camera on or off.</span></span></summary>
+<div class="full">
+<p>Hides or shows the picture without ending the broadcast.</p>
+</div>
+</details>
+<details class="el" id="mic-toggle">
+<summary><span class="mk">8</span><span><span class="name">Microphone ON / OFF</span><span class="one">Microphone on or off.</span></span></summary>
+<div class="full">
+<p>Shown when sound and picture are sent together. Mutes the sound without ending the broadcast.</p>
+</div>
+</details>
+<details class="el" id="switch-camera">
+<summary><span class="mk">9</span><span><span class="name">Switch Camera</span><span class="one">Back or front camera.</span></span></summary>
+<div class="full">
+<p>Changes the camera while you are live.</p>
+</div>
+</details>
+<details class="el" id="screen-off">
+<summary><span class="mk">10</span><span><span class="name">Screen Off</span><span class="one">Lets the screen go dark.</span></span></summary>
+<div class="full">
+<p>In an audio-only broadcast the screen may turn off while the broadcast keeps running. When the camera is part of the broadcast and the phone cannot keep it running with the screen off, the button is named Blank screen and covers the app with a black cover instead.</p>
+<dl class="facts">
+<dt>Undo</dt><dd>Wake the phone with the power button, or press Back to remove the black cover.</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="to-watch">
+<summary><span class="mk">11</span><span><span class="name">Send to watch</span><span class="one">Sends the broadcast to your watch.</span></span></summary>
+<div class="full">
+<p>Shown while you are live and a paired watch can be reached. The app tells you whether the watch plays the broadcast at once or has saved it for you to open.</p>
+</div>
+</details>
+<details class="el" id="stop">
+<summary><span class="mk">12</span><span><span class="name">Stop Broadcast</span><span class="one">Ends the broadcast.</span></span></summary>
+<div class="full">
+<p>Listeners lose the stream at once. The notification goes away.</p>
+<dl class="facts">
+<dt>Undo</dt><dd>Start broadcast begins a new one.</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="publish-state">
+<summary><span class="mk">13</span><span><span class="name">Exchange server status</span><span class="one">Which exchange server the broadcast is on, and how it is doing there.</span></span></summary>
+<div class="full">
+<p>With an exchange server added, every broadcast is announced on it from its start. This line names the server and says whether the broadcast is being announced, is on the server, with the relay through the server running, or stays on your own network because the server could not take it; then a Why won't it connect? button explains what to check. Without a server the line says the broadcast is reachable on this network only, and a tap opens the Exchange server screen to add one.</p>
+</div>
+</details>
+<h3>Handing out the broadcast</h3>
+<details class="el" id="link">
+<summary><span class="mk">14</span><span><span class="name">QR code and link</span><span class="one">The QR code and the link of this broadcast.</span></span></summary>
+<div class="full">
+<p>Another device reads the QR code or opens the link to listen. Tap the code to see it full screen. The link works while you are live.</p>
+</div>
+</details>
+<details class="el" id="copy">
+<summary><span class="mk">15</span><span><span class="name">Copy Link</span><span class="one">Copies the link.</span></span></summary>
+<div class="full">
+<p>Puts the link on the clipboard so you can paste it into a message.</p>
+</div>
+</details>
+<details class="el" id="export">
+<summary><span class="mk">16</span><span><span class="name">Export File</span><span class="one">Saves the broadcast to a file.</span></span></summary>
+<div class="full">
+<p>Writes a small file that another device opens to listen. Choose where to save it.</p>
+<dl class="facts">
+<dt>Undo</dt><dd>Delete the file.</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="send">
+<summary><span class="mk">17</span><span><span class="name">Send to</span><span class="one">Sends the link through another app.</span></span></summary>
+<div class="full">
+<p>Opens the Android share sheet, so you pick the chat, mail or app that gets the link.</p>
+</div>
+</details>
+<details class="el" id="guide">
+<summary><span class="mk">18</span><span><span class="name">How to watch this</span><span class="one">A guide for your listeners.</span></span></summary>
+<div class="full">
+<p>Opens a web page in your browser that explains how to watch a broadcast; you can forward it to the people you invite. It needs a network.</p>
+</div>
+</details>
+</div>
+<h2>Related</h2>
+<ul class="related">
+<li><a href="broadcast-settings.html"><b>Broadcast settings</b><span class="pill">Screen</span></a></li>
+<li><a href="settings.html"><b>Settings</b><span class="pill">Screen</span></a></li>
+<li><a href="catalog.html"><b>StreamsPlayer</b><span class="pill">Screen</span></a></li>
+<li><a href="qr-scanner.html"><b>Scan QR code</b><span class="pill">Screen</span></a></li>
+<li><a href="https://github.com/SerZhyAle/StreamsPlayer"><b>StreamsPlayer for Windows</b><span class="pill gold">Link</span></a></li>
+<li><a href="index.html"><b>Help index</b></a></li>
+</ul>
+<footer class="help-foot">
+<span>StreamsPlayer 2.61.0282.350, 2026-10-29</span>
+<a href="index.html">Help index</a>
+<a href="https://github.com/SerZhyAle/StreamsPlayer_Android/issues">Ask a question or report a problem</a>
+</footer>
+</main>
+</body>
+</html>

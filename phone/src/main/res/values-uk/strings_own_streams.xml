@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- S0038: Own streams - saved channels together with the live broadcasts of the account's other devices. -->
+<resources>
+    <string name="own_section_live">В ефірі на моїх пристроях</string>
+    <string name="own_section_saved">Збережені потоки</string>
+    <string name="own_device_unnamed">Пристрій без назви</string>
+    <string name="own_live_untitled">Пряма трансляція</string>
+    <string name="own_kind_audio">Звук</string>
+    <string name="own_kind_video">Відео</string>
+    <string name="own_presence_online">У мережі</string>
+    <string name="own_presence_offline">Не в мережі</string>
+    <string name="own_presence_unknown">Стан невідомий</string>
+    <string name="own_live_saved_badge">Збережено</string>
+    <string name="own_live_unsupported_row">Не можна відтворити на цьому пристрої</string>
+    <string name="own_live_save_desc">Зберегти «%1$s» як канал</string>
+    <string name="own_live_empty">Зараз інші пристрої нічого не транслюють.</string>
+    <string name="own_live_ended">Трансляцію завершено</string>
+    <string name="own_live_unconfirmed">Не вдалося підтвердити, що трансляція триває. Оновіть список і повторіть.</string>
+    <string name="own_live_unsupported">Цю трансляцію не можна відтворити на цьому пристрої.</string>
+    <string name="own_live_saved">Трансляцію збережено</string>
+    <string name="own_action_refresh">Оновити</string>
+    <string name="own_action_setup">Налаштувати</string>
+    <string name="own_action_sign_in">Увійти</string>
+    <string name="own_status_loading">Шукаємо трансляції..</string>
+    <string name="own_status_updated">Оновлено о %1$s</string>
+    <string name="own_status_stale">Останній відомий список, оновлено о %1$s</string>
+    <string name="own_status_stale_unknown">Останній відомий список</string>
+    <string name="own_status_unreachable">Не вдається зв’язатися з сервером обміну.</string>
+    <string name="own_status_refused">Сервер обміну відхилив запит.</string>
+    <string name="own_status_no_server">Трансляції з ваших інших пристроїв з’являться тут після підключення сервера обміну.</string>
+    <string name="own_status_sign_in">Увійдіть на сервер обміну знову, щоб бачити трансляції з ваших інших пристроїв.</string>
+    <string name="own_refresh_needs_server">Підключіть сервер обміну, щоб знаходити трансляції з ваших інших пристроїв.</string>
+    <string name="own_refresh_sign_in_required">Увійдіть на сервер обміну знову, щоб оновити список.</string>
+    <string name="own_filtered_empty">Нічого не знайдено за пошуком і фільтрами.</string>
+</resources>

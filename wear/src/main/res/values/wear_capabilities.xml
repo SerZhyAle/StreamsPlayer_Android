@@ -1,0 +1,3 @@
+<resources>
+    <string-array name="android_wear_capabilities"><item>streamsplayer_watch_companion</item></string-array>
+</resources>

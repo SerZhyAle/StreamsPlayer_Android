@@ -2,17 +2,9 @@
 
 | Field | Value |
 | --- | --- |
-| **Id** | `PACKAGE-VERSIONING` |
-| **Version** | 0.2, draft (registry, 2026-10-02) |
+| **Contracts reviewed** | `PACKAGE-VERSIONING` 0.6 |
+| **Reviewed** | 2026-10-29, S0057 (earlier: 2026-10-19, S0013/S0026) |
 | **Home** | shared contracts catalog, `package-versioning/` |
-| **Owner** | FastMediaSorter Android |
-| **Role here** | consumer, Android profile - versionName and versionCode of all three packages |
+| **Role here** | Android package-family consumer |
 
-What this repository owes:
-
-- Derive versionName and versionCode as the contract says, mechanically, from the product's registered families.
-- Before the first package ships: three package families added to the band table as a MINOR amendment written
-  in the catalog first. Phone and watch share `com.sza.streamsplayer` (and the noLegal variant shares it too), so
-  they need disjoint bands; the watch face (`com.sza.streamsplayer.watchface`) has its own family. The
-  amendment is proposed through the canon session, never written from here (S0002).
-- Not registered yet, by the owner's instruction of 2026-10-02.
+Section 2 Android rules 1-8 apply to phone, Wear and watchface; store/noLegal share each family band. Convention-plugin unit tests verify one instant, mechanically derived fields, pins, sentinel and family partitions. No package, signing, store upload or update-over-prior-install proof is supplied by this sync. 0.6 (2026-10-29, read in S0057) registers the three Tourist Android families in the band table and changes no text of rules 1-8; the bands of this product's three families are as before, and the version sources under `build-logic/` are unchanged since the tests of 2026-10-23.

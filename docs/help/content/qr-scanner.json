@@ -1,0 +1,68 @@
+{
+  "help": "qr-scanner",
+  "surface": "QrScannerActivity",
+  "elements": [
+    { "id": "viewfinder", "viewId": "qrPreview" },
+    { "id": "hint", "viewId": "tvQrHint" },
+    { "id": "help", "viewId": "btnQrHelp", "labelKey": "help" },
+    { "id": "paste", "viewId": "btnQrPaste", "labelKey": "qr_scanner_paste_instead" },
+    { "id": "close", "viewId": "btnQrClose", "labelKey": "qr_scanner_close" }
+  ],
+  "related": [
+    { "help": "catalog" },
+    { "help": "broadcast" }
+  ],
+  "locales": {
+    "en": {
+      "title": "Scan QR code",
+      "purpose": "Read a QR code with the camera, for example the one another device shows to share a live broadcast. The code goes straight back to the screen that asked for it.",
+      "steps": [
+        "Allow the camera when Android asks. The camera reads the code without storing or sending any picture.",
+        "Point the camera at the QR code (1) and hold it steady. The scan ends by itself as soon as the code is read.",
+        "If the camera cannot be used, press Paste instead (4) to take the text from the clipboard.",
+        "Press Close (5) to leave without a result."
+      ],
+      "elements": {
+        "viewfinder": { "name": "Camera viewfinder", "summary": "What the camera sees.", "details": "The whole screen is the viewfinder. The code can be anywhere in it; it only has to be sharp and fully in view." },
+        "hint": { "name": "Hint", "summary": "A reminder of what to do.", "details": "Tells you to point the camera at a QR code." },
+        "help": { "summary": "Opens this page.", "details": "Back returns to the camera.", "shortcut": "F1" },
+        "paste": { "summary": "Takes the text from the clipboard instead.", "details": "For a code you were sent as text, or when there is no camera or no camera permission. If the clipboard is empty, the app says so.", "undo": "Close leaves without a result." },
+        "close": { "summary": "Leaves without a result.", "details": "Returns to the screen that opened the scanner, as the Back button does. Nothing is imported." }
+      }
+    },
+    "ru": {
+      "title": "Сканировать QR-код",
+      "purpose": "Считайте QR-код камерой, например тот, что другое устройство показывает, чтобы поделиться прямой трансляцией. Код сразу возвращается на экран, который его запросил.",
+      "steps": [
+        "Разрешите камеру, когда Android спросит. Камера читает код, не сохраняя и не отправляя никаких кадров.",
+        "Наведите камеру на QR-код (1) и держите ровно. Сканирование завершится само, как только код будет прочитан.",
+        "Если камеру использовать нельзя, нажмите «Вставить из буфера» (4), чтобы взять текст из буфера обмена.",
+        "Нажмите «Закрыть» (5), чтобы выйти без результата."
+      ],
+      "elements": {
+        "viewfinder": { "name": "Видоискатель камеры", "summary": "Что видит камера.", "details": "Видоискатель занимает весь экран. Код может быть в любом месте; он должен быть чётким и целиком в кадре." },
+        "hint": { "name": "Подсказка", "summary": "Напоминание, что делать.", "details": "Подсказывает навести камеру на QR-код." },
+        "help": { "summary": "Открывает эту страницу.", "details": "«Назад» возвращает к камере.", "shortcut": "F1" },
+        "paste": { "summary": "Берёт текст из буфера обмена.", "details": "Для кода, присланного вам текстом, и на случай, когда нет камеры или разрешения на неё. Если буфер пуст, приложение сообщает об этом.", "undo": "«Закрыть» выходит без результата." },
+        "close": { "summary": "Выходит без результата.", "details": "Возвращает на экран, открывший сканер, как кнопка «Назад». Ничего не импортируется." }
+      }
+    },
+    "uk": {
+      "title": "Сканувати QR-код",
+      "purpose": "Зчитайте QR-код камерою, наприклад той, що інший пристрій показує, щоб поділитися прямою трансляцією. Код одразу повертається на екран, який його запросив.",
+      "steps": [
+        "Дозвольте камеру, коли Android запитає. Камера читає код, не зберігаючи й не надсилаючи жодних кадрів.",
+        "Наведіть камеру на QR-код (1) і тримайте рівно. Сканування завершиться саме, щойно код буде прочитано.",
+        "Якщо камеру використати не можна, натисніть «Вставити з буфера» (4), щоб узяти текст із буфера обміну.",
+        "Натисніть «Закрити» (5), щоб вийти без результату."
+      ],
+      "elements": {
+        "viewfinder": { "name": "Видошукач камери", "summary": "Що бачить камера.", "details": "Видошукач займає весь екран. Код може бути будь-де; він має бути чітким і повністю в кадрі." },
+        "hint": { "name": "Підказка", "summary": "Нагадування, що робити.", "details": "Підказує навести камеру на QR-код." },
+        "help": { "summary": "Відкриває цю сторінку.", "details": "«Назад» повертає до камери.", "shortcut": "F1" },
+        "paste": { "summary": "Бере текст із буфера обміну.", "details": "Для коду, надісланого вам текстом, і на випадок, коли немає камери або дозволу на неї. Якщо буфер порожній, застосунок повідомляє про це.", "undo": "«Закрити» виходить без результату." },
+        "close": { "summary": "Виходить без результату.", "details": "Повертає на екран, що відкрив сканер, як кнопка «Назад». Нічого не імпортується." }
+      }
+    }
+  }
+}

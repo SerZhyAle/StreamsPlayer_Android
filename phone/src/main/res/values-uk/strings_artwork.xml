@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- S0050: the on-demand channel pictures - the offer after a catalog update and the download notifications. -->
+<resources>
+    <string name="later">Пізніше</string>
+    <string name="streams_atlas_prompt_title">Обкладинки каналів</string>
+    <string name="streams_atlas_prompt_message">Завантажити прев\'ю каналів, щоб відеоканали показували зображення до запуску?</string>
+    <string name="streams_logo_prompt_title">Логотипи станцій</string>
+    <string name="streams_logo_prompt_message">Завантажити логотипи станцій, щоб канали без прев\'ю показували свій логотип?</string>
+    <string name="streams_atlas_update_prompt_message">Для цих каналів з\'явилися свіжіші зображення. Завантажити?</string>
+    <string name="streams_atlas_prompt_size">%1$d МБ</string>
+    <string name="streams_atlas_prompt_action">Завантажити</string>
+    <string name="delivery_state_downloading">Завантажую..</string>
+    <string name="delivery_state_verifying">Перевіряю завантаження..</string>
+    <string name="delivery_state_done">Готово.</string>
+    <string name="delivery_state_error">Не вдалося завантажити - перевірте підключення та повторіть.</string>
+    <string name="download_runner_notif_channel_name">Завантаження зображень каналів</string>
+    <string name="download_runner_notif_title_running">Завантаження: %s</string>
+    <string name="download_runner_notif_title_installed">Завантажено: %s</string>
+    <string name="download_runner_notif_title_failed">Не вдалося завантажити: %s</string>
+
+    <!-- S0064: the channel pictures group on the General settings page. -->
+    <string name="channel_pictures_heading">Зображення каналів</string>
+    <string name="channel_pictures_previews_title">Прев\'ю каналів</string>
+    <string name="channel_pictures_logos_title">Логотипи станцій</string>
+    <string name="channel_pictures_status_not_installed">Не завантажено</string>
+    <string name="channel_pictures_status_installed">Завантажено</string>
+    <string name="channel_pictures_status_update">Готовий новіший набір</string>
+    <string name="channel_pictures_status_downloading">Завантаження: %1$d%%</string>
+    <string name="channel_pictures_size">Розмір: %1$d МБ</string>
+    <string name="channel_pictures_action_update">Оновити</string>
+    <string name="channel_pictures_action_retry">Повторити</string>
+    <string name="channel_pictures_action_remove">Видалити</string>
+    <string name="channel_pictures_action_for">%1$s: %2$s</string>
+    <string name="channel_pictures_remove_title">Видалити зображення?</string>
+    <string name="channel_pictures_remove_message_previews">Видалити завантажені прев\'ю каналів з цього телефона? Завантажити їх знову можна тут будь-коли.</string>
+    <string name="channel_pictures_remove_message_logos">Видалити завантажені логотипи станцій з цього телефона? Завантажити їх знову можна тут будь-коли.</string>
+    <string name="channel_pictures_remove_size">Звільниться приблизно %1$d МБ.</string>
+</resources>

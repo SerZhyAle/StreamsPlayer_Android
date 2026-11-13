@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <!-- S0035: the title row; the help action stands in its end corner (CONTEXT-HELP rule 2). -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="4dp">
+
+        <TextView
+            android:id="@+id/tvSleepTimerTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/sleep_timer"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/btnSleepTimerHelp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/help"
+            android:src="@drawable/ic_help_outline" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvSleepTimerStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="?attr/colorPrimary"
+        android:visibility="gone"
+        tools:visibility="visible"
+        tools:text="Active: 14:59 remaining"
+        android:paddingBottom="12dp" />
+
+    <!-- S0036: the presets are one semantic group of immediate commands; content-width, wrapping whole,
+         spare width left empty (BUTTONS 2.0 sections 3.3 and 4.2). -->
+    <com.sza.streamsplayer.ui.common.widget.CommandFlowLayout
+        android:id="@+id/sleepTimerPresets"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="8dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPreset15"
+            style="@style/Widget.StreamsPlayer.Button.Outlined"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="15m" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPreset30"
+            style="@style/Widget.StreamsPlayer.Button.Outlined"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="30m" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPreset45"
+            style="@style/Widget.StreamsPlayer.Button.Outlined"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="45m" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPreset60"
+            style="@style/Widget.StreamsPlayer.Button.Outlined"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="60m" />
+    </com.sza.streamsplayer.ui.common.widget.CommandFlowLayout>
+
+    <!-- S0036: a second semantic group, separated by the group gap. The custom time opens its input first
+         (parameterized command); cancelling a running timer is reversible, so it keeps the neutral treatment. -->
+    <com.sza.streamsplayer.ui.common.widget.CommandFlowLayout
+        android:id="@+id/sleepTimerCommands"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ui_button_group_gap">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCustomTime"
+            style="@style/Widget.StreamsPlayer.Button.Tonal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sleep_timer_custom"
+            app:icon="@drawable/ic_sleep_timer"
+            xmlns:app="http://schemas.android.com/apk/res-auto" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCancelTimer"
+            style="@style/Widget.StreamsPlayer.Button.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sleep_timer_cancel"
+            android:visibility="gone"
+            tools:visibility="visible" />
+    </com.sza.streamsplayer.ui.common.widget.CommandFlowLayout>
+
+</LinearLayout>

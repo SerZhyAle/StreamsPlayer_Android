@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- S0049: the first settings page (SETTINGS-NAVIGATION 2.0 section 3.1): theme, language and the broadcasting switch,
+     the one editor of that setting (owner decision of 2026-11-08). Those three are one coherent set, so no group
+     wrapper; the catalog refresh row (S0068) and the channel pictures group (S0064) follow them. -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/settingsGeneralScroll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/settings_page_inset"
+        android:paddingVertical="@dimen/margin_normal">
+
+        <com.sza.streamsplayer.ui.common.widget.SettingsDropdownRow
+            android:id="@+id/rowTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_tiny"
+            android:layout_marginBottom="@dimen/margin_tiny"
+            android:clickable="true"
+            android:focusable="true"
+            app:sdr_title="@string/settings_theme"
+            app:sdr_valueAsText="true" />
+
+        <com.sza.streamsplayer.ui.common.widget.SettingsDropdownRow
+            android:id="@+id/rowLanguage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_tiny"
+            android:layout_marginBottom="@dimen/margin_tiny"
+            android:clickable="true"
+            android:focusable="true"
+            app:sdr_title="@string/language"
+            app:sdr_valueAsText="true" />
+
+        <com.sza.streamsplayer.ui.common.widget.SettingsToggleRow
+            android:id="@+id/rowEnableBroadcasting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:str_title="@string/settings_broadcast_enable_title"
+            app:str_subtitle="@string/settings_broadcast_enable_subtitle" />
+
+        <!-- S0068: how the catalog screen keeps the channel list current (owner decision of 2026-11-10: the source's
+             three positions, on General). -->
+        <com.sza.streamsplayer.ui.common.widget.SettingsDropdownRow
+            android:id="@+id/rowCatalogRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_tiny"
+            android:layout_marginBottom="@dimen/margin_tiny"
+            android:clickable="true"
+            android:focusable="true"
+            app:sdr_title="@string/settings_streams_catalog_refresh"
+            app:sdr_valueAsText="true" />
+
+        <!-- S0064: the channel pictures group (owner decision of 2026-11-10: the end of General, rail unchanged). A plain
+             heading, not a collapsible group: two rows that are always shown. -->
+        <TextView
+            android:id="@+id/settingsChannelPicturesHeading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:accessibilityHeading="true"
+            android:paddingVertical="@dimen/settings_padding_vertical"
+            android:text="@string/channel_pictures_heading"
+            android:textAppearance="?attr/textAppearanceTitleSmall"
+            android:textColor="?attr/colorOnSurface"
+            android:textStyle="bold" />
+
+        <com.sza.streamsplayer.ui.common.widget.SettingsArtworkRow
+            android:id="@+id/rowChannelPreviews"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_tiny"
+            android:layout_marginBottom="@dimen/margin_normal" />
+
+        <com.sza.streamsplayer.ui.common.widget.SettingsArtworkRow
+            android:id="@+id/rowChannelLogos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_tiny"
+            android:layout_marginBottom="@dimen/margin_tiny" />
+    </LinearLayout>
+</ScrollView>

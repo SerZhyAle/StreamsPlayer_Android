@@ -1,17 +1,12 @@
-# Rule adoption family - pointer
+# RULE-ADOPTION - pointer
 
 | Field | Value |
 | --- | --- |
-| **Ids** | `REPO-STAMP` 0.11, `HARNESS-PROFILE` 0.10, `REPO-LAYOUT` 0.10, `RULE-DELIVERY` 0.11 (registry, 2026-10-02) |
+| **Contracts reviewed** | `REPO-STAMP` 0.13, `HARNESS-PROFILE` 0.14, `REPO-LAYOUT` 0.11, `RULE-DELIVERY` 0.12 |
+| **Reviewed** | 2026-10-29, S0057 (earlier: 2026-10-27, S0041; S0034, S0013) |
 | **Home** | shared contracts catalog, `rule-adoption/` |
-| **Owner** | sza-unified-rules |
-| **Role here** | adopter |
+| **Role here** | stamp/profile producer and layout/delivery adopter |
 
-What this repository owes:
+Sections 2-5 apply to the root stamp, root profile, repository layout and installed canon. REPO-STAMP 0.13 and HARNESS-PROFILE 0.13 (2026-10-23 amendment) add optional version carriers (`schemaVersion` in the stamp, `version` in the profile; absence, and the legacy profile `"1"`, mean wire 1.0) and generated reader vectors; no existing payload key becomes required, so this repository's stamp and profile stay valid unchanged. The carrier is written only by the adopt-canon run, never by hand, and the same run owns the digest re-sync (SZA-CANON03). The stamp and profile readers are the installed plugin's: this repository owns none and replays the catalog's reader vectors against it (S0041). This shape-1 repository keeps the unchanged dev-log default. Exceptions are recorded in the registry, not here. Section 7 real delivery is the canon's.
 
-- `REPO-STAMP`: `.sza-canon.json` at the root, values looked up from the live tree, digest recomputed, never
-  hand-moved.
-- `HARNESS-PROFILE`: `.sza-profile.json` at the root; harness scripts are run from the plugin through
-  `tools/harness.ps1`, never copied or edited.
-- `REPO-LAYOUT`: the names tools address - `PLAN/`, `temp/`, `docs/contracts/`.
-- `RULE-DELIVERY`: the canon arrives as the `sza` plugin; staleness is judged by the compliance gate.
+`HARNESS-PROFILE` 0.14 (2026-10-27, read in S0057) adds rules 8 to 10 of section 3: the agent fields of `runner.instances.<name>`, per-instance `promptTemplate` and `complexityModels`, and an optional top-level `portfolio` object. The wire stays 1.0 and every key is optional; `.sza-profile.json` declares none of them and stays valid unchanged. The shipped runner reads none of the new keys yet (canon plan S0015).

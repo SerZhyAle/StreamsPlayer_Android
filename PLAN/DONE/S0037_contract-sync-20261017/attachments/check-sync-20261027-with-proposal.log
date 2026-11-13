@@ -1,0 +1,9 @@
+PASS: 31 pointer versions match domain headers
+FAIL: REPO-STAMP has stale or invalid version cell: 0.12
+FAIL: HARNESS-PROFILE has stale or invalid version cell: 0.12
+INFO: 25 own adoption rows read, 2 finding(s) above
+PASS: 3 required USER-PLAYLIST vectors match current catalog bytes
+PASS: 7 DEVICE-EXCHANGE vectors match current catalog bytes
+FAIL: DEVICE-EXCHANGE item CZ table differs from the catalog text (messages-item-cz.md)
+FAIL: PROVENANCE.txt row for messages-item-cz.md does not carry the hash of the vendored file
+FAIL: 4 finding(s) in total

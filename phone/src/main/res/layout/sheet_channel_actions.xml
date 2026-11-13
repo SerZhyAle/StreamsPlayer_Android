@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+    <!-- S0035: the title row; the help action stands in its end corner (CONTEXT-HELP rule 2). -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvActionSheetTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            tools:text="Channel Title" />
+
+        <ImageButton
+            android:id="@+id/btnChannelActionsHelp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/help"
+            android:src="@drawable/ic_help_outline" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvActionSheetUrl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="?android:attr/textColorSecondary"
+        android:paddingBottom="16dp"
+        tools:text="https://example.com/live.m3u8" />
+
+    <TextView
+        android:id="@+id/actionPlay"
+        android:focusable="true"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center_vertical"
+        android:drawableStart="@drawable/ic_play"
+        android:drawablePadding="16dp"
+        android:text="@string/action_play"
+        android:textSize="16sp"
+        android:background="?attr/selectableItemBackground" />
+
+    <TextView
+        android:id="@+id/actionPin"
+        android:focusable="true"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center_vertical"
+        android:drawableStart="@drawable/ic_pin"
+        android:drawablePadding="16dp"
+        android:text="@string/action_pin"
+        android:textSize="16sp"
+        android:background="?attr/selectableItemBackground" />
+
+    <TextView
+        android:id="@+id/actionShare"
+        android:focusable="true"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center_vertical"
+        android:drawableStart="@drawable/ic_share"
+        android:drawablePadding="16dp"
+        android:text="@string/action_share"
+        android:textSize="16sp"
+        android:background="?attr/selectableItemBackground" />
+
+    <TextView
+        android:id="@+id/actionCopy"
+        android:focusable="true"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center_vertical"
+        android:drawableStart="@drawable/ic_copy"
+        android:drawablePadding="16dp"
+        android:text="@string/action_copy_address"
+        android:textSize="16sp"
+        android:background="?attr/selectableItemBackground" />
+
+    <TextView
+        android:id="@+id/actionEdit"
+        android:focusable="true"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center_vertical"
+        android:drawableStart="@drawable/ic_edit"
+        android:drawablePadding="16dp"
+        android:text="@string/action_edit"
+        android:textSize="16sp"
+        android:background="?attr/selectableItemBackground" />
+
+    <TextView
+        android:id="@+id/actionDelete"
+        android:focusable="true"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center_vertical"
+        android:drawableStart="@drawable/ic_delete"
+        android:drawablePadding="16dp"
+        android:text="@string/action_delete"
+        android:textColor="?attr/colorError"
+        android:textSize="16sp"
+        android:background="?attr/selectableItemBackground" />
+</LinearLayout>
+</androidx.core.widget.NestedScrollView>
+

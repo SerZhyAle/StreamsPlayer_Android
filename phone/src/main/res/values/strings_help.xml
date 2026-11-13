@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- S0035: in-app help (CONTEXT-HELP). "help" is the vocabulary name of app.help. -->
+    <string name="help">Help</string>
+    <string name="help_with_key">Help (F1)</string>
+    <string name="help_page_title">Help</string>
+    <string name="help_unavailable">Help for this screen is not available</string>
+    <string name="help_open_on_site">Open on the site</string>
+    <string name="help_external_link_title">Open in the browser?</string>
+    <string name="help_external_link_message">This help works without a network. This link leaves the app and opens in your browser.</string>
+    <string name="help_external_link_open">Open</string>
+    <string name="help_watch_notification_name">the help for your watch</string>
+</resources>

@@ -1,0 +1,23 @@
+New own row for StreamsPlayer Android from S0039 (exchange server mark), 2026-11-08. For the canon session under
+CLAUDE.md section 6. The catalog was NOT edited by this repository.
+
+File:   registry-sync.patch (beside this note), unified diff of _meta/REGISTRY.md, LF, one hunk that adds one line
+        after the `EXCHANGE-MARK` row of the sza.od.ua hub.
+Base:   the catalog's file as it stands on 2026-11-08 (sha256 09b9d837109d97439b603f63a33e478b1dd05cf3c8bc23f6d580331d41f10d1a).
+        Apply from the catalog root: `patch -p1 --binary -i registry-sync.patch`.
+        Verified on a scratch copy of the live file: exit 0, result byte-identical to the proposed file.
+        Independent of the pending S0057 patch: applied after it, the hunk lands with an offset of 7 lines, exit 0.
+
+Why
+- `EXCHANGE-MARK` names "StreamsPlayer_mob (phone and watch)" among its consumers, and rule 16 asks each product to
+  record the version it vendored in its registry row. This product had no row.
+- `tools/contracts/check-sync.ps1` now binds `exchange-mark` -> `EXCHANGE-MARK` and requires the row; until the patch is
+  applied it reports `Missing own row: EXCHANGE-MARK`. Run against a scratch catalog that holds the patched registry,
+  the finding is gone (19 own rows read) and only the findings already pending (S0057 cells, S0053 item CZ) remain.
+
+Cells
+- Role `C`; Implements `partial 0.4` (0.4 is the contract version; its artwork and manifest still name 0.3, section 4);
+  Reads `-`; Verified `pending`: the rung 3 walk (light, dark, one right-to-left capture) and the build run at the next
+  release, and the help-page rows (rules 10, 11) belong to StreamsPlayer_mob S0035.
+
+Finding for the contract (no change asked): none new. The conflicts of S0039 section 5 were answered by 0.2 to 0.4.

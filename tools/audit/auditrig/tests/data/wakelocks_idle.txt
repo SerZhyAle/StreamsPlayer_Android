@@ -1,0 +1,3 @@
+Wake Locks: size=1
+  SCREEN_BRIGHT_WAKE_LOCK           'WindowManager/displayId:0' ON_AFTER_RELEASE ACQ=-43m33s640ms (uid=1000 pid=600 ws=WorkSource{10210 com.example.other})
+

@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="light dark">
+<title>Help - Add channel</title>
+<link rel="stylesheet" href="../help.css">
+</head>
+<body class="help">
+<main class="container">
+<nav class="help-crumbs" aria-label="Help index">
+<a href="index.html">Help index</a><span class="sep" aria-hidden="true">/</span><span>Add channel</span>
+</nav>
+<header class="hero">
+<h1>Add channel</h1>
+</header>
+<h2>What this is for</h2>
+<p class="lead">Put one radio station, video stream or camera into your list by its address. The same form edits a channel you added earlier.</p>
+<figure class="shot">
+<img class="on-light" src="../img/edit-channel-en-light.jpg" alt="Screenshot: Add channel">
+<img class="on-dark" src="../img/edit-channel-en-dark.jpg" alt="Screenshot: Add channel">
+<figcaption>Demo content. The numbers match the elements listed below.</figcaption>
+</figure>
+<h2>In this order</h2>
+<ol class="order">
+<li>Type or paste the address <a class="ref" href="#address">1</a>. It starts with http, https or rtsp and names a server.</li>
+<li>Give the channel a title <a class="ref" href="#title">2</a>, or leave it empty to use the address as the title.</li>
+<li>Tell the app what kind of stream it is <a class="ref" href="#kind">3</a>, so it opens in the right player.</li>
+<li>Add a category <a class="ref" href="#category">4</a> if you want to find the channel by it later.</li>
+<li>Press Save <a class="ref" href="#save">5</a>. The channel appears in your list and the form closes.</li>
+</ol>
+<h2>The elements</h2>
+<div class="elements">
+<details class="el" id="address">
+<summary><span class="mk">1</span><span><span class="name">Stream URL (http, https, rtsp)</span><span class="one">Where the stream is.</span></span></summary>
+<div class="full">
+<p>An address that starts with http, https or rtsp. Without a server name in it the form says so and stays open. An address with a login and password in it works, but sharing such a channel later asks you to confirm first.</p>
+<dl class="facts">
+<dt>Undo</dt><dd>Nothing is saved until you press Save.</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="title">
+<summary><span class="mk">2</span><span><span class="name">Channel title</span><span class="one">How the channel is named in your list.</span></span></summary>
+<div class="full">
+<p>Any text. If you leave it empty, the address is used as the title. You can change it later with Edit.</p>
+</div>
+</details>
+<details class="el" id="kind">
+<summary><span class="mk">3</span><span><span class="name">Media kind</span><span class="one">Radio, video or RTSP.</span></span></summary>
+<div class="full">
+<p>Radio (audio) plays in the radio bar and keeps playing in the background. Video (HLS, DASH, MP4) and RTSP open the full screen player. Choose by what the stream carries, not by where it comes from.</p>
+</div>
+</details>
+<details class="el" id="category">
+<summary><span class="mk">4</span><span><span class="name">Category (optional)</span><span class="one">An optional label for your own sorting.</span></span></summary>
+<div class="full">
+<p>Free text. The category shows up among the categories in Filter &amp; Sort.</p>
+</div>
+</details>
+<details class="el" id="save">
+<summary><span class="mk">5</span><span><span class="name">Save</span><span class="one">Adds the channel or stores your changes.</span></span></summary>
+<div class="full">
+<p>Checks the address first. If it is fine, the channel is added and the form closes.</p>
+<dl class="facts">
+<dt>Undo</dt><dd>Delete the channel from its actions sheet, or edit it again.</dd>
+</dl>
+</div>
+</details>
+<details class="el" id="help">
+<summary><span class="mk">6</span><span><span class="name">Help</span><span class="one">Opens this page.</span></span></summary>
+<div class="full">
+<p>The form stays open under the page, with what you typed; Back returns to it.</p>
+<dl class="facts">
+<dt>Shortcut</dt><dd><kbd>F1</kbd></dd>
+</dl>
+</div>
+</details>
+</div>
+<h2>Related</h2>
+<ul class="related">
+<li><a href="catalog.html"><b>StreamsPlayer</b><span class="pill">Screen</span></a></li>
+<li><a href="player.html"><b>Video player</b><span class="pill">Screen</span></a></li>
+<li><a href="index.html"><b>Help index</b></a></li>
+</ul>
+<footer class="help-foot">
+<span>StreamsPlayer 2.61.0282.350, 2026-10-29</span>
+<a href="index.html">Help index</a>
+<a href="https://github.com/SerZhyAle/StreamsPlayer_Android/issues">Ask a question or report a problem</a>
+</footer>
+</main>
+</body>
+</html>

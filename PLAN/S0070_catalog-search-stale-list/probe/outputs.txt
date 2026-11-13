@@ -1,0 +1,24 @@
+# DiffProbe (host JVM, recyclerview 1.3.2 DiffUtil), run 2026-11-13, exit 0 expected
+N=1500 -> 15 scattered: 39 ms | -> 0 rows: 0 ms | -> 60% scattered: 6 ms | one row moved to top: 0 ms | 15 -> N: 9 ms
+N=6000 -> 15 scattered: 43 ms | -> 0 rows: 0 ms | -> 60% scattered: 55 ms | one row moved to top: 0 ms | 15 -> N: 48 ms
+N=19550 -> 15 scattered: 532 ms | -> 0 rows: 0 ms | -> 60% scattered: 565 ms | one row moved to top: 1 ms | 15 -> N: 505 ms
+exit=0
+
+# BudgetProbe (callback-count budget 2,000,000), run 2026-11-13
+N=1000
+  one row moved to top : diff after 3503 compares, 2 ms
+  one row inserted     : diff after 3502 compares, 0 ms
+  10 scattered removed : diff after 5140 compares, 0 ms
+  50 scattered removed : diff after 8222 compares, 0 ms
+  200 scattered removed: diff after 28676 compares, 1 ms
+  fully reversed       : diff after 1501499 compares, 21 ms
+  to 15 scattered      : diff after 14209 compares, 24 ms
+N=19550
+  one row moved to top : diff after 68428 compares, 1 ms
+  one row inserted     : diff after 68427 compares, 1 ms
+  10 scattered removed : diff after 99744 compares, 1 ms
+  50 scattered removed : diff after 138628 compares, 1 ms
+  200 scattered removed: diff after 194074 compares, 3 ms
+  fully reversed       : RESET after 2000000 compares, 16 ms
+  to 15 scattered      : diff after 292143 compares, 432 ms
+exit=0

@@ -1,0 +1,4 @@
+PASS: 19 pointer versions match domain headers
+PASS: 14 own adoption rows have unique ids and current version cells
+PASS: 3 required USER-PLAYLIST vectors match current catalog bytes
+PASS: 1 DEVICE-EXCHANGE vector matches current catalog bytes

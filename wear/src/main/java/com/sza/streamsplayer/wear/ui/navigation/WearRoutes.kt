@@ -1,0 +1,370 @@
+package com.sza.streamsplayer.wear.ui.navigation
+
+import com.sza.streamsplayer.wear.domain.documents.WearDocumentFormat
+import com.sza.streamsplayer.wear.domain.model.WearFdSecMode
+import com.sza.streamsplayer.wear.domain.model.WearFolderAddress
+
+/**
+ * Every navigation address of the watch app, declared once.
+ *
+ * A route spelled out at the call site is not checked by anything: the declaration and the jump are two
+ * separate string literals, so a typo in either is a silent no-op at runtime - the tap does nothing and no
+ * test catches it, because the watch module has no instrumented tests. Naming each route here makes the two
+ * ends the same symbol, so a mismatch stops being possible.
+ *
+ * A route that carries arguments has two forms: the `*_PATTERN` the graph declares, and a builder that fills
+ * the arguments in. They must never be confused - navigating to a pattern lands nowhere.
+ */
+object WearRoutes {
+
+    const val HOME = "home"
+    const val NETWORK_SOURCES = "network_sources"
+    const val PHONE_RESOURCE = "phone_resource"
+    const val ADD_NETWORK_SOURCE = "add_network_source"
+
+    /** Kept reachable because an older build could have put this name on the back stack. */
+    const val ADD_SMB_ALIAS = "add_smb"
+
+    const val SYNC_TRANSFER = "sync_transfer"
+    const val SETTINGS = "settings"
+
+    /**
+     * S0064: the screen that removes and re-fetches the channel pictures, opened from the start screen.
+     * Not [SETTINGS]: that constant has no destination and the watch has no settings page to hold one.
+     */
+    const val CHANNEL_PICTURES = "channel_pictures"
+
+    /**
+     * Home-section entrances (S1781). LOCAL_HOME and PHONE_HOME list the categories of one origin -
+     * media on the watch itself and the phone's virtual resources - so they are separate addresses,
+     * not two media types of one screen.
+     *
+     * PHONE_RESOURCE above stays untouched: it is S1697's raw phone-folder browser reached through a
+     * request/response token protocol, a different feature that happens to mention the same word.
+     */
+    const val LOCAL_HOME = "local_home"
+    const val PHONE_HOME = "phone_home"
+    const val FAVOURITES = "favourites"
+
+    /** Entrances owned by other tickets: the screens behind them belong to S1708 and S1710. */
+    const val STREAMS = "streams"
+    const val APPS = "apps"
+
+    /**
+     * Mini-programs of the Apps section (S1710). Each value equals its program's `canonicalKey` in
+     * `WearAppId`, so a key saved by the phone's program registry resolves straight to a destination.
+     */
+    const val CALCULATOR = "calculator"
+    const val NETWORK_MONITOR = "network_monitor"
+    const val GAME = "game"
+    const val GAME_RULES = "game_rules"
+
+    /**
+     * S1862: the voice recorder is a mini-program, so [VOICE_RECORDER] carries its `canonicalKey`
+     * like the three above. [VOICE_NOTES] is not one - it is the recorder's own note list, reached
+     * only from the recorder, so it stays out of the Apps catalog and has no key to match.
+     *
+     * S2579: that key is `quick_voice`, which is how the phone addresses the same program - so this is
+     * the one route whose value does not echo its identifier. The identifier names the screen the watch
+     * opens; the value is the address the phone's registry would resolve, and the two are allowed to
+     * read differently precisely because only the second one is a cross-module contract.
+     */
+    const val VOICE_RECORDER = "quick_voice"
+    const val VOICE_NOTES = "voice_notes"
+
+    /**
+     * S2516: the display used as a light, locked against touch. Carries its `canonicalKey` too.
+     *
+     * S3362: registered only where `offersScreenTakeoverPrograms` is true. The touch lock is what the
+     * program is for and what WO-V3 refuses, so the store build carries neither the route nor the row.
+     */
+    const val WATER_FLASHLIGHT = "water_flashlight"
+
+    /** S2458: live motion and activity readings. Carries its `canonicalKey` like the programs above. */
+    const val MOTION_MONITOR = "motion_monitor"
+
+    /** S3014: the physical activity measurement history and analytics screen. */
+    const val MOTION_HISTORY = "motion_history"
+
+    /** S2457: the foreground heart-rate diagnostic. Carries its `canonicalKey` like the programs above. */
+    const val BODY_SENSOR = "body_sensor"
+
+    /** S2808: the heart-rate measurement history screen, reached from the body sensor screen. */
+    const val HEART_RATE_HISTORY = "heart_rate_history"
+
+    /**
+     * S2809/S3113: the blood pressure estimate screen; offered only with offersHealthFeatures, and the
+     * capture behind it needs the heart-rate permission.
+     */
+    const val BLOOD_PRESSURE = "blood_pressure"
+
+    /** S2809: the blood pressure history screen, reached from the blood pressure screen. */
+    const val BLOOD_PRESSURE_HISTORY = "blood_pressure_history"
+
+    /** S3113: cuff readings taken together with the pulse wave, which the estimate is fitted on. */
+    const val BLOOD_PRESSURE_CALIBRATION = "blood_pressure_calibration"
+
+    /**
+     * S2008: the watch's own report, relocated from `settings/system_info`. Its value is the program's
+     * `canonicalKey` like the four above, which is what the Apps catalog's route-equals-key test reads;
+     * the old settings-namespaced address could not satisfy that and is gone.
+     */
+    const val SYSTEM_INFO = "system_info"
+
+    /**
+     * S2509: the watch's own audio broadcast. Carries its `canonicalKey` like the programs above, and
+     * that key has no phone counterpart on purpose - the phone's broadcast (S2508) is a capability of
+     * the player rather than a launcher program, so it is recorded in the watch-only baseline instead.
+     */
+    const val BROADCAST = "broadcast"
+
+    /**
+     * The barcode view of a live broadcast. A destination of its own rather than a panel inside the
+     * control screen: the owner asked for QR behind a deliberate button, and the round face has no
+     * room to carry a scannable code and a one-tap stop at once.
+     */
+    const val BROADCAST_QR = "broadcast_qr"
+
+    /**
+     * S2551: the control screen for a view of the paired phone's camera.
+     *
+     * Its own address rather than a mode of [BROADCAST]: that screen opens the watch's microphone
+     * for the phone, and this one asks the phone to open its camera for the watch. One route over
+     * two opposite directions would make a pinned shortcut ambiguous about which device it starts.
+     */
+    const val PHONE_CAMERA = "phone_camera"
+
+    /**
+     * S2825: the watch stopwatch. Ships in both watch flavors with no `WearRestrictedCapabilities`
+     * gate - it needs no permission and no hardware the phone half does not already assume.
+     */
+    const val STOPWATCH = "stopwatch"
+
+    /**
+     * S3007: the watch Tourist telemetry and navigation dashboard.
+     */
+    const val TOURIST = "tourist_info"
+
+    /**
+     * S3109: the watch's text clipboard and its send action.
+     *
+     * S3216 recorded that it needs no permission and so shipped in both flavors. S3362 corrected the
+     * conclusion rather than the fact: the send action is a Data Layer round trip, so the program is
+     * registered behind `offersContentTransfer` and the store build, which declares no listener to
+     * answer it, offers neither the route nor the row.
+     */
+    const val CLIPBOARD = "clipboard"
+
+    /**
+     * S3216: the distress signal. Carries its `canonicalKey` like the programs above, and that key is
+     * the phone's route key too - one program on two devices.
+     *
+     * S3362: registered behind `offersScreenTakeoverPrograms`, beside the water flashlight. Declaring
+     * no permission was never the whole review question - the signalling half swallows the dismiss
+     * gesture WO-V3 asks for and strobes full-screen with the alarm stream at its maximum.
+     */
+    const val SOS = "sos"
+
+    const val ARG_MEDIA_TYPE = "mediaType"
+    const val ARG_SOURCE_ID = "sourceId"
+    const val ARG_SOURCE_NAME = "sourceName"
+    const val ARG_ADDED = "added"
+    const val ARG_UPDATED = "updated"
+    const val ARG_FILE_ID = "fileId"
+    const val ARG_TILE_KIND = "tileKind"
+
+    /** S3383: which of the three FileDO errands the credential screen was opened for. */
+    const val ARG_FDSEC_MODE = "fdSecMode"
+
+    /** S2532: which document format was refused, named by [WearDocumentFormat.name]. */
+    const val ARG_DOCUMENT_FORMAT = "documentFormat"
+
+    /** S2201: the level of the watch-local folder walk to open, as `WearFolderAddress.asToken` writes it. */
+    const val ARG_FOLDER_TOKEN = "folderToken"
+
+    /**
+     * S2694: what the walk's entrance level is called, when the caller knows a better word than the
+     * default. A network walk passes the share's name; the local walk passes nothing.
+     */
+    const val ARG_FOLDER_TITLE = "folderTitle"
+    const val ARG_NETMON_SECTION = "section"
+
+    const val BROWSE_PATTERN = "browse/{$ARG_MEDIA_TYPE}"
+    const val PHONE_BROWSE_PATTERN = "browse_phone/{$ARG_MEDIA_TYPE}"
+    const val BROWSE_SOURCE_PATTERN =
+        "browse/{$ARG_MEDIA_TYPE}?$ARG_SOURCE_ID={$ARG_SOURCE_ID}&$ARG_SOURCE_NAME={$ARG_SOURCE_NAME}"
+    const val NETWORK_MONITOR_SECTION_PATTERN = "network_monitor/{$ARG_NETMON_SECTION}"
+
+    /**
+     * S1829: the media-type step a network source gets between its list and browse.
+     *
+     * The other two origins - the watch itself and the phone - pick the type one level up, because each
+     * of them has exactly one container. A network origin has many, so the type belongs to the source
+     * that was chosen rather than to the origin: picking Photos first would leave sources holding no
+     * image at all in the list, as dead ends with nothing to mark them at the entrance.
+     */
+    const val SOURCE_MEDIA_TYPE_PATTERN =
+        "source_media_type?$ARG_SOURCE_ID={$ARG_SOURCE_ID}&$ARG_SOURCE_NAME={$ARG_SOURCE_NAME}"
+    const val SYNC_RESULT_PATTERN = "sync_result/{$ARG_ADDED}/{$ARG_UPDATED}"
+    const val AUDIO_PLAYER_PATTERN = "audio_player/{$ARG_FILE_ID}"
+    const val VIDEO_PLAYER_PATTERN = "video_player/{$ARG_FILE_ID}"
+    const val IMAGE_VIEWER_PATTERN = "image_viewer/{$ARG_FILE_ID}"
+
+    /**
+     * S3383: where a FileDO container's credential is typed, for all three errands.
+     *
+     * Not a content route: it renders nothing of the file and must keep the browse list underneath
+     * it on the back stack, because two of the three modes return to that list.
+     */
+    const val FDSEC_CREDENTIAL_PATTERN = "fdsec_credential/{$ARG_FILE_ID}/{$ARG_FDSEC_MODE}"
+
+    /** S2532: the watch's own reader for a document it renders, the fourth of the content screens. */
+    const val DOCUMENT_VIEWER_PATTERN = "document_viewer/{$ARG_FILE_ID}"
+
+    /**
+     * S2006: where a file the watch cannot play lands, instead of the audio player.
+     *
+     * S2532: it carries the refused format now, so the screen can name it. The identifier stays
+     * [UNSUPPORTED_FILE] rather than gaining a `_PATTERN` suffix because it is the name the
+     * navigation graph declares this destination under, and renaming it would silently orphan that
+     * declaration - the two ends of a route are separate string literals, which is the whole reason
+     * this object exists.
+     */
+    const val UNSUPPORTED_FILE = "unsupported_file/{$ARG_DOCUMENT_FORMAT}"
+
+    /**
+     * S1955: where a tile of the given kind is pointed at its target.
+     *
+     * The only address the tiles add. Everything else a tile opens is an existing route reused as it is -
+     * a resource goes to [SOURCE_MEDIA_TYPE_PATTERN], favourites to [FAVOURITES], a channel to the players -
+     * because the assignment is the one action the feature adds and the rest it only shortens.
+     */
+    const val TILE_TARGET_PICKER_PATTERN = "tile_target_picker/{$ARG_TILE_KIND}"
+
+    /**
+     * S2201: one level of the watch's own folder walk.
+     *
+     * The argument is optional because the entrance names no level at all: an absent token is the
+     * root, which is exactly what `WearFolderAddress.parse` answers for a blank one. Declaring it
+     * mandatory would leave the walk with no address for its first screen.
+     */
+    const val LOCAL_FOLDER_PATTERN =
+        "local_folder?$ARG_FOLDER_TOKEN={$ARG_FOLDER_TOKEN}&$ARG_FOLDER_TITLE={$ARG_FOLDER_TITLE}"
+
+    fun browse(mediaType: String): String = "browse/$mediaType"
+
+    fun browsePhone(mediaType: String): String = "browse_phone/$mediaType"
+
+    fun browseSource(mediaType: String, sourceId: String, sourceName: String): String {
+        val route = "browse/$mediaType?$ARG_SOURCE_ID=${encodeArg(sourceId)}&$ARG_SOURCE_NAME=${encodeArg(sourceName)}"
+        return route
+    }
+
+    fun sourceMediaType(sourceId: String, sourceName: String): String {
+        val route = "source_media_type?$ARG_SOURCE_ID=${encodeArg(sourceId)}&$ARG_SOURCE_NAME=${encodeArg(sourceName)}"
+        return route
+    }
+
+    fun syncResult(added: Int, updated: Int): String = "sync_result/$added/$updated"
+
+    fun audioPlayer(fileId: Long): String = "audio_player/$fileId"
+
+    fun videoPlayer(fileId: Long): String = "video_player/$fileId"
+
+    fun imageViewer(fileId: Long): String = "image_viewer/$fileId"
+
+    fun documentViewer(fileId: Long): String = "document_viewer/$fileId"
+
+    /** S3383: enum names need no encoding, like [unsupportedFile] below. */
+    fun fdSecCredential(fileId: Long, mode: WearFdSecMode): String = "fdsec_credential/$fileId/${mode.name}"
+
+    /** The refusal, told which format it is refusing. Enum names need no encoding. */
+    fun unsupportedFile(format: WearDocumentFormat): String = "unsupported_file/${format.name}"
+
+    /**
+     * S3213: whether [route] is one of the content destinations - the screens that render a file and
+     * hold the watch while it plays.
+     *
+     * Asked of a graph route, so the argument is the declared `*_PATTERN` rather than a filled address.
+     * Two content destinations must never stand next to each other on the back stack: an entrance that
+     * fires while a player is already open - the phone's stream, the phone's file, a launch intent, a
+     * second Start on the phone-camera screen - used to push a second player, and BACK from it resumed
+     * the older one instead of leaving the flow.
+     */
+    fun isContentRoute(route: String?): Boolean = route != null && route in CONTENT_PATTERNS
+
+    fun tileTargetPicker(kind: String): String = "tile_target_picker/${encodeArg(kind)}"
+
+    /**
+     * S2201: the walk opened at the level [token] names.
+     *
+     * Encoded like every other argument here, and for a sharper reason than most: an address token
+     * carries a filesystem path or a MediaStore relative path, so it holds `/` by construction and
+     * a folder name inside it may legally hold `&`. Concatenated raw, either one misses this
+     * pattern and the tap does nothing at all.
+     */
+    fun localFolder(token: String): String = folderWalk(token, title = "")
+
+    /** The walk opened at its entrance, where no level has been chosen yet. */
+    fun localFolderRoot(): String = localFolder("")
+
+    /**
+     * S2694: the walk opened on a network source, at [path] inside it.
+     *
+     * [sourceName] titles the entrance, which the local fallback cannot do here - it names the
+     * watch's own storage. Both arguments are encoded for the reason above: the token carries the
+     * share path, and a share or folder name legally holds `&`.
+     */
+    fun networkFolder(sourceId: String, path: String, sourceName: String): String =
+        folderWalk(WearFolderAddress.NetworkLevel(sourceId = sourceId, path = path).asToken(), sourceName)
+
+    private fun folderWalk(token: String, title: String): String =
+        "local_folder?$ARG_FOLDER_TOKEN=${encodeArg(token)}&$ARG_FOLDER_TITLE=${encodeArg(title)}"
+
+    fun networkMonitorSection(sectionKey: String): String =
+        "network_monitor/${encodeArg(sectionKey)}"
+
+    /**
+     * S1848: percent-encodes one argument value before it is concatenated into a route.
+     *
+     * The builders below assemble a URI by hand and the graph parses it back as a URI, so any character
+     * that means something to a URI has to be escaped or the two ends disagree. A source named
+     * `Home & NAS` used to produce a second query pair - `sourceName=Home ` plus a stray ` NAS` - so the
+     * screen opened with a truncated name; a `/` or a `?` could miss the pattern entirely and the tap did
+     * nothing at all, with no error and no log. Names arrive from the phone (S1556), where `&` in a
+     * resource name is perfectly legal, so this is not a typo the user could avoid.
+     *
+     * Hand-rolled rather than android.net.Uri.encode because this module's unit tests run on the plain
+     * JVM with no Robolectric, where every android.net.Uri call returns a "not mocked" stub - the rule
+     * would ship untested. Not java.net.URLEncoder either: it encodes a space as `+`, which URI decoding
+     * on the receiving side does NOT turn back into a space, so a name with a space would arrive wrong.
+     *
+     * Escapes everything outside the RFC 3986 unreserved set, which is always safe to leave alone.
+     */
+    fun encodeArg(value: String): String = buildString {
+        for (byte in value.toByteArray(Charsets.UTF_8)) {
+            val c = byte.toInt().toChar()
+            if (c.isLetterOrDigit() && c.code < CHAR_LIMIT_ASCII || c in UNRESERVED_PUNCTUATION) {
+                append(c)
+            } else {
+                append('%')
+                append(HEX[(byte.toInt() shr NIBBLE_BITS) and LOW_NIBBLE_MASK])
+                append(HEX[byte.toInt() and LOW_NIBBLE_MASK])
+            }
+        }
+    }
+
+    private val CONTENT_PATTERNS = setOf(
+        AUDIO_PLAYER_PATTERN,
+        VIDEO_PLAYER_PATTERN,
+        IMAGE_VIEWER_PATTERN,
+        DOCUMENT_VIEWER_PATTERN,
+        UNSUPPORTED_FILE,
+    )
+
+    private const val CHAR_LIMIT_ASCII = 128
+    private const val UNRESERVED_PUNCTUATION = "-_.~"
+    private const val HEX = "0123456789ABCDEF"
+    private const val NIBBLE_BITS = 4
+    private const val LOW_NIBBLE_MASK = 0x0F
+}

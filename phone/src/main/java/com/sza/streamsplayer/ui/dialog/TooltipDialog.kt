@@ -1,0 +1,60 @@
+package com.sza.streamsplayer.ui.dialog
+
+import android.app.Activity
+import android.content.Context
+import android.view.WindowManager
+import androidx.appcompat.app.AlertDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.sza.streamsplayer.R
+import com.sza.streamsplayer.util.showBoundToHost
+import timber.log.Timber
+
+/**
+ * Simple utility for showing context-sensitive tooltip dialogs.
+ * Used to explain complex settings and features to users.
+ */
+object TooltipDialog {
+
+    /**
+     * Show a tooltip dialog with title and message
+     * @param context Android context
+     * @param title Dialog title (typically the setting name)
+     * @param message Explanation text
+     */
+    fun show(context: Context, title: String, message: String) {
+        if (context is Activity && (context.isFinishing || context.isDestroyed)) {
+            Timber.w("TooltipDialog: skipping show - Activity is finishing/destroyed")
+            return
+        }
+        try {
+            val tooltipDialog = MaterialAlertDialogBuilder(context)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(R.string.ok) { d, _ ->
+                    d.dismiss()
+                }
+                .setCancelable(true)
+                .create()
+            DialogKeyboardDelegate.applyTo(tooltipDialog) {
+                tooltipDialog.getButton(AlertDialog.BUTTON_POSITIVE)?.performClick()
+            }
+            tooltipDialog.showBoundToHost(context)
+        } catch (e: WindowManager.BadTokenException) {
+            Timber.e(e, "TooltipDialog: show failed - bad window token")
+        }
+    }
+
+    /**
+     * Show a tooltip dialog using string resource IDs
+     * @param context Android context
+     * @param titleResId Title string resource ID
+     * @param messageResId Message string resource ID
+     */
+    fun show(context: Context, titleResId: Int, messageResId: Int) {
+        show(
+            context,
+            context.getString(titleResId),
+            context.getString(messageResId)
+        )
+    }
+}
