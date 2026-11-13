@@ -166,12 +166,12 @@ uploaded, nothing is sent for review.
 | Financial features | saved | none |
 | Health apps | saved | none (no `BODY_SENSORS` or health permission in any manifest; the wear `heart_rate_*` strings are unused) |
 | Content rating | saved, fresh IARC questionnaire | see below |
-| Sign in details | **owner** - form filled, not saved | "Yes, part of the app is restricted"; name "Exchange server review account"; instructions below; login, password and the server address are the owner's to type |
-| Target audience | **owner**, after Sign in details | 18 and over (owner decision of 2026-11-13, taken with the IARC answers) |
-| Data safety | saved as a draft; submits after Target audience | the answer of this file: User IDs, Files and docs, Device or other IDs - collected, not shared, optional (users can choose), not ephemeral, App functionality; encrypted in transit; account creation "My app does not allow users to create an account", login with accounts created outside the app "Yes - Other: On the user's own exchange server: in Fast Media Sorter apps or by the server's operator"; deletion request "Yes", `https://serzhyale.github.io/FastMediaSorter_mob_v2/docs/media-exchange-portal/account-deletion.html` (answered 200 on 2026-11-13) |
+| Sign in details | saved | "No" - no part restricted (owner decision of 2026-11-13, the same answer Fast Media Sorter & Organizer gives in production; the exchange server screen is an optional feature of the user's own server) |
+| Target audience | saved | 18 and over (owner decision of 2026-11-13, taken with the IARC answers) |
+| Data safety | saved | the answer of this file: User IDs, Files and docs, Device or other IDs - collected, not shared, optional (users can choose), not ephemeral, App functionality; encrypted in transit; account creation "My app does not allow users to create an account", login with accounts created outside the app "Yes - Other: On the user's own exchange server: in Fast Media Sorter apps or by the server's operator"; deletion request "Yes", `https://serzhyale.github.io/FastMediaSorter_mob_v2/docs/media-exchange-portal/account-deletion.html` (answered 200 on 2026-11-13) |
 
-Reviewer instructions typed in Sign in details ("Any other information", 422 of 500 characters; the owner appends the
-address):
+Overview after these: "You're all caught up". Reviewer instructions drafted for a "restricted" answer and not used
+after the owner chose "No" (kept for the day a review account is offered):
 
 > Everything except the Exchange server screen works without sign-in: channel catalog, radio, video and RTSP playback,
 > own channels, local network broadcast. The Exchange server screen (menu > Exchange server) signs in to a server the

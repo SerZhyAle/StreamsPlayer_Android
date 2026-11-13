@@ -16,8 +16,8 @@ What remains before StreamsPlayer is published on Google Play, as of 2026-11-13.
 - Play Console app com.sza.streamsplayer.watchface ("StreamsPlayer Watch Face", app 4976077107533670611, App, Free): every App content item complete (no restricted access, no ads, no data collected, IARC Everyone / PEGI 3, target audience 13 and over), store settings (Personalization, sza@ukr.net), Wear OS form factor added; listing empty.
 
 Remaining, in order:
-1. DO (owner, console, main app): App content > Sign in details. The form is filled with the name "Exchange server review account" and the reviewer instructions (their text is in docs/play/PLAY_DATA_SAFETY.md, "Console record"); type the review account's login and password on your exchange server, append the server address and port after "Server address and port:", tick "Sign in details in this declaration provide full access", Add, Save. The agent never types credentials (S0047 D3).
-2. Main app, after step 1: Target audience = 18 and over (owner decision of 2026-11-13, taken with the honest IARC answers), then Data safety: open the saved draft and Save, so it is submitted. The overview then reads "You're all caught up".
+1. Done 2026-11-13: Sign in details "No" for the main app (owner's later decision, the answer Fast Media Sorter & Organizer gives in production).
+2. Done 2026-11-13: Target audience 18 and over, Data safety submitted; the main app's App content overview reads "You're all caught up".
 3. Phone screenshots (2 to 8, 16:9 or 9:16) and Wear OS screenshots for en-US, ru-RU and uk for the main app, from a real device check (S0047 A5 capture rig).
 4. Watch face listing: write its source in docs/play (title, short and full description in en, ru, uk; icon and feature graphic as render targets), then fill the watch face's default listing and its Wear OS screenshots.
 5. Landing (S0045): once https://serzhyale.github.io/StreamsPlayer_Android/ answers 200, set it as the website in Store settings of both apps and as the repository homepage (gh repo edit --homepage).

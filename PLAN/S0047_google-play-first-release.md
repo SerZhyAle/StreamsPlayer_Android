@@ -2,7 +2,7 @@
 
 **Ticket:** S0047
 **Status:** Partial
-**Status note:** Console part B done 2026-11-13 for both apps except Sign in details, Target audience and Data safety submit of the main app (owner), screenshots and the watch face listing; parts A, C, D open - S0072.
+**Status note:** Console part B done 2026-11-13 for both apps: App content complete for both (all caught up); open: screenshots, the watch face listing, parts A, C, D - S0072.
 **Date:** 2026-10-26
 **Phase:** package 1 - the first store release (owner decision В39 of 2026-10-14, recorded in S0010)
 **Verification level:** a PASS pre-flight verdict naming the version; signed `store` bundles of `phone`, `wear` and `watchface`
@@ -188,7 +188,9 @@ Asked by the side session that repeats DeviceInfo's public presence for this pro
 - One-way console steps -> yes, all: create `com.sza.streamsplayer` (App, Free), accept the Developer Program Policies, the US
   export laws declaration and the IARC terms of use.
 - D3 App access -> (a) part of the app is restricted: the instructions are written by the agent; the login and password of a
-  review account on the owner's exchange server are typed by the owner, never by the agent.
+  review account on the owner's exchange server are typed by the owner, never by the agent. Superseded the same day by the
+  owner ("почему мы нихуя такого недалали для fms_a ? можно тут тоже все это убрать нафуй?"): Sign in details "No", the
+  answer Fast Media Sorter & Organizer gives in production (read in the console on 2026-11-13).
 - D6 Console shape -> the watch face `com.sza.streamsplayer.watchface` is created now as its own app, with its declarations
   ("no data collected") and an empty listing until its listing source exists.
 - D8 Price -> Free (covered by the one-way yes above).
