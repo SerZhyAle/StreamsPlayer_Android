@@ -109,20 +109,12 @@ class ExchangeReceiverRuntime @Inject constructor(
                 .setTitle(R.string.cert_changed_title)
                 .setMessage(activity.getString(R.string.cert_changed_message, error.pinned, error.presented))
                 .setPositiveButton(android.R.string.ok, null)
-        } else if (error is com.sza.streamsplayer.data.exchange.BroadcastNoRouteException) {
-            // S0042: which route needed what, not only "not available".
-            builder.setTitle(R.string.streams_unavailable_title)
-                .setMessage(com.sza.streamsplayer.ui.exchange.helpers.ExchangeMessageText.noRoute(activity, error.refusal))
-                .setPositiveButton(android.R.string.ok, null)
         } else {
             builder.setTitle(R.string.streams_unavailable_title)
                 .setMessage(R.string.stream_not_available)
                 .setPositiveButton(android.R.string.ok, null)
         }
-        // A sealed route is no question of reaching a server, so the connection check is not offered for it.
-        val sealedRefusal = error is com.sza.streamsplayer.data.exchange.BroadcastNoRouteException &&
-            error.refusal == com.sza.streamsplayer.data.exchange.BroadcastRouteRefusal.SEALED_KEYS_MISSING
-        if (activity is androidx.fragment.app.FragmentActivity && !sealedRefusal) {
+        if (activity is androidx.fragment.app.FragmentActivity) {
             builder.setNeutralButton(R.string.exchange_diagnose_button) { _, _ ->
                 val failure = com.sza.streamsplayer.data.exchange.ExchangeLocalFailureClassifier.of(error)
                 ExchangeDiagnosisDialog.show(
