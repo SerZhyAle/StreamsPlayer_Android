@@ -66,10 +66,15 @@ class ExchangeReceiverRuntime @Inject constructor(
         }
         handler.onStartPlayback = { broadcast -> startCast(broadcast) }
         handler.openSealed = { id, descriptor, sealed ->
-            val own = withContext(Dispatchers.IO) { entries.getEntry()?.deviceId }
             val opener = sealedOpener
-            if (own == null || opener == null) descriptor
-            else withContext(Dispatchers.IO) { opener.openCast(own, id, descriptor, sealed) }
+            // Without an opener the entry read is discarded, and the IO hop it costs would
+            // hand the rest of the cast flow to another thread; answer synchronously then.
+            if (opener == null) descriptor
+            else {
+                val own = withContext(Dispatchers.IO) { entries.getEntry()?.deviceId }
+                if (own == null) descriptor
+                else withContext(Dispatchers.IO) { opener.openCast(own, id, descriptor, sealed) }
+            }
         }
         handler.onStopPlayback = { id ->
             castPlayer.get()?.takeIf { it.intent.getStringExtra(EXTRA_CAST_ID) == id }?.finish()
@@ -104,12 +109,20 @@ class ExchangeReceiverRuntime @Inject constructor(
                 .setTitle(R.string.cert_changed_title)
                 .setMessage(activity.getString(R.string.cert_changed_message, error.pinned, error.presented))
                 .setPositiveButton(android.R.string.ok, null)
+        } else if (error is com.sza.streamsplayer.data.exchange.BroadcastNoRouteException) {
+            // S0042: which route needed what, not only "not available".
+            builder.setTitle(R.string.streams_unavailable_title)
+                .setMessage(com.sza.streamsplayer.ui.exchange.helpers.ExchangeMessageText.noRoute(activity, error.refusal))
+                .setPositiveButton(android.R.string.ok, null)
         } else {
             builder.setTitle(R.string.streams_unavailable_title)
                 .setMessage(R.string.stream_not_available)
                 .setPositiveButton(android.R.string.ok, null)
         }
-        if (activity is androidx.fragment.app.FragmentActivity) {
+        // A sealed route is no question of reaching a server, so the connection check is not offered for it.
+        val sealedRefusal = error is com.sza.streamsplayer.data.exchange.BroadcastNoRouteException &&
+            error.refusal == com.sza.streamsplayer.data.exchange.BroadcastRouteRefusal.SEALED_KEYS_MISSING
+        if (activity is androidx.fragment.app.FragmentActivity && !sealedRefusal) {
             builder.setNeutralButton(R.string.exchange_diagnose_button) { _, _ ->
                 val failure = com.sza.streamsplayer.data.exchange.ExchangeLocalFailureClassifier.of(error)
                 ExchangeDiagnosisDialog.show(
