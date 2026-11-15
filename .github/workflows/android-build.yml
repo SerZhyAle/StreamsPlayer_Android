@@ -59,8 +59,14 @@ jobs:
           $catalog = Get-Content gradle/libs.versions.toml -Raw
           $sdk = [regex]::Match($catalog, '(?m)^compile-sdk\s*=\s*"(\d+)"').Groups[1].Value
           if (-not $sdk) { throw 'compile-sdk is missing from the version catalog.' }
+          # API 37 and later publish the base platform under an explicit minor suffix
+          # (platforms;android-37.0), while older APIs keep the unsuffixed package name.
+          # AGP resolves compileSdk = 37 to that base platform, as on the owner's machine.
           sdkmanager "platforms;android-$sdk"
-          if ($LASTEXITCODE -ne 0) { throw 'Android SDK installation failed.' }
+          if ($LASTEXITCODE -ne 0) {
+              sdkmanager "platforms;android-${sdk}.0"
+              if ($LASTEXITCODE -ne 0) { throw 'Android SDK installation failed.' }
+          }
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@0723195856401067f7a2779048b490ace7a47d7c # v5.0.2
       - name: Build and verify packages
