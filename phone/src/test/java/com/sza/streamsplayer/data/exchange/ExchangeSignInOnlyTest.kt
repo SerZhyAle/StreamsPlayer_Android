@@ -121,7 +121,9 @@ class ExchangeSignInOnlyTest {
         assertEquals(ExchangeAccountState.NeedsSignIn, retained.state)
         assertEquals("signed-out", retained.signInReason)
         val model = model()
-        await { model.uiState.value is ExchangeUiState.NoAccount }
+        // The view model opens with a bare NoAccount and completes the form from the stored
+        // entry afterwards, so wait for the sign-in reason to be reflected, not for the state alone.
+        await { (model.uiState.value as? ExchangeUiState.NoAccount)?.form?.errorText != null }
         assertTrue((model.uiState.value as ExchangeUiState.NoAccount).form.errorText!!.contains("password", true))
         // S0039: a sign-in reason the server left is about the server, so its banner carries the exchange mark.
         assertTrue((model.uiState.value as ExchangeUiState.NoAccount).form.errorAboutServer)
